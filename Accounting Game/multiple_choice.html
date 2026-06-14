@@ -1,0 +1,2682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accounting – Multiple Choice Quiz</title>
+    <meta name="description" content="Chapter-by-chapter multiple choice quiz for Accounting principles. Test your knowledge with instant feedback and explanations.">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:  #0f0c29;
+            --bg2: #302b63;
+            --bg3: #24243e;
+            --blue:   #60a5fa;
+            --blue2:  #3b82f6;
+            --green:  #34d399;
+            --green2: #10b981;
+            --gold:   #fbbf24;
+            --gold2:  #f59e0b;
+            --red:    #f87171;
+            --red2:   #ef4444;
+            --purple: #a78bfa;
+            --text:   #f0f4ff;
+            --muted:  #94a3b8;
+            --card:   rgba(255,255,255,0.06);
+            --border: rgba(255,255,255,0.11);
+            --radius: 16px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, var(--bg) 0%, var(--bg2) 50%, var(--bg3) 100%);
+            min-height: 100vh;
+            color: var(--text);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 12px 60px;
+        }
+
+        /* ── STARS ── */
+        #stars-canvas {
+            position: fixed; inset: 0;
+            pointer-events: none; z-index: 0;
+        }
+
+        /* ── WRAPPER ── */
+        .wrapper {
+            position: relative; z-index: 1;
+            width: 100%; max-width: 820px;
+        }
+
+        /* ── HEADER ── */
+        .page-header {
+            text-align: center;
+            padding: 28px 0 20px;
+        }
+        .page-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--blue2), var(--green2));
+            color: #0f0c29;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 999px;
+            margin-bottom: 12px;
+        }
+        .page-title {
+            font-size: clamp(1.7rem, 5vw, 2.7rem);
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--blue), var(--green), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 18px rgba(96,165,250,0.35));
+            line-height: 1.15;
+        }
+        .page-sub {
+            font-size: 0.92rem;
+            color: var(--muted);
+            margin-top: 8px;
+        }
+
+        /* ── TAB NAV ── */
+        .tab-nav {
+            position: relative;
+            z-index: 20;
+            display: flex;
+            gap: 6px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 5px;
+            margin: 0 auto 22px auto;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 4px 28px rgba(0,0,0,0.35);
+            width: fit-content;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 800;
+            padding: 11px 26px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+            white-space: nowrap;
+            letter-spacing: 0.02em;
+            text-decoration: none;
+        }
+
+        .tab-btn:hover {
+            color: var(--text);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--blue2), var(--green2));
+            color: #0f0c29;
+            box-shadow: 0 3px 16px rgba(96,165,250,0.45);
+        }
+
+        @media (max-width: 600px) {
+            .tab-btn {
+                padding: 8px 14px;
+                font-size: 0.76rem;
+            }
+            .tab-nav {
+                gap: 4px;
+                padding: 4px;
+                width: 95%;
+                justify-content: center;
+            }
+        }
+
+
+
+        /* ── CHAPTER TABS ── */
+        .chapter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 5px;
+            margin-bottom: 26px;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 4px 28px rgba(0,0,0,0.35);
+            justify-content: center;
+        }
+
+        .ch-tab {
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 800;
+            padding: 9px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.22s cubic-bezier(0.34,1.56,0.64,1);
+            white-space: nowrap;
+            letter-spacing: 0.02em;
+            position: relative;
+        }
+        .ch-tab.active {
+            background: linear-gradient(135deg, var(--blue2), var(--green2));
+            color: #0f0c29;
+            box-shadow: 0 3px 16px rgba(96,165,250,0.45);
+            transform: scale(1.06);
+        }
+        .ch-tab:hover:not(.active) {
+            color: var(--text);
+            background: rgba(255,255,255,0.08);
+        }
+        .ch-tab .tab-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.18);
+            font-size: 0.62rem;
+            padding: 1px 5px;
+            border-radius: 99px;
+            margin-left: 4px;
+            font-weight: 900;
+        }
+        .ch-tab.active .tab-badge { background: rgba(0,0,0,0.2); }
+
+        /* ── SCORE HUD ── */
+        .score-hud {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .hud-box {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 10px 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            min-width: 100px;
+        }
+        .hud-label {
+            font-size: 0.64rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .hud-value {
+            font-size: 1.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+        }
+
+        /* ── PROGRESS BAR ── */
+        .progress-wrap {
+            margin-bottom: 22px;
+        }
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--muted);
+            margin-bottom: 5px;
+        }
+        .progress-track {
+            height: 10px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 99px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 99px;
+            background: linear-gradient(90deg, var(--green), var(--blue));
+            transition: width 0.5s cubic-bezier(0.34,1.56,0.64,1);
+            box-shadow: 0 0 10px var(--green2);
+        }
+
+        /* ── QUESTION CARD ── */
+        .q-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 30px 32px 26px;
+            margin-bottom: 14px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 32px rgba(0,0,0,0.35);
+            transition: box-shadow 0.3s;
+            animation: cardDrop 0.4s cubic-bezier(0.34,1.4,0.64,1) both;
+        }
+        @keyframes cardDrop {
+            from { opacity:0; transform:translateY(24px) scale(0.97); }
+            to   { opacity:1; transform:translateY(0) scale(1); }
+        }
+
+        .q-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .q-num {
+            background: linear-gradient(135deg, var(--blue2), var(--purple));
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 900;
+            padding: 3px 10px;
+            border-radius: 99px;
+        }
+        .q-lo {
+            font-size: 0.7rem;
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .q-text {
+            font-size: clamp(0.98rem, 2.4vw, 1.1rem);
+            font-weight: 700;
+            line-height: 1.55;
+            color: var(--text);
+            margin-bottom: 20px;
+        }
+
+        /* ── ANSWER OPTIONS ── */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .option-btn {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: rgba(255,255,255,0.04);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 12px 16px;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+            text-align: left;
+            transition: all 0.18s cubic-bezier(0.34,1.3,0.64,1);
+            line-height: 1.45;
+        }
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--blue);
+            background: rgba(96,165,250,0.1);
+            transform: translateX(4px);
+        }
+
+        .option-letter {
+            flex-shrink: 0;
+            width: 26px; height: 26px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 900;
+            transition: all 0.18s;
+        }
+
+        /* States */
+        .option-btn.correct {
+            border-color: var(--green) !important;
+            background: rgba(52,211,153,0.14) !important;
+            transform: translateX(0) !important;
+        }
+        .option-btn.correct .option-letter {
+            background: var(--green);
+            border-color: var(--green);
+            color: #0f0c29;
+        }
+        .option-btn.wrong {
+            border-color: var(--red) !important;
+            background: rgba(248,113,113,0.12) !important;
+            animation: shake 0.4s ease;
+        }
+        .option-btn.wrong .option-letter {
+            background: var(--red);
+            border-color: var(--red);
+            color: #fff;
+        }
+        .option-btn.dimmed {
+            opacity: 0.38;
+        }
+        .option-btn:disabled { cursor: default; }
+
+        @keyframes shake {
+            0%,100% { transform: translateX(0); }
+            20%      { transform: translateX(-8px); }
+            40%      { transform: translateX(8px); }
+            60%      { transform: translateX(-5px); }
+            80%      { transform: translateX(5px); }
+        }
+
+        /* ── EXPLANATION BOX ── */
+        .explanation {
+            display: none;
+            margin-top: 16px;
+            padding: 16px 18px;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            line-height: 1.65;
+            font-weight: 600;
+            animation: fadeSlideIn 0.35s ease both;
+        }
+        @keyframes fadeSlideIn {
+            from { opacity:0; transform:translateY(8px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+        .explanation.show { display: block; }
+        .explanation.correct-exp {
+            background: rgba(52,211,153,0.1);
+            border: 1px solid rgba(52,211,153,0.3);
+            color: #a7f3d0;
+        }
+        .explanation.wrong-exp {
+            background: rgba(248,113,113,0.08);
+            border: 1px solid rgba(248,113,113,0.25);
+            color: #fca5a5;
+        }
+        .explanation .exp-label {
+            font-size: 0.7rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 6px;
+            opacity: 0.7;
+        }
+
+        /* ── COMING SOON CARD ── */
+        .coming-soon {
+            text-align: center;
+            padding: 60px 30px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            backdrop-filter: blur(10px);
+        }
+        .coming-soon .cs-emoji { font-size: 3.5rem; margin-bottom: 14px; }
+        .coming-soon h3 {
+            font-size: 1.4rem; font-weight: 900;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 8px;
+        }
+        .coming-soon p { color: var(--muted); font-size: 0.9rem; }
+
+        /* ── CHAPTER SUMMARY BANNER ── */
+        .ch-summary {
+            display: none;
+            text-align: center;
+            padding: 36px 28px;
+            background: linear-gradient(135deg, rgba(52,211,153,0.1), rgba(96,165,250,0.1));
+            border: 1px solid rgba(52,211,153,0.25);
+            border-radius: 22px;
+            margin-top: 10px;
+            animation: fadeSlideIn 0.45s ease both;
+        }
+        .ch-summary.show { display: block; }
+        .ch-summary .sum-emoji { font-size: 3.5rem; margin-bottom: 14px; }
+        .ch-summary h3 { font-size: 1.8rem; font-weight: 900; color: var(--green); margin-bottom: 8px; }
+        .ch-summary .sum-score { font-size: 3rem; font-weight: 900; color: var(--gold); margin: 10px 0; }
+        .ch-summary p { color: var(--muted); margin-bottom: 22px; }
+        .ch-summary .stars { font-size: 2.2rem; margin-bottom: 18px; }
+
+        .btn-retry {
+            background: linear-gradient(135deg, var(--blue2), var(--green2));
+            color: #0f0c29;
+            border: none;
+            padding: 13px 34px;
+            font-size: 1rem;
+            font-weight: 900;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            transition: all 0.2s;
+            box-shadow: 0 4px 20px rgba(96,165,250,0.35);
+        }
+        .btn-retry:hover { transform: scale(1.06); box-shadow: 0 8px 28px rgba(96,165,250,0.5); }
+
+        /* ── FLOATING SCORE ── */
+        .float-text {
+            position: fixed;
+            font-size: 1.5rem;
+            font-weight: 900;
+            pointer-events: none;
+            z-index: 1000;
+            animation: floatUp 0.9s ease-out forwards;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+        }
+        @keyframes floatUp {
+            0%   { transform: translateY(0) scale(1); opacity: 1; }
+            60%  { transform: translateY(-60px) scale(1.15); opacity: 1; }
+            100% { transform: translateY(-110px) scale(0.8); opacity: 0; }
+        }
+
+        /* ── PARTICLES ── */
+        .particle {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999;
+            animation: particleFly var(--dur,0.8s) ease-out forwards;
+        }
+        @keyframes particleFly {
+            0%   { transform:translate(0,0) scale(1); opacity:1; }
+            100% { transform:translate(var(--tx,0),var(--ty,0)) scale(0); opacity:0; }
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 500px) {
+            .q-card { padding: 20px 16px 18px; }
+            .chapter-tabs { border-radius: 20px; }
+            .ch-tab { padding: 7px 11px; font-size: 0.76rem; }
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+
+<div class="wrapper">
+
+    <!-- Header -->
+    <div class="page-header">
+        <div class="page-badge">📝 Practice Quiz</div>
+        <h1 class="page-title">Multiple Choice Questions</h1>
+        <p class="page-sub">Select the best answer — get instant feedback &amp; explanations</p>
+    </div>
+
+    <nav class="tab-nav">
+        <a class="tab-btn" href="accounting_crush.html">⚡ Accounting Crush</a>
+        <a class="tab-btn active" href="multiple_choice.html">📝 Multiple Choice</a>
+        <a class="tab-btn" href="accounting_cycle.html">🔄 Accounting Cycle</a>
+    </nav>
+
+
+    <!-- Chapter Tabs -->
+    <div class="chapter-tabs" id="chapter-tabs"></div>
+
+    <!-- HUD -->
+    <div class="score-hud">
+        <div class="hud-box">
+            <div class="hud-label">Score</div>
+            <div class="hud-value" id="hud-score" style="color:var(--gold)">0</div>
+        </div>
+        <div class="hud-box">
+            <div class="hud-label">Correct</div>
+            <div class="hud-value" id="hud-correct" style="color:var(--green)">0</div>
+        </div>
+        <div class="hud-box">
+            <div class="hud-label">Wrong</div>
+            <div class="hud-value" id="hud-wrong" style="color:var(--red)">0</div>
+        </div>
+        <div class="hud-box">
+            <div class="hud-label">Streak 🔥</div>
+            <div class="hud-value" id="hud-streak" style="color:var(--purple)">0</div>
+        </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-wrap">
+        <div class="progress-top">
+            <span>Progress</span>
+            <span id="progress-text">0 / 0 answered</span>
+        </div>
+        <div class="progress-track">
+            <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+    </div>
+
+    <!-- Quiz Area -->
+    <div id="quiz-area"></div>
+
+    <!-- Chapter Summary -->
+    <div class="ch-summary" id="ch-summary">
+        <div class="sum-emoji">🏆</div>
+        <h3>Chapter Complete!</h3>
+        <div class="stars" id="sum-stars">⭐⭐⭐</div>
+        <div class="sum-score" id="sum-score">0 pts</div>
+        <p id="sum-sub">Great work!</p>
+        <button class="btn-retry" onclick="retryChapter()">🔄 Retry Chapter</button>
+    </div>
+
+</div>
+
+<script>
+/* =================================================================
+   QUESTION DATA
+================================================================= */
+const chapters = {
+    1: {
+        title: "Chapter 1",
+        questions: [
+            {
+                lo: "LO 1",
+                text: "Which of the following is not a step in the accounting process?",
+                options: [
+                    "Identification.",
+                    "Economic entity.",
+                    "Recording.",
+                    "Communication."
+                ],
+                answer: 1, // index b (0-based)
+                explanation: "Economic entity is not one of the steps in the accounting process. The other choices are true because (a) identification is the first step in the accounting process, (c) recording is the second step in the accounting process, and (d) communication is the third and final step in the accounting process."
+            },
+            {
+                lo: "LO 1",
+                text: "Which of the following statements about users of accounting information is incorrect?",
+                options: [
+                    "Management is an internal user.",
+                    "Taxing authorities are external users.",
+                    "Present creditors are external users.",
+                    "Regulatory authorities are internal users."
+                ],
+                answer: 3,
+                explanation: "Regulatory authorities are external, not internal, users of accounting information. The other choices are true statements."
+            },
+            {
+                lo: "LO 2",
+                text: "The historical cost principle states that:",
+                options: [
+                    "Assets should be initially recorded at cost and adjusted when the fair value changes.",
+                    "Activities of an entity are to be kept separate and distinct from its owner.",
+                    "Assets should be recorded at their cost.",
+                    "Only transaction data capable of being expressed in terms of money be included in the accounting records."
+                ],
+                answer: 2,
+                explanation: "The historical cost principle states that assets should be recorded at their cost. The other choices are incorrect because (a) the historical cost principle does not say that assets should be adjusted for changes in fair value, (b) describes the economic entity assumption, and (d) describes the monetary unit assumption."
+            },
+            {
+                lo: "LO 2",
+                text: "Which of the following statements about basic assumptions is correct?",
+                options: [
+                    "Basic assumptions are the same as accounting principles.",
+                    "The economic entity assumption states that there should be a particular unit of accountability.",
+                    "The monetary unit assumption enables accounting to measure employee morale.",
+                    "Partnerships are not economic entities."
+                ],
+                answer: 1,
+                explanation: "The economic entity assumption states that there should be a particular unit of accountability. The other choices are incorrect because (a) basic assumptions are not the same as accounting principles, (c) the monetary unit assumption allows accounting to measure economic events, and (d) partnerships are economic entities."
+            },
+            {
+                lo: "LO 2",
+                text: "The three types of business entities are:",
+                options: [
+                    "Proprietorships, small businesses, and partnerships.",
+                    "Proprietorships, partnerships, and corporations.",
+                    "Proprietorships, partnerships, and large businesses.",
+                    "Financial, manufacturing, and service companies."
+                ],
+                answer: 1,
+                explanation: "Proprietorships, partnerships, and corporations are the three types of business entities. Choices (a) and (c) are incorrect because small and large businesses only denote the sizes of businesses. Choice (d) is incorrect because financial, manufacturing, and service companies are types of businesses, not business entities."
+            },
+            {
+                lo: "LO 3",
+                text: "Net income will result during a time period when:",
+                options: [
+                    "Assets exceed liabilities.",
+                    "Assets exceed revenues.",
+                    "Expenses exceed revenues.",
+                    "Revenues exceed expenses."
+                ],
+                answer: 3,
+                explanation: "Net income results when revenues exceed expenses. The other choices are incorrect because (a) assets and liabilities are not used in the computation of net income; (b) revenues, not assets, are included in the computation of net income; and (c) when expenses exceed revenues, a net loss results."
+            },
+            {
+                lo: "LO 3",
+                text: "As of December 31, 2022, Kent Company has assets of $3,500 and owner's equity of $2,000. What are the liabilities for Kent Company as of December 31, 2022?",
+                options: [
+                    "$1,500.",
+                    "$1,000.",
+                    "$2,500.",
+                    "$2,000."
+                ],
+                answer: 0,
+                explanation: "Using a variation of the basic accounting equation, Assets − Owner's equity = Liabilities, $3,500 − $2,000 = $1,500. Therefore, choices (b) $1,000, (c) $2,500, and (d) $2,000 are incorrect."
+            },
+            {
+                lo: "LO 4",
+                text: "Performing services on account will have the following effects on the components of the basic accounting equation:",
+                options: [
+                    "Increase assets and decrease owner's equity.",
+                    "Increase assets and increase owner's equity.",
+                    "Increase assets and increase liabilities.",
+                    "Increase liabilities and increase owner's equity."
+                ],
+                answer: 1,
+                explanation: "When services are performed on account, assets are increased and owner's equity is increased. The other choices are incorrect because when services are performed on account (a) owner's equity is increased, not decreased; (c) liabilities are not affected; and (d) owner's equity is increased and liabilities are not affected."
+            },
+            {
+                lo: "LO 4",
+                text: "Which of the following events is not recorded in the accounting records?",
+                options: [
+                    "Equipment is purchased on account.",
+                    "An employee is terminated.",
+                    "A cash investment is made into the business.",
+                    "The owner withdraws cash for personal use."
+                ],
+                answer: 1,
+                explanation: "If an employee is terminated, this represents an activity of a company, not a business transaction. Assets, liabilities, and owner's equity are not affected. The other choices are incorrect because they are all recorded: (a) when equipment is purchased on account, both assets and liabilities increase; (c) when a cash investment is made into a business, both assets and owner's equity increase; and (d) when an owner withdraws cash for personal use, both assets and owner's equity decrease."
+            },
+            {
+                lo: "LO 4",
+                text: "During 2022, Bruske Company's assets decreased $50,000 and its liabilities decreased $50,000. Its owner's equity therefore:",
+                options: [
+                    "Increased $50,000.",
+                    "Decreased $50,000.",
+                    "Decreased $100,000.",
+                    "Did not change."
+                ],
+                answer: 3,
+                explanation: "In this situation, owner's equity does not change because only assets and liabilities decreased $50,000. Therefore, the other choices are incorrect."
+            },
+            {
+                lo: "LO 4",
+                text: "Payment of an account payable affects the components of the accounting equation in the following way:",
+                options: [
+                    "Decreases owner's equity and decreases liabilities.",
+                    "Increases assets and decreases liabilities.",
+                    "Decreases assets and increases owner's equity.",
+                    "Decreases assets and decreases liabilities."
+                ],
+                answer: 3,
+                explanation: "Payment of an account payable results in an equal decrease of assets (cash) and liabilities (accounts payable). The other choices are incorrect because payment of an account payable (a) does not affect owner's equity, (b) does not increase assets, and (c) does not affect owner's equity."
+            },
+            {
+                lo: "LO 5",
+                text: "Which of the following statements is false?",
+                options: [
+                    "A statement of cash flows summarizes information about the cash inflows (receipts) and outflows (payments) for a specific period of time.",
+                    "A balance sheet reports the assets, liabilities, and owner's equity at a specific date.",
+                    "An income statement presents the revenues, expenses, changes in owner's equity, and resulting net income or net loss for a specific period of time.",
+                    "An owner's equity statement summarizes the changes in owner's equity for a specific period of time."
+                ],
+                answer: 2,
+                explanation: "An income statement represents the revenues, expenses, and the resulting net income or net loss for a specific period of time — but not the changes in owner's equity. The other choices are true statements."
+            },
+            {
+                lo: "LO 5",
+                text: "On the last day of the period, Alan Cesska Company buys a $900 machine on credit. This transaction will affect the:",
+                options: [
+                    "Income statement only.",
+                    "Balance sheet only.",
+                    "Income statement and owner's equity statement only.",
+                    "Income statement, owner's equity statement, and balance sheet."
+                ],
+                answer: 1,
+                explanation: "This transaction will cause assets to increase by $900 and liabilities to increase by $900. The other choices are incorrect because this transaction (a) will have no effect on the income statement, (c) will have no effect on the income statement or the owner's equity statement, and (d) will affect the balance sheet but not the income statement or the owner's equity statement."
+            },
+            {
+                lo: "LO 5",
+                text: "The financial statement that reports assets, liabilities, and owner's equity is the:",
+                options: [
+                    "Income statement.",
+                    "Owner's equity statement.",
+                    "Balance sheet.",
+                    "Statement of cash flows."
+                ],
+                answer: 2,
+                explanation: "The balance sheet is the statement that reports assets, liabilities and owner's equity. The other choices are incorrect because (a) the income statement reports revenues and expenses, (b) the owner's equity statement reports details about owner's equity, and (d) the statement of cash flows reports inflows and outflows of cash."
+            },
+            {
+                lo: "LO 6",
+                text: "Services performed by a public accountant include:",
+                options: [
+                    "Auditing, taxation, and management consulting.",
+                    "Auditing, budgeting, and management consulting.",
+                    "Auditing, budgeting, and cost accounting.",
+                    "Auditing, budgeting, and management consulting."
+                ],
+                answer: 0,
+                explanation: "Auditing, taxation, and management consulting are all services performed by public accountants. The other choices are incorrect because public accountants do not perform budgeting or cost accounting."
+            }
+        ]
+    },
+    2: {
+        title: "Chapter 2",
+        questions: [
+            {
+                lo: "LO 1",
+                text: "Which of the following statements about an account is true?",
+                options: [
+                    "The right side of an account is the debit, or increase, side.",
+                    "An account is an individual accounting record of increases and decreases in specific asset, liability, and owner's equity items.",
+                    "There are separate accounts for specific assets and liabilities but only one account for owner's equity items.",
+                    "The left side of an account is the credit, or decrease, side."
+                ],
+                answer: 1,
+                explanation: "An account is an individual accounting record of increases and decreases in specific asset, liability, and owner's equity items. The other choices are incorrect because (a) the right side of the account is the credit side, not the debit side, and can be the increase or the decrease side, depending on the classification of the account; (c) there are also separate accounts for different owner's equity items; and (d) the left side of the account is the debit side, not the credit side, and can be either the decrease or the increase side, depending on the specific classification of the account."
+            },
+            {
+                lo: "LO 1",
+                text: "Debits:",
+                options: [
+                    "Increase both assets and liabilities.",
+                    "Decrease both assets and liabilities.",
+                    "Increase assets and decrease liabilities.",
+                    "Decrease assets and increase liabilities."
+                ],
+                answer: 2,
+                explanation: "Debits increase assets but they decrease liabilities. The other choices are incorrect because debits (a) decrease, not increase, liabilities; (b) increase, not decrease, assets; and (d) increase, not decrease, assets and decrease, not increase, liabilities."
+            },
+            {
+                lo: "LO 1",
+                text: "A revenue account:",
+                options: [
+                    "Is increased by debits.",
+                    "Is decreased by credits.",
+                    "Has a normal balance of a debit.",
+                    "Is increased by credits."
+                ],
+                answer: 3,
+                explanation: "A revenue account is increased by credits. The other choices are incorrect because a revenue account (a) is increased by credits, not debits; (b) is decreased by debits, not credits; and (c) has a normal balance of a credit, not a debit."
+            },
+            {
+                lo: "LO 1",
+                text: "Accounts that normally have debit balances are:",
+                options: [
+                    "Assets, expenses, and revenues.",
+                    "Assets, expenses, and owner's capital.",
+                    "Assets, liabilities, and owner's drawings.",
+                    "Assets, owner's drawings, and expenses."
+                ],
+                answer: 3,
+                explanation: "Assets, owner's drawings, and expenses all have normal debit balances. The other choices are incorrect because (a) revenues have normal credit balances, (b) owner's capital has a normal credit balance, and (c) liabilities have normal credit balances."
+            },
+            {
+                lo: "LO 1",
+                text: "The expanded accounting equation is:",
+                options: [
+                    "Assets + Liabilities = Owner's Capital + Owner's Drawings + Revenues + Expenses.",
+                    "Assets = Liabilities + Owner's Capital + Owner's Drawings + Revenues − Expenses.",
+                    "Assets = Liabilities − Owner's Capital − Owner's Drawings − Revenues − Expenses.",
+                    "Assets = Liabilities + Owner's Capital − Owner's Drawings + Revenues − Expenses."
+                ],
+                answer: 3,
+                explanation: "The expanded accounting equation is Assets = Liabilities + Owner's Capital − Owner's Drawings + Revenues − Expenses. The other choices are therefore incorrect."
+            },
+            {
+                lo: "LO 1",
+                text: "Which of the following is not part of the recording process?",
+                options: [
+                    "Analyzing transactions.",
+                    "Preparing an income statement.",
+                    "Entering transactions in a journal.",
+                    "Posting journal entries."
+                ],
+                answer: 1,
+                explanation: "Preparing an income statement is not part of the recording process. Choices (a) analyzing transactions, (c) entering transactions in a journal, and (d) posting journal entries are all part of the recording process."
+            },
+            {
+                lo: "LO 2",
+                text: "Which of the following statements about a journal is false?",
+                options: [
+                    "It is not a book of original entry.",
+                    "It provides a chronological record of transactions.",
+                    "It helps to locate errors because the debit and credit amounts for each entry can be readily compared.",
+                    "It discloses in one place the complete effect of a transaction."
+                ],
+                answer: 0,
+                explanation: "The journal is a book of original entry. The other choices are true statements."
+            },
+            {
+                lo: "LO 2",
+                text: "The purchase of supplies on account should result in:",
+                options: [
+                    "A debit to Supplies Expense and a credit to Cash.",
+                    "A debit to Accounts Payable and a credit to Supplies Expense.",
+                    "A debit to Supplies and a credit to Accounts Payable.",
+                    "A debit to Supplies and a credit to Accounts Receivable."
+                ],
+                answer: 2,
+                explanation: "The purchase of supplies on account results in a debit to Supplies and a credit to Accounts Payable. The other choices are incorrect because the purchase of supplies on account results in (a) a debit to Supplies, not Supplies Expense, and a credit to Accounts Payable, not Cash; (b) a debit to Supplies, not Accounts Payable; and (d) a credit to Accounts Payable, not Accounts Receivable."
+            },
+            {
+                lo: "LO 3",
+                text: "The order of the accounts in the ledger is:",
+                options: [
+                    "Assets, revenues, expenses, liabilities, owner's capital, owner's drawings.",
+                    "Assets, liabilities, owner's capital, owner's drawings, revenues, expenses.",
+                    "Owner's capital, assets, revenues, expenses, liabilities, owner's drawings.",
+                    "Revenues, assets, expenses, liabilities, owner's capital, owner's drawings."
+                ],
+                answer: 1,
+                explanation: "The correct order of the accounts in the ledger is assets, liabilities, owner's capital, owner's drawings, revenues, expenses. The order of the accounts in the ledger is (1) balance sheet accounts: assets, liabilities, and owner's equity accounts (Owner's Capital and Owner's Drawings), and then (2) income statement accounts: revenues and expenses."
+            },
+            {
+                lo: "LO 3",
+                text: "A ledger:",
+                options: [
+                    "Contains only asset and liability accounts.",
+                    "Should show accounts in alphabetical order.",
+                    "Is a collection of the entire group of accounts maintained by a company.",
+                    "Is a book of original entry."
+                ],
+                answer: 2,
+                explanation: "A ledger is a collection of all the accounts maintained by a company. The other choices are incorrect because a ledger (a) contains all account types—assets, liabilities, owner's equity (including revenue and expense) accounts—not just asset and liability accounts; (b) usually shows accounts in account number order, not alphabetical order; and (d) is not a book of original entry because entries made in the ledger come from the journals (the books of original entry)."
+            },
+            {
+                lo: "LO 3",
+                text: "Posting:",
+                options: [
+                    "Normally occurs before journalizing.",
+                    "Transfers ledger transaction data to the journal.",
+                    "Is an optional step in the recording process.",
+                    "Transfers journal entries to ledger accounts."
+                ],
+                answer: 3,
+                explanation: "Posting transfers journal entries to ledger accounts. The other choices are incorrect because posting (a) occurs after journalizing, (b) transfers journal transaction data to the ledger, and (c) is not an optional step in the recording process."
+            },
+            {
+                lo: "LO 3",
+                text: "Before posting a payment of $5,000, the Accounts Payable of Chola Company had a normal balance of $18,000. The balance after posting this transaction was:",
+                options: [
+                    "$13,000.",
+                    "$23,000.",
+                    "$5,000.",
+                    "Cannot be determined."
+                ],
+                answer: 0,
+                explanation: "The balance is $13,000 ($18,000 normal balance − $5,000 payment), not (b) $23,000 or (c) $5,000. Choice (d) is incorrect because the balance can be determined."
+            },
+            {
+                lo: "LO 4",
+                text: "A trial balance:",
+                options: [
+                    "Is a list of accounts with their balances at a given time.",
+                    "Proves the mathematical accuracy of journalized transactions.",
+                    "Will not balance if a correct journal entry is posted twice.",
+                    "Proves that all transactions have been recorded."
+                ],
+                answer: 0,
+                explanation: "A trial balance is a list of accounts with their balances at a given time. The other choices are incorrect because (b) the trial balance does not prove that journalized transactions are mathematically correct; (c) if a journal entry is posted twice, the trial balance will still balance; and (d) the trial balance does not prove that all transactions have been recorded."
+            },
+            {
+                lo: "LO 4",
+                text: "A trial balance will not balance if:",
+                options: [
+                    "A correct journal entry is posted twice.",
+                    "The purchase of supplies on account is debited to Supplies and credited to Cash.",
+                    "A $100 cash withdrawal by the owner is debited to Owner's Drawings for $1,000 and credited to Cash for $100.",
+                    "A $450 payment on account is debited to Accounts Payable for $45 and credited to Cash for $45."
+                ],
+                answer: 2,
+                explanation: "The trial balance will not balance in this case because the debit of $1,000 to Owner's Drawings is not equal to the credit of $100 to Cash. The other choices are incorrect because (a) if a correct journal entry is posted twice, the trial balance will still balance; (b) if the purchase of supplies on account is debited to Supplies and credited to Cash, Cash and Accounts Payable will be understated but the trial balance will still balance; and (d) since the debit and credit amounts are the same, the trial balance will still balance but both Accounts Payable and Cash will be overstated."
+            },
+            {
+                lo: "LO 4",
+                text: "The trial balance of Stevens Company had accounts with the following normal balances: Cash $5,000, Service Revenue $85,000, Salaries and Wages Payable $4,000, Salaries and Wages Expense $40,000, Rent Expense $10,000, Owner's Capital $42,000, Owner's Drawings $13,000, and Equipment $61,000. In preparing a trial balance, based on these amounts only, the total in the debit column is:",
+                options: [
+                    "$116,000.",
+                    "$129,000.",
+                    "$118,000.",
+                    "$131,000."
+                ],
+                answer: 1,
+                explanation: "The total debit column = $5,000 (Cash) + $40,000 (Salaries and Wages Expense) + $10,000 (Rent Expense) + $13,000 (Owner's Drawings) + $61,000 (Equipment) = $129,000, not (a) $116,000, (c) $118,000, or (d) $131,000."
+            }
+        ]
+    },
+    3: {
+        title: "Chapter 3",
+        questions: [
+            {
+                lo: "LO 1",
+                text: "The revenue recognition principle states that:",
+                options: [
+                    "Revenue should be recognized in the accounting period in which a performance obligation is satisfied.",
+                    "Expenses should be matched with revenues.",
+                    "The economic life of a business can be divided into artificial time periods.",
+                    "The fiscal year should correspond with the calendar year."
+                ],
+                answer: 0,
+                explanation: "Revenue should be recognized in the accounting period in which a performance obligation is satisfied. The other choices are incorrect because (b) defines the expense recognition principle, (c) describes the time period assumption, and (d) a company's fiscal year does not need to correspond with the calendar year."
+            },
+            {
+                lo: "LO 1",
+                text: "The time period assumption states that:",
+                options: [
+                    "Companies must wait until the calendar year is completed to prepare financial statements.",
+                    "Companies use the fiscal year to report financial information.",
+                    "The economic life of a business can be divided into artificial time periods.",
+                    "Companies record information in the time period in which the events occur."
+                ],
+                answer: 2,
+                explanation: "The economic life of a business can be divided into artificial time periods. The other choices are incorrect because (a) companies report their activities on a more frequent basis and not necessarily based on a calendar year; (b) companies report financial information more frequently than annually, such as monthly or quarterly, in order to evaluate results of operations; and (d) this statement describes accrual-basis accounting."
+            },
+            {
+                lo: "LO 1",
+                text: "Which of the following statements about the accrual basis of accounting is false?",
+                options: [
+                    "Events that change a company's financial statements are recorded in the periods in which the events occur.",
+                    "Revenue is recognized in the period in which services are performed.",
+                    "This basis is in accordance with generally accepted accounting principles.",
+                    "Revenue is recorded only when cash is received, and expense is recorded only when cash is paid."
+                ],
+                answer: 3,
+                explanation: "Under the accrual basis of accounting, revenue is recognized when the performance obligation is satisfied, not when cash is received; expense is recognized when incurred, not when cash is paid. The other choices are true statements."
+            },
+            {
+                lo: "LO 1",
+                text: "The principle or assumption dictating that efforts (expenses) should be recognized in the period in which a company consumes assets or incurs liabilities to generate revenue is the:",
+                options: [
+                    "Expense recognition principle.",
+                    "Cost assumption.",
+                    "Time period assumption.",
+                    "Revenue recognition principle."
+                ],
+                answer: 0,
+                explanation: "The expense recognition principle dictates that companies recognize expenses in the period in which they make efforts to generate revenue. The other choices are incorrect because (b) there is no cost assumption, but the historical cost principle states that assets should be recorded at their cost; (c) the time period assumption states that the economic life of a business can be divided into artificial time periods; and (d) the revenue recognition principle indicates that revenue should be recognized in the accounting period in which a performance obligation is satisfied."
+            },
+            {
+                lo: "LO 1",
+                text: "Adjusting entries are made to ensure that:",
+                options: [
+                    "Expenses are recognized in the period in which they are incurred.",
+                    "Revenues are recorded in the period in which services are performed.",
+                    "Balance sheet and income statement accounts have correct balances at the end of an accounting period.",
+                    "All the answer choices are correct."
+                ],
+                answer: 3,
+                explanation: "Adjusting entries are made for all the reasons noted in choices (a), (b), and (c). These choices are all true statements, but (d) is the best answer."
+            },
+            {
+                lo: "LO 1",
+                text: "Each of the following is a major type (or category) of adjusting entries except:",
+                options: [
+                    "Prepaid expenses.",
+                    "Accrued revenues.",
+                    "Accrued expenses.",
+                    "Recognized revenues."
+                ],
+                answer: 3,
+                explanation: "Unearned revenues, not recognized revenues, is one of the major categories of adjusting entries. The other choices all list one of the major categories of adjusting entries."
+            },
+            {
+                lo: "LO 2",
+                text: "The trial balance shows Supplies $1,350 and Supplies Expense $0. If $600 of supplies are on hand at the end of the period, the adjusting entry is:",
+                options: [
+                    "Debit Supplies $600, Credit Supplies Expense $600",
+                    "Debit Supplies $750, Credit Supplies Expense $750",
+                    "Debit Supplies Expense $750, Credit Supplies $750",
+                    "Debit Supplies Expense $600, Credit Supplies $600"
+                ],
+                answer: 2,
+                explanation: "Debiting Supplies Expense for $750 and crediting Supplies for $750 ($1,350 − $600) will decrease Supplies and increase Supplies Expense. The other choices are incorrect because (a) will increase Supplies and decrease Supplies Expense and also for the wrong amounts, (b) will increase Supplies and decrease Supplies Expense, and (d) will cause Supplies to have an incorrect balance of $750 ($1,350 − $600) and Supplies Expense to have an incorrect balance of $600 ($0 + $600)."
+            },
+            {
+                lo: "LO 2",
+                text: "Adjustments for prepaid expenses:",
+                options: [
+                    "Decrease assets and increase revenues.",
+                    "Decrease expenses and increase assets.",
+                    "Decrease assets and increase expenses.",
+                    "Decrease revenues and increase assets."
+                ],
+                answer: 2,
+                explanation: "Adjustments for prepaid expenses decrease assets and increase expenses. The other choices are incorrect because an adjusting entry for prepaid expenses (a) increases expenses, not revenues; (b) increases, not decreases, expenses and decreases, not increases, assets; and (d) increases expenses, not decreases revenues, and decreases, not increases, assets."
+            },
+            {
+                lo: "LO 2",
+                text: "Accumulated Depreciation is:",
+                options: [
+                    "A contra asset account.",
+                    "An expense account.",
+                    "An owner's equity account.",
+                    "A liability account."
+                ],
+                answer: 0,
+                explanation: "Accumulated Depreciation is a contra asset account; it is offset against an asset account on the balance sheet. The other choices are incorrect because Accumulated Depreciation is not (b) an expense account or reported on the income statement, (c) an owner's equity account, or (d) a liability account."
+            },
+            {
+                lo: "LO 2",
+                text: "Rivera Company computes depreciation on delivery equipment at $1,000 for the month of June. The adjusting entry to record this depreciation is as follows:",
+                options: [
+                    "Debit Depreciation Expense $1,000, Credit Accumulated Depreciation—Rivera Company $1,000",
+                    "Debit Depreciation Expense $1,000, Credit Equipment $1,000",
+                    "Debit Depreciation Expense $1,000, Credit Accumulated Depreciation—Equipment $1,000",
+                    "Debit Equipment Expense $1,000, Credit Accumulated Depreciation—Equipment $1,000"
+                ],
+                answer: 2,
+                explanation: "The adjusting entry is to debit Depreciation Expense and credit Accumulated Depreciation—Equipment. The other choices are incorrect because (a) the contra asset account title includes the asset being depreciated, not the company name; (b) the credit should be to the contra asset account, not directly to the asset; and (d) the debit for this entry should be Depreciation Expense, not Equipment Expense."
+            },
+            {
+                lo: "LO 2",
+                text: "Adjustments for unearned revenues:",
+                options: [
+                    "Decrease liabilities and increase revenues.",
+                    "Have an assets-and-revenues-account relationship.",
+                    "Increase assets and increase revenues.",
+                    "Decrease revenues and decrease assets."
+                ],
+                answer: 0,
+                explanation: "Adjustments for unearned revenues will consist of a debit (decrease) to unearned revenues (a liability) and a credit (increase) to a revenue account. Choices (b), (c), and (d) are incorrect because adjustments for unearned revenues will increase revenues but will have no effect on assets."
+            },
+            {
+                lo: "LO 3",
+                text: "Adjustments for accrued revenues:",
+                options: [
+                    "Have a liabilities-and-revenues-account relationship.",
+                    "Have an assets-and-revenues-account relationship.",
+                    "Decrease assets and revenues.",
+                    "Decrease liabilities and increase revenues."
+                ],
+                answer: 1,
+                explanation: "Adjustments for accrued revenues will have an assets-and-revenues-account relationship. Choices (a) and (d) are incorrect because adjustments for accrued revenues have no effect on liabilities. Choice (c) is incorrect because these adjustments will increase, not decrease, both assets and revenues."
+            },
+            {
+                lo: "LO 3",
+                text: "Anika Wilson earned a salary of $400 for the last week of September. She will be paid on October 1. The adjusting entry for Anika's employer at September 30 is:",
+                options: [
+                    "No entry is required.",
+                    "Debit Salaries and Wages Expense $400, Credit Salaries and Wages Payable $400",
+                    "Debit Salaries and Wages Expense $400, Credit Cash $400",
+                    "Debit Salaries and Wages Payable $400, Credit Cash $400"
+                ],
+                answer: 1,
+                explanation: "The adjusting entry should be to debit Salaries and Wages Expense for $400 and credit Salaries and Wages Payable for $400. The other choices are incorrect because (a) if an adjusting entry is not made, the amount of money owed (liability) that is shown on the balance sheet will be understated and the amount of salaries and wages expense will also be understated; (c) the credit account is incorrect as adjusting entries never affect cash; and (d) the debit account should be Salaries and Wages Expense and the credit account should be Salaries and Wages Payable. Adjusting entries never affect cash."
+            },
+            {
+                lo: "LO 4",
+                text: "Which of the following statements is incorrect concerning the adjusted trial balance?",
+                options: [
+                    "An adjusted trial balance proves the equality of the total debit balances and the total credit balances in the ledger after all adjustments are made.",
+                    "The adjusted trial balance provides the primary basis for the preparation of financial statements.",
+                    "The adjusted trial balance lists the account balances segregated by assets and liabilities.",
+                    "The adjusted trial balance is prepared after the adjusting entries have been journalized and posted."
+                ],
+                answer: 2,
+                explanation: "The accounts on the trial balance can be segregated by the balance in the account—either debit or credit—not whether they are assets or liabilities. All accounts in the ledger are included in the adjusted trial balance, not just assets and liabilities. The other choices are true statements."
+            },
+            {
+                lo: "LO 5",
+                text: "The trial balance shows Supplies $0 and Supplies Expense $1,500. If $800 of supplies are on hand at the end of the period, the adjusting entry is:",
+                options: [
+                    "Debit Supplies $800, Credit Supplies Expense $800.",
+                    "Debit Supplies Expense $800, Credit Supplies $800.",
+                    "Debit Supplies $700, Credit Supplies Expense $700.",
+                    "Debit Supplies Expense $700, Credit Supplies $700."
+                ],
+                answer: 0,
+                explanation: "This adjusting entry correctly states the Supplies account at $800 ($0 + $800) and the Supplies Expense account at $700 ($1,500 − $800). The other choices are incorrect because (b) will cause the Supplies account to have a credit balance (assets have a normal debit balance) and the Supplies Expense account to be stated at $2,300, which is too high; (c) will result in a $700 balance in the Supplies account ($100 too low) and an $800 balance in the Supplies Expense account ($100 too high); and (d) will cause the Supplies account to have a credit balance (assets have a normal debit balance) and the Supplies Expense account to be stated at $2,200, which is too high."
+            },
+            {
+                lo: "LO 6",
+                text: "Neutrality is a component of:",
+                options: [
+                    "Faithful Representation: Yes | Relevance: Yes",
+                    "Faithful Representation: No | Relevance: No",
+                    "Faithful Representation: Yes | Relevance: No",
+                    "Faithful Representation: No | Relevance: Yes"
+                ],
+                answer: 2,
+                explanation: "Neutrality is one of the enhancing qualities that makes information more representationally faithful, not more relevant. Therefore, choices (a), (b), and (d) are incorrect."
+            },
+            {
+                lo: "LO 6",
+                text: "Which item is a constraint in financial accounting?",
+                options: [
+                    "Comparability.",
+                    "Materiality.",
+                    "Cost.",
+                    "Consistency."
+                ],
+                answer: 2,
+                explanation: "Cost is a constraint in financial accounting. The other choices are all enhancing qualities of useful information."
+            }
+        ]
+    },
+    4: {
+        title: "Chapter 4",
+        questions: [
+            {
+                lo: "LO 1",
+                text: "Which of the following statements is incorrect concerning the worksheet?",
+                options: [
+                    "The worksheet is essentially a working tool of the accountant.",
+                    "The worksheet is distributed to management and other interested parties.",
+                    "The worksheet cannot be used as a basis for posting to ledger accounts.",
+                    "Financial statements can be prepared directly from the worksheet before journalizing and posting the adjusting entries."
+                ],
+                answer: 1,
+                explanation: "The worksheet is a working tool of the accountant; it is not distributed to management and other interested parties. The other choices are all true statements."
+            },
+            {
+                lo: "LO 1",
+                text: "In a worksheet, net income is entered in the following columns:",
+                options: [
+                    "income statement (Dr.) and balance sheet (Dr.).",
+                    "income statement (Cr.) and balance sheet (Dr.).",
+                    "income statement (Dr.) and balance sheet (Cr.).",
+                    "income statement (Cr.) and balance sheet (Cr.)."
+                ],
+                answer: 2,
+                explanation: "Net income is entered in the Dr. column of the income statement and the Cr. column of the balance sheet. The other choices are incorrect because net income is entered in the (a) Cr. (not Dr.) column of the balance sheet, (b) Dr. (not Cr.) column of the income statement and in the Cr. (not Dr.) column of the balance sheet, and (d) Dr. (not Cr.) column of the income statement."
+            },
+            {
+                lo: "LO 1",
+                text: "In the unadjusted trial balance of its worksheet for the year ended December 31, 2022, Knox Company reported Equipment of $120,000. The year-end adjusting entries require an adjustment of $15,000 for depreciation expense for the equipment. After the adjusted trial balance is completed, what amount should be shown in the financial statement columns?",
+                options: [
+                    "A debit of $105,000 for Equipment in the balance sheet column.",
+                    "A credit of $15,000 for Depreciation Expense in the income statement column.",
+                    "A debit of $120,000 for Equipment in the balance sheet column.",
+                    "A debit of $15,000 for Accumulated Depreciation—Equipment in the balance sheet column."
+                ],
+                answer: 2,
+                explanation: "A debit of $120,000 for Equipment would appear in the balance sheet column. The other choices are incorrect because (a) Equipment, less accumulated depreciation of $15,000, would total $105,000 under assets on the balance sheet, not on the worksheet; (b) a debit, not credit, for Depreciation Expense would appear in the income statement column; and (d) a credit, not debit, of $15,000 for Accumulated Depreciation—Equipment would appear in the balance sheet column."
+            },
+            {
+                lo: "LO 2",
+                text: "An account that will have a zero balance after closing entries have been journalized and posted is:",
+                options: [
+                    "Service Revenue.",
+                    "Supplies.",
+                    "Prepaid Insurance.",
+                    "Accumulated Depreciation—Equipment."
+                ],
+                answer: 0,
+                explanation: "The Service Revenue account will have a zero balance after closing entries have been journalized and posted because it is a temporary account. The other choices are incorrect because (b) Supplies, (c) Prepaid Insurance, and (d) Accumulated Depreciation—Equipment are all permanent accounts and therefore not closed in the closing process."
+            },
+            {
+                lo: "LO 2",
+                text: "When a net loss has occurred, Income Summary is:",
+                options: [
+                    "debited and Owner's Capital is credited.",
+                    "credited and Owner's Capital is debited.",
+                    "debited and Owner's Drawings is credited.",
+                    "credited and Owner's Drawings is debited."
+                ],
+                answer: 1,
+                explanation: "The effect of a net loss is a credit to Income Summary and a debit to Owner's Capital. The other choices are incorrect because (a) Income Summary is credited, not debited, and Owner's Capital is debited, not credited; (c) Income Summary is credited, not debited, and Owner's Drawings is not affected; and (d) Owner's Capital, not Owner's Drawings, is debited."
+            },
+            {
+                lo: "LO 2",
+                text: "The closing process involves separate entries to close (1) expenses, (2) Owner's Drawings, (3) revenues, and (4) Income Summary. The correct sequencing of the entries is:",
+                options: [
+                    "(4), (3), (2), (1).",
+                    "(1), (2), (3), (4).",
+                    "(3), (1), (4), (2).",
+                    "(3), (2), (1), (4)."
+                ],
+                answer: 2,
+                explanation: "The correct order is (3) revenues, (1) expenses, (4) Income Summary, and (2) Owner's Drawings. Therefore, choices (a), (b), and (d) are incorrect."
+            },
+            {
+                lo: "LO 2",
+                text: "Which types of accounts will appear in the post-closing trial balance?",
+                options: [
+                    "Permanent (real) accounts.",
+                    "Temporary (nominal) accounts.",
+                    "Accounts shown in the income statement columns of a worksheet.",
+                    "None of these answer choices is correct."
+                ],
+                answer: 0,
+                explanation: "Permanent accounts appear in the post-closing trial balance. The other choices are incorrect because (b) temporary accounts and (c) income statement accounts are closed to a zero balance and are therefore not included in the post-closing trial balance. Choice (d) is wrong as there is a correct answer for this question."
+            },
+            {
+                lo: "LO 3",
+                text: "All of the following are required steps in the accounting cycle except:",
+                options: [
+                    "journalizing and posting closing entries.",
+                    "preparing financial statements.",
+                    "journalizing the transactions.",
+                    "preparing a worksheet."
+                ],
+                answer: 3,
+                explanation: "Preparing a worksheet is not a required step in the accounting cycle. The other choices are all required steps in the accounting cycle."
+            },
+            {
+                lo: "LO 3",
+                text: "The proper order of the following steps in the accounting cycle is:",
+                options: [
+                    "prepare unadjusted trial balance, journalize transactions, post to ledger accounts, journalize and post adjusting entries.",
+                    "journalize transactions, prepare unadjusted trial balance, post to ledger accounts, journalize and post adjusting entries.",
+                    "journalize transactions, post to ledger accounts, prepare unadjusted trial balance, journalize and post adjusting entries.",
+                    "prepare unadjusted trial balance, journalize and post adjusting entries, journalize transactions, post to ledger accounts."
+                ],
+                answer: 2,
+                explanation: "The proper order of the steps in the accounting cycle is (1) journalize transactions, (2) post to ledger accounts, (3) prepare unadjusted trial balance, and (4) journalize and post adjusting entries. Therefore, choices (a), (b), and (d) are incorrect."
+            },
+            {
+                lo: "LO 3",
+                text: "When Ramirez Company purchased supplies worth $5,000, it incorrectly recorded a credit to Supplies for $5,000 and a debit to Cash for $5,000. Before correcting this error:",
+                options: [
+                    "Cash is overstated and Supplies is overstated.",
+                    "Cash is understated and Supplies is understated.",
+                    "Cash is understated and Supplies is overstated.",
+                    "Cash is overstated and Supplies is understated."
+                ],
+                answer: 3,
+                explanation: "This entry causes Cash to be overstated and Supplies to be understated. Supplies should have been debited (increasing supplies) and Cash should have been credited (decreasing cash). The other choices are incorrect because (a) Supplies is understated, not overstated; (b) Cash is overstated, not understated; and (c) Cash is overstated, not understated, and Supplies is understated, not overstated."
+            },
+            {
+                lo: "LO 3",
+                text: "Cash of $100 received at the time the service was performed was journalized and posted as a debit to Cash $100 and a credit to Accounts Receivable $100. Assuming the incorrect entry is not reversed, the correcting entry is:",
+                options: [
+                    "debit Service Revenue $100 and credit Accounts Receivable $100.",
+                    "debit Accounts Receivable $100 and credit Service Revenue $100.",
+                    "debit Cash $100 and credit Service Revenue $100.",
+                    "debit Accounts Receivable $100 and credit Cash $100."
+                ],
+                answer: 1,
+                explanation: "The correcting entry is to debit Accounts Receivable $100 and credit Service Revenue $100. The other choices are incorrect because (a) Service Revenue should be credited, not debited, and Accounts Receivable should be debited, not credited; (c) Service Revenue should be credited for $100, and Cash should not be included in the correcting entry as it was recorded properly; and (d) Accounts Receivable should be debited for $100 and Cash should not be included in the correcting entry as it was recorded properly."
+            },
+            {
+                lo: "LO 4",
+                text: "The correct order of presentation in a classified balance sheet for the following current assets is:",
+                options: [
+                    "accounts receivable, cash, prepaid insurance, inventory.",
+                    "cash, inventory, accounts receivable, prepaid insurance.",
+                    "cash, accounts receivable, inventory, prepaid insurance.",
+                    "inventory, cash, accounts receivable, prepaid insurance."
+                ],
+                answer: 2,
+                explanation: "Companies list current assets on the balance sheet in the order of liquidity: cash, accounts receivable, inventory, and prepaid insurance. Therefore, choices (a), (b), and (d) are incorrect."
+            },
+            {
+                lo: "LO 4",
+                text: "A company has purchased a tract of land. It expects to build a production plant on the land in approximately 5 years. During the 5 years before construction, the land will be idle. The land should be reported as:",
+                options: [
+                    "property, plant, and equipment.",
+                    "land expense.",
+                    "a long-term investment.",
+                    "an intangible asset."
+                ],
+                answer: 2,
+                explanation: "Long-term investments include long-term assets such as land that a company is not currently using in its operating activities. The other choices are incorrect because (a) land is reported as property, plant, and equipment only if it is being currently used in the business; (b) land is an asset, not an expense; and (d) land has physical substance and thus is a tangible asset."
+            },
+            {
+                lo: "LO 4",
+                text: "In a classified balance sheet, assets are usually classified using the following categories:",
+                options: [
+                    "current assets; long-term assets; property, plant, and equipment; and intangible assets.",
+                    "current assets; long-term investments; property, plant, and equipment; and tangible assets.",
+                    "current assets; long-term investments; tangible assets; and intangible assets.",
+                    "current assets; long-term investments; property, plant, and equipment; and intangible assets."
+                ],
+                answer: 3,
+                explanation: "These are the categories usually used in a classified balance sheet. The other choices are incorrect because the categories (a) 'long-term assets' and (b) and (c) 'tangible assets' are generally not used."
+            },
+            {
+                lo: "LO 4",
+                text: "Current assets are listed:",
+                options: [
+                    "by expected conversion to cash.",
+                    "by importance.",
+                    "by longevity.",
+                    "alphabetically."
+                ],
+                answer: 0,
+                explanation: "Current assets are listed in order of their liquidity, not (b) by importance, (c) by longevity, or (d) alphabetically."
+            },
+            {
+                lo: "LO 5",
+                text: "On December 31, Kevin Hartman Company correctly made an adjusting entry to recognize $2,000 of accrued salaries payable. On January 8 of the next year, total salaries of $3,400 were paid. Assuming the correct reversing entry was made on January 1, the entry on January 8 will result in a credit to Cash $3,400 and the following debit(s):",
+                options: [
+                    "Salaries and Wages Payable $1,400 and Salaries and Wages Expense $2,000.",
+                    "Salaries and Wages Payable $2,000 and Salaries and Wages Expense $1,400.",
+                    "Salaries and Wages Expense $3,400.",
+                    "Salaries and Wages Payable $3,400."
+                ],
+                answer: 2,
+                explanation: "The use of reversing entries simplifies the recording of the first payroll following the end of the year by eliminating the need to make an entry to the Salaries and Wages Payable account. The other choices are incorrect because (a) and (b) Salaries and Wages Payable is not part of the payroll entry on January 8, and the debit to Salaries and Wages Expense should be for $3,400, not $2,000; and (d) the Salaries and Wages Expense account, not the Salaries and Wages Payable account, should be debited."
+            }
+        ]
+    },
+    5: {
+        title: "Chapter 5",
+        questions: [
+            {
+                lo: "LO 1",
+                text: "Gross profit will result if:",
+                options: [
+                    "operating expenses are less than net income.",
+                    "sales revenues are greater than operating expenses.",
+                    "sales revenues are greater than cost of goods sold.",
+                    "operating expenses are greater than cost of goods sold."
+                ],
+                answer: 2,
+                explanation: "Gross profit will result if sales revenues are greater than cost of goods sold. The other choices are incorrect because (a) operating expenses and net income are not used in the computation of gross profit; (b) gross profit results when sales revenues are greater than cost of goods sold, not operating expenses; and (d) gross profit results when sales revenues, not operating expenses, are greater than cost of goods sold."
+            },
+            {
+                lo: "LO 1",
+                text: "Gross profit will result if:",
+                options: [
+                    "operating expenses are less than net income.",
+                    "sales are greater than operating expenses.",
+                    "sales are greater than cost of goods sold.",
+                    "operating expenses are greater than cost of goods sold."
+                ],
+                answer: 2,
+                explanation: "Gross profit will result if sales are greater than cost of goods sold. The other choices are incorrect because (a) operating expenses and net income are not used in the computation of gross profit; (b) gross profit results when sales are greater than cost of goods sold, not operating expenses; and (d) gross profit results when sales, not operating expenses, are greater than cost of goods sold."
+            },
+            {
+                lo: "LO 2",
+                text: "Under a periodic inventory system, when goods are purchased for resale by a company:",
+                options: [
+                    "purchases on account are debited to Purchases.",
+                    "purchases on account are debited to Inventory.",
+                    "purchase returns are debited to Purchase Returns and Allowances.",
+                    "freight-out costs are debited to Inventory."
+                ],
+                answer: 0,
+                explanation: "Under a periodic inventory system, when a company purchases goods for resale, purchases on account are debited to the Purchases account, not (b) Inventory or (c) Purchase Returns and Allowances. Choice (d) is incorrect because freight-out costs are debited to the Freight-Out account, not the Inventory account."
+            },
+            {
+                lo: "LO 2",
+                text: "Under a perpetual inventory system, when goods are purchased for resale by a company:",
+                options: [
+                    "purchases on account are debited to Inventory.",
+                    "purchases on account are debited to Purchases.",
+                    "purchase returns are debited to Purchase Returns and Allowances.",
+                    "freight costs are debited to Freight-Out."
+                ],
+                answer: 0,
+                explanation: "Under a perpetual inventory system, when a company purchases goods for resale, purchases on account are debited to the Inventory account, not (b) Purchases or (c) Purchase Returns and Allowances. Choice (d) is incorrect because freight costs are also debited to the Inventory account, not the Freight-Out account."
+            },
+            {
+                lo: "LO 3",
+                text: "The sales accounts that normally have a debit balance are:",
+                options: [
+                    "Sales Discounts.",
+                    "Sales Returns and Allowances.",
+                    "Both Sales Discounts and Sales Returns and Allowances.",
+                    "Neither Sales Discounts nor Sales Returns and Allowances."
+                ],
+                answer: 2,
+                explanation: "Both Sales Discounts and Sales Returns and Allowances normally have a debit balance. Choices (a) and (b) are both correct, but (c) is the better answer. Choice (d) is incorrect as both (a) and (b) are correct."
+            },
+            {
+                lo: "LO 3",
+                text: "A credit sale of $750 is made on June 13, terms 2/10, net/30. A return of $50 is granted on June 16. The amount received as payment in full on June 23 is:",
+                options: [
+                    "$700.",
+                    "$686.",
+                    "$685.",
+                    "$650."
+                ],
+                answer: 1,
+                explanation: "The full amount of $686 is paid within 10 days of the purchase {($750 - $50) - [($750 - $50) * 2%]}. The other choices are incorrect because (a) does not consider the discount of $14; (c) the amount of the discount is based upon the amount after the return is granted ($700 * 2%), not the amount before the return of merchandise ($750 * 2%); and (d) does not constitute payment in full on June 23."
+            },
+            {
+                lo: "LO 3",
+                text: "Which of the following accounts will normally appear in the ledger of a merchandising company that uses a perpetual inventory system?",
+                options: [
+                    "Purchases.",
+                    "Freight-In.",
+                    "Cost of Goods Sold.",
+                    "Purchase Discounts."
+                ],
+                answer: 2,
+                explanation: "The Cost of Goods Sold account normally appears in the ledger of a merchandising company using a perpetual inventory system. The other choices are incorrect because (a) the Purchases account, (b) the Freight-In account, and (d) the Purchase Discounts account all appear in the ledger of a merchandising company that uses a periodic inventory system."
+            },
+            {
+                lo: "LO 4",
+                text: "Which of the following accounts will normally not affect the computation of cost of goods sold in a periodic inventory system?",
+                options: [
+                    "Purchases.",
+                    "Freight-In.",
+                    "Freight-Out.",
+                    "Purchase Discounts."
+                ],
+                answer: 2,
+                explanation: "The cost of goods sold computation includes (a) the Purchases account, (b) the Freight-In account, and (d) the Purchase Discounts account. Choice (c) is incorrect because freight-out does not affect the computation of cost of goods sold but is a selling expense."
+            },
+            {
+                lo: "LO 4",
+                text: "In determining cost of goods sold in a periodic system:",
+                options: [
+                    "purchase discounts are deducted from net purchases.",
+                    "freight-out is added to net purchases.",
+                    "purchase returns and allowances are deducted from net purchases.",
+                    "freight-in is added to net purchases."
+                ],
+                answer: 3,
+                explanation: "In determining cost of goods sold in a periodic system, freight-in is added to net purchases. The other choices are incorrect because (a) purchase discounts are deducted from purchases, not net purchases; (b) freight-out is a cost of sales, not a cost of purchases; and (c) purchase returns and allowances are deducted from purchases, not net purchases."
+            },
+            {
+                lo: "LO 4",
+                text: "The steps in the accounting cycle for a merchandising company are the same as those in a service company except:",
+                options: [
+                    "an additional adjusting journal entry for inventory may be needed in a merchandising company.",
+                    "closing journal entries are not required for a merchandising company.",
+                    "a post-closing trial balance is not required for a merchandising company.",
+                    "a multiple-step income statement is required for a merchandising company."
+                ],
+                answer: 0,
+                explanation: "An additional adjusting journal entry for inventory may be needed in a merchandising company to adjust for a physical inventory count, but it is not needed for a service company. The other choices are incorrect because (b) closing journal entries and (c) a post-closing trial balance are required for both types of companies. Choice (d) is incorrect because while a multiple-step income statement is not required for a merchandising company, it is useful to distinguish income generated from operating the business versus income or loss from non-recurring, nonoperating items."
+            },
+            {
+                lo: "LO 4",
+                text: "If beginning inventory is $60,000, cost of goods purchased is $380,000, and ending inventory is $50,000, cost of goods sold is:",
+                options: [
+                    "$390,000.",
+                    "$370,000.",
+                    "$330,000.",
+                    "$420,000."
+                ],
+                answer: 0,
+                explanation: "Beginning inventory ($60,000) + Cost of goods purchased ($380,000) - Ending inventory ($50,000) = Cost of goods sold ($390,000), not (b) $370,000, (c) $330,000, or (d) $420,000."
+            },
+            {
+                lo: "LO 5",
+                text: "If sales revenues are $400,000, cost of goods sold is $310,000, and operating expenses are $60,000, the gross profit is:",
+                options: [
+                    "$30,000.",
+                    "$90,000.",
+                    "$340,000.",
+                    "$400,000."
+                ],
+                answer: 1,
+                explanation: "Gross profit = Sales revenue ($400,000) - Cost of goods sold ($310,000) = $90,000, not (a) $30,000, (c) $340,000, or (d) $400,000."
+            },
+            {
+                lo: "LO 5",
+                text: "If net sales are $400,000, cost of goods sold is $310,000, and operating expenses are $60,000, the gross profit is:",
+                options: [
+                    "$30,000.",
+                    "$90,000.",
+                    "$340,000.",
+                    "$400,000."
+                ],
+                answer: 1,
+                explanation: "Gross profit = Net sales ($400,000) - Cost of goods sold ($310,000) = $90,000, not (a) $30,000, (c) $340,000, or (d) $400,000."
+            },
+            {
+                lo: "LO 5",
+                text: "A single-step income statement:",
+                options: [
+                    "reports gross profit.",
+                    "does not report cost of goods sold.",
+                    "reports sales revenues and 'Other revenues and gains' in the revenues section of the income statement.",
+                    "reports operating income separately."
+                ],
+                answer: 2,
+                explanation: "Both sales revenue and 'Other revenues and gains' are reported in the revenues section of a single-step income statement. The other choices are incorrect because (a) gross profit is not reported on a single-step income statement, (b) cost of goods sold is included in the expenses section of a single-step income statement, and (d) income from operations is not shown separately on a single-step income statement."
+            },
+            {
+                lo: "LO 5",
+                text: "Which of the following appears on both a single-step and a multiple-step income statement?",
+                options: [
+                    "Inventory.",
+                    "Gross profit.",
+                    "Income from operations.",
+                    "Cost of goods sold."
+                ],
+                answer: 3,
+                explanation: "Cost of goods sold appears on both a single-step and a multiple-step income statement. The other choices are incorrect because (a) inventory does not appear on either a single-step or a multiple-step income statement and (b) gross profit and (c) income from operations appear on a multiple-step income statement but not on a single-step income statement."
+            },
+            {
+                lo: "LO 5",
+                text: "The multiple-step income statement for a merchandising company shows each of the following features except:",
+                options: [
+                    "gross profit.",
+                    "cost of goods sold.",
+                    "a sales section.",
+                    "an investing activities section."
+                ],
+                answer: 3,
+                explanation: "An investing activities section appears on the statement of cash flows, not on a multiple-step income statement. Choices (a) gross profit, (b) cost of goods sold, and (c) a sales section are all features of a multiple-step income statement."
+            },
+            {
+                lo: "LO 6",
+                text: "In a worksheet using a periodic inventory system, Inventory is shown in the following columns:",
+                options: [
+                    "adjusted trial balance debit, income statement debit and credit, and balance sheet debit.",
+                    "income statement debit and credit, and balance sheet debit.",
+                    "income statement credit and balance sheet debit.",
+                    "income statement debit and credit, and adjusted trial balance debit."
+                ],
+                answer: 0,
+                explanation: "In a worksheet using a periodic inventory system, inventory is shown in the adjusted trial balance debit column, the income statement debit and credit columns, and balance sheet debit column. The other choices are therefore incorrect."
+            },
+            {
+                lo: "LO 6",
+                text: "In a worksheet using a perpetual inventory system, Inventory is shown in the following columns:",
+                options: [
+                    "adjusted trial balance debit and balance sheet debit.",
+                    "income statement debit and balance sheet debit.",
+                    "income statement credit and balance sheet debit.",
+                    "income statement credit and adjusted trial balance debit."
+                ],
+                answer: 0,
+                explanation: "In a worksheet using a perpetual inventory system, inventory is shown in the adjusted trial balance debit column and in the balance sheet debit column. The other choices are incorrect because the Inventory account is not shown in the income statement columns."
+            },
+            {
+                lo: "LO 7",
+                text: "To record the sale of goods for cash in a perpetual inventory system:",
+                options: [
+                    "only one journal entry is necessary to record cost of goods sold and reduction of inventory.",
+                    "only one journal entry is necessary to record the receipt of cash and the sales revenue.",
+                    "two journal entries are necessary: one to record the receipt of cash and sales revenue, and one to record the cost of goods sold and reduction of inventory.",
+                    "two journal entries are necessary: one to record the receipt of cash and reduction of inventory, and one to record the cost of goods sold and sales revenue."
+                ],
+                answer: 2,
+                explanation: "Two journal entries are necessary: one to record the receipt of cash and sales revenue, and one to record the cost of goods sold and reduction of inventory. The other choices are incorrect because (a) only considers the recognition of the expense and ignores the revenue, (b) only considers the recognition of revenue and leaves out the expense or cost of merchandise sold, and (d) the receipt of cash and sales revenue, not reduction of inventory, are paired together, and the cost of goods sold and reduction of inventory, not sales revenue, are paired together."
+            },
+            {
+                lo: "LO 7",
+                text: "When goods are purchased for resale by a company using a perpetual inventory system:",
+                options: [
+                    "purchases on account are debited to Purchases.",
+                    "purchases on account are debited to Inventory.",
+                    "purchase returns are debited to Purchase Returns and Allowances.",
+                    "freight-out costs are debited to Inventory."
+                ],
+                answer: 1,
+                explanation: "Purchases for resale are debited to the Inventory account. The other choices are incorrect because (a) purchases on account are debited to Inventory, not Purchases; (c) Purchase Returns and Allowances are always credited and the account is not used in a perpetual system; and (d) freight-out costs are not debited to Inventory."
+            },
+            {
+                lo: "LO 7",
+                text: "When goods are purchased for resale by a company using a periodic inventory system:",
+                options: [
+                    "purchases on account are debited to Inventory.",
+                    "purchases on account are debited to Purchases.",
+                    "purchase returns are debited to Purchase Returns and Allowances.",
+                    "freight costs are debited to Purchases."
+                ],
+                answer: 1,
+                explanation: "Purchases for resale are debited to the Purchases account. The other choices are incorrect because (a) purchases on account are debited to Purchases, not Inventory; (c) Purchase Returns and Allowances are always credited; and (d) freight costs are debited to Freight-In, not Purchases."
+            }
+        ]
+    },
+    6: {
+        title: "Chapter 6",
+        questions: [
+            {
+                lo: "LO 1",
+                text: "When is a physical inventory usually taken?",
+                options: [
+                    "When the company has its greatest amount of inventory.",
+                    "When a limited number of goods are being sold or received.",
+                    "At the end of the company's fiscal year.",
+                    "Both when a limited number of goods are being sold or received, and at the end of the company's fiscal year."
+                ],
+                answer: 3,
+                explanation: "A physical inventory is usually taken when a limited number of goods are being sold or received, and at the end of the company's fiscal year. Choice (a) is incorrect because a physical inventory count is usually taken when the company has the least, not greatest, amount of inventory. Choices (b) and (c) are correct, but (d) is the better answer."
+            },
+            {
+                lo: "LO 1",
+                text: "Which of the following should not be included in the physical inventory of a company?",
+                options: [
+                    "Goods held on consignment from another company.",
+                    "Goods shipped on consignment to another company.",
+                    "Goods in transit from another company shipped FOB shipping point.",
+                    "None of the answer choices is correct."
+                ],
+                answer: 0,
+                explanation: "Goods held on consignment should not be included because another company has title (ownership) to the goods. The other choices are incorrect because (b) goods shipped on consignment to another company and (c) goods in transit from another company shipped FOB shipping point should be included in a company's ending inventory. Choice (d) is incorrect because (a) is not included in the physical inventory."
+            },
+            {
+                lo: "LO 1",
+                text: "As a result of a thorough physical inventory, Railway Company determined that it had inventory of $180,000 at December 31, 2022. This count did not take into consideration the following facts: Rogers Consignment Store currently has goods worth $35,000 on its sales floor that belong to Railway but are being sold on consignment by Rogers. The selling price of these goods is $50,000. Railway purchased $13,000 of goods that were shipped on December 27, FOB destination, that will be received by Railway on January 3. Determine the correct amount of inventory that Railway should report.",
+                options: [
+                    "$230,000.",
+                    "$215,000.",
+                    "$228,000.",
+                    "$193,000."
+                ],
+                answer: 1,
+                explanation: "The inventory held on consignment by Rogers should be included in Railway's inventory balance at cost ($35,000). The purchased goods of $13,000 should not be included in inventory until January 3 because the goods are shipped FOB destination. Therefore, the correct amount of inventory is $215,000 ($180,000 + $35,000), not (a) $230,000, (c) $228,000, or (d) $193,000."
+            },
+            {
+                lo: "LO 2",
+                text: "Cost of goods available for sale consists of two elements: beginning inventory and:",
+                options: [
+                    "ending inventory.",
+                    "cost of goods purchased.",
+                    "cost of goods sold.",
+                    "All of the answer choices are correct."
+                ],
+                answer: 1,
+                explanation: "Cost of goods available for sale consists of beginning inventory and cost of goods purchased, not (a) ending inventory or (c) cost of goods sold. Therefore, choice (d) is also incorrect."
+            },
+            {
+                lo: "LO 2",
+                text: "Kam Company has the following:\n\n* Inventory, Jan. 1: 8,000 units @ $11\n* Purchase, June 19: 13,000 units @ $12\n* Purchase, Nov. 8: 5,000 units @ $13\n\nIf 9,000 units are on hand at December 31, the cost of the ending inventory under FIFO is:",
+                options: [
+                    "$99,000.",
+                    "$108,000.",
+                    "$113,000.",
+                    "$117,000."
+                ],
+                answer: 2,
+                explanation: "Under FIFO, ending inventory will consist of 5,000 units from the Nov. 8 purchase and 4,000 units from the June 19 purchase. Therefore, ending inventory is (5,000 * $13) + (4,000 * $12) = $113,000, not (a) $99,000, (b) $108,000, or (d) $117,000."
+            },
+            {
+                lo: "LO 2",
+                text: "Kam Company has the following:\n\n* Inventory, Jan. 1: 8,000 units @ $11\n* Purchase, June 19: 13,000 units @ $12\n* Purchase, Nov. 8: 5,000 units @ $13\n\nIf 9,000 units are on hand, the cost of the ending inventory under LIFO is:",
+                options: [
+                    "$113,000.",
+                    "$108,000.",
+                    "$99,000.",
+                    "$100,000."
+                ],
+                answer: 3,
+                explanation: "Under LIFO, ending inventory will consist of 8,000 units from the inventory at Jan. 1 and 1,000 units from the June 19 purchase. Therefore, ending inventory is (8,000 * $11) + (1,000 * $12) = $100,000, not (a) $113,000, (b) $108,000, or (c) $99,000."
+            },
+            {
+                lo: "LO 2",
+                text: "Poppins Company has the following:\n\n* Inventory, Jan. 1: 8,000 units @ $11\n* Purchase, June 19: 13,000 units @ $12\n* Purchase, Nov. 8: 5,000 units @ $13\n\nIf Poppins sold 17,000 units on September 10, the cost of the ending inventory under FIFO at December 31 is:",
+                options: [
+                    "$99,000.",
+                    "$109,000.",
+                    "$113,000.",
+                    "$117,000."
+                ],
+                answer: 2,
+                explanation: "Under FIFO, ending inventory will consist of 5,000 units from the Nov. 8 purchase and 4,000 units from the June 19 purchase. Therefore, ending inventory is (5,000 * $13) + (4,000 * $12) = $113,000, not (a) $99,000, (b) $109,000, or (d) $117,000."
+            },
+            {
+                lo: "LO 2",
+                text: "Using the data in the question above (Poppins Company), the cost of the ending inventory under LIFO is:",
+                options: [
+                    "$113,000.",
+                    "$109,000.",
+                    "$99,000.",
+                    "$100,000."
+                ],
+                answer: 1,
+                explanation: "Under LIFO, ending inventory will consist of 4,000 units from the inventory on January 1 and 5,000 units from the November 8 purchase. Therefore, ending inventory is (4,000 * $11) + (5,000 * $13) = $109,000, not (a) $113,000, (c) $99,000, or (d) $100,000."
+            },
+            {
+                lo: "LO 2",
+                text: "Davidson Electronics has the following:\n\n* Inventory, Jan. 1: 5,000 units @ $8\n* Purchase, April 2: 15,000 units @ $10\n* Purchase, Aug. 28: 20,000 units @ $12\n\nIf Davidson has 7,000 units on hand at December 31, the cost of ending inventory under the average-cost method is:",
+                options: [
+                    "$84,000.",
+                    "$70,000.",
+                    "$56,000.",
+                    "$75,250."
+                ],
+                answer: 3,
+                explanation: "Under the average-cost method, total cost of goods available for sale needs to be calculated in order to determine the weighted-average unit cost. The total cost of goods available is $430,000 = (5,000 * $8) + (15,000 * $10) + (20,000 * $12). The weighted-average unit cost = ($430,000 / 40,000 total units available for sale) = $10.75. Therefore, ending inventory is ($10.75 * 7,000) = $75,250, not (a) $84,000, (b) $70,000, or (c) $56,000."
+            },
+            {
+                lo: "LO 2",
+                text: "Hansel Electronics has the following:\n\n* Inventory, Jan. 1: 5,000 units @ $8\n* Purchase, April 2: 15,000 units @ $10\n* Purchase, Aug. 28: 20,000 units @ $12\n\nIf Hansel sold 16,000 units on May 10, the cost of ending inventory under the moving-average method at August 31 is:",
+                options: [
+                    "$240,000.",
+                    "$190,000.",
+                    "$278,000.",
+                    "$122,000."
+                ],
+                answer: 2,
+                explanation: "Under the moving-average method, the cost of the beginning inventory of $40,000 (5,000 * $8) plus the cost of the purchase on April 2 of $150,000 (15,000 * $10) equals $190,000 ($40,000 + $150,000). The average cost of the beginning inventory plus the cost of purchases is therefore $9.50 ($190,000 / 20,000). After the sale on May 10, 4,000 units remain (5,000 + 15,000 - 16,000) at an average cost per unit of $9.50. The purchase of 20,000 units at a cost of $240,000 (20,000 * $12) is then added to the cost of the 4,000 units of $38,000 (4,000 * $9.50) to arrive at the inventory cost of $278,000, not (a) $240,000, (b) $190,000, or (d) $122,000."
+            },
+            {
+                lo: "LO 2",
+                text: "In periods of rising costs, LIFO will produce:",
+                options: [
+                    "higher net income than FIFO.",
+                    "the same net income as FIFO.",
+                    "lower net income than FIFO.",
+                    "higher net income than average-cost."
+                ],
+                answer: 2,
+                explanation: "In periods of rising costs, LIFO will produce lower net income than FIFO, not (a) higher than FIFO or (b) the same as FIFO. Choice (d) is incorrect because in periods of rising costs, LIFO will produce lower net income than average-cost. LIFO therefore charges the highest inventory cost against revenues in a period of rising costs."
+            },
+            {
+                lo: "LO 2",
+                text: "Considerations that affect the selection of an inventory costing method do not include:",
+                options: [
+                    "tax effects.",
+                    "balance sheet effects.",
+                    "income statement effects.",
+                    "perpetual vs. periodic inventory system."
+                ],
+                answer: 3,
+                explanation: "Perpetual vs. periodic inventory system is not one of the factors that affect the selection of an inventory costing method. The other choices are incorrect because (a) tax effects, (b) balance sheet effects, and (c) income statement effects all affect the selection of an inventory costing method."
+            },
+            {
+                lo: "LO 3",
+                text: "Fran Company's ending inventory is understated $4,000. The effects of this error on the current year's cost of goods sold and net income, respectively, are:",
+                options: [
+                    "understated, overstated.",
+                    "overstated, understated.",
+                    "overstated, overstated.",
+                    "understated, understated."
+                ],
+                answer: 1,
+                explanation: "Because ending inventory is too low, cost of goods sold will be too high (overstated) and since cost of goods sold (an expense) is too high, net income will be too low (understated). Therefore, the other choices are incorrect."
+            },
+            {
+                lo: "LO 3",
+                text: "Harold Company overstated its ending inventory by $15,000 at December 31, 2021. It did not correct the error in 2021 or 2022. As a result, Harold's owner's equity was:",
+                options: [
+                    "overstated at December 31, 2021, and understated at December 31, 2022.",
+                    "overstated at December 31, 2021, and properly stated at December 31, 2022.",
+                    "understated at December 31, 2021, and understated at December 31, 2022.",
+                    "overstated at December 31, 2021, and overstated at December 31, 2022."
+                ],
+                answer: 1,
+                explanation: "Owner's equity is overstated by $15,000 at December 31, 2021, and is properly stated at December 31, 2022. An ending inventory error in one period will have an equal and opposite effect on cost of goods sold and net income in the next period; after two years, the errors have offset each other. The other choices are incorrect because owner's equity (a) is properly stated, not understated, at December 31, 2022; (c) is overstated, not understated, by $15,000 at December 31, 2021, and is properly stated, not understated, at December 31, 2022; and (d) is properly stated at December 31, 2022, not overstated."
+            },
+            {
+                lo: "LO 4",
+                text: "The lower-of-cost-or-net realizable value rule for inventory is an example of the application of:",
+                options: [
+                    "the conservatism convention.",
+                    "the historical cost principle.",
+                    "the materiality concept.",
+                    "the economic entity assumption."
+                ],
+                answer: 0,
+                explanation: "Conservatism means to use the lowest value for assets and revenues when in doubt. The other choices are incorrect because (b) historical cost means that companies value assets at the original cost, (c) materiality means that an amount is large enough to affect a decision-maker, and (d) economic entity means to keep the company's transactions separate from the transactions of other entities."
+            },
+            {
+                lo: "LO 4",
+                text: "Norton Company purchased 1,000 widgets and has 200 widgets in its ending inventory at a cost of $91 each and a net realizable value of $80 each. The ending inventory under lower-of-cost-or-net realizable value is:",
+                options: [
+                    "$91,000.",
+                    "$80,000.",
+                    "$18,200.",
+                    "$16,000."
+                ],
+                answer: 3,
+                explanation: "Under the LCNRV basis, inventory is reported at lower-of-cost-or-net realizable value. Therefore, ending inventory would be valued at 200 widgets * $80 each = $16,000, not (a) $91,000, (b) $80,000, or (c) $18,200."
+            },
+            {
+                lo: "LO 4",
+                text: "Carlos Company had beginning inventory of $80,000, ending inventory of $110,000, cost of goods sold of $285,000, and sales of $475,000. Carlos's days in inventory is:",
+                options: [
+                    "73 days.",
+                    "121.7 days.",
+                    "102.5 days.",
+                    "84.5 days."
+                ],
+                answer: 1,
+                explanation: "Carlos's days in inventory = 365 / Inventory turnover = 365 / {$285,000 / [($80,000 + $110,000) / 2]} = 121.7 days, not (a) 73 days, (c) 102.5 days, or (d) 84.5 days."
+            },
+            {
+                lo: "LO 4",
+                text: "Which of these would cause the inventory turnover to increase the most?",
+                options: [
+                    "Increasing the amount of inventory on hand.",
+                    "Keeping the amount of inventory on hand constant but increasing sales.",
+                    "Keeping the amount of inventory on hand constant but decreasing sales.",
+                    "Decreasing the amount of inventory on hand and increasing sales."
+                ],
+                answer: 3,
+                explanation: "Decreasing the amount of inventory on hand will cause the denominator to decrease, causing inventory turnover to increase. Increasing sales will cause the numerator of the ratio to increase (higher sales means higher COGS), thus causing inventory turnover to increase even more. The other choices are incorrect because (a) increasing the amount of inventory on hand causes the denominator of the ratio to increase while the numerator stays the same, causing inventory turnover to decrease; (b) keeping the amount of inventory on hand constant but increasing sales will cause inventory turnover to increase because the numerator of the ratio will increase (higher sales means higher COGS) while the denominator stays the same, which will result in a lesser inventory increase than decreasing amount of inventory on hand and increasing sales; and (c) keeping the amount of inventory on hand constant but decreasing sales will cause inventory turnover to decrease because the numerator of the ratio will decrease (lower sales means lower COGS) while the denominator stays the same."
+            },
+            {
+                lo: "LO 5",
+                text: "In a perpetual inventory system:",
+                options: [
+                    "LIFO cost of goods sold will be the same as in a periodic inventory system.",
+                    "average costs are a simple average of unit costs incurred.",
+                    "a new average is computed under the average-cost method after each sale.",
+                    "FIFO cost of goods sold will be the same as in a periodic inventory system."
+                ],
+                answer: 3,
+                explanation: "FIFO cost of goods sold is the same under both a periodic and a perpetual inventory system. The other choices are incorrect because (a) LIFO cost of goods sold is not the same under a periodic and a perpetual inventory system; (b) average costs are based on a moving average of unit costs, not an average of unit costs; and (c) a new average is computed under the average-cost method after each purchase, not sale."
+            },
+            {
+                lo: "LO 5",
+                text: "In a periodic inventory system:",
+                options: [
+                    "LIFO cost of goods sold will be the same as in a perpetual inventory system.",
+                    "average costs are a simple average of unit costs incurred.",
+                    "a new average is computed under the average-cost method after each sale.",
+                    "FIFO cost of goods sold will be the same as in a perpetual inventory system."
+                ],
+                answer: 3,
+                explanation: "FIFO cost of goods sold is the same under both a periodic and a perpetual inventory system. The other choices are incorrect because (a) LIFO cost of goods sold is not the same under a periodic and a perpetual inventory system; (b) average costs are based on a weighted average of unit costs, not an average of unit costs; and (c) a weighted-average cost is calculated for the entire period and does not change after each sale during the period."
+            },
+            {
+                lo: "LO 6",
+                text: "King Company has sales of $150,000 and cost of goods available for sale of $135,000. If the gross profit rate is 30%, the estimated cost of the ending inventory under the gross profit method is:",
+                options: [
+                    "$15,000.",
+                    "$30,000.",
+                    "$45,000.",
+                    "$75,000."
+                ],
+                answer: 1,
+                explanation: "COGS = Sales ($150,000) - Gross profit ($150,000 * 30%) = $105,000. Ending inventory = Cost of goods available for sale ($135,000) - COGS ($105,000) = $30,000, not (a) $15,000, (c) $45,000, or (d) $75,000."
+            }
+        ]
+    },
+    7: {
+        title: "Chapter 7",
+        questions: [
+            {
+                lo: "LO 1",
+                text: "The basic principles of an accounting information system include all of the following except:",
+                options: [
+                    "cost-effectiveness.",
+                    "flexibility.",
+                    "useful output.",
+                    "periodicity."
+                ],
+                answer: 3,
+                explanation: "Periodicity is not one of the basic principles of accounting information systems. The other choices are true statements."
+            },
+            {
+                lo: "LO 1",
+                text: "Which of the following is not an advantage of computerized accounting systems?",
+                options: [
+                    "Data is entered only once in computerized accounting systems.",
+                    "Computerized accounting systems provide up-to-date information.",
+                    "Computerized accounting systems eliminate entering of transaction information.",
+                    "Computerized accounting systems eliminate many errors resulting from human intervention."
+                ],
+                answer: 2,
+                explanation: "Computerized accounting systems do not eliminate the entering of transaction information. The other choices are advantages of computerized accounting systems."
+            },
+            {
+                lo: "LO 2",
+                text: "Which of the following is incorrect concerning subsidiary ledgers?",
+                options: [
+                    "The purchases ledger is a common subsidiary ledger for creditor accounts.",
+                    "The accounts receivable ledger is a subsidiary ledger.",
+                    "A subsidiary ledger is a group of accounts with a common characteristic.",
+                    "An advantage of the subsidiary ledger is that it permits a division of labor in posting."
+                ],
+                answer: 0,
+                explanation: "The accounts payable ledger, not the purchases ledger, is a common subsidiary ledger for creditor accounts. The other choices are true statements."
+            },
+            {
+                lo: "LO 2",
+                text: "Two common subsidiary ledgers are:",
+                options: [
+                    "accounts receivable and cash receipts.",
+                    "accounts payable and cash payments.",
+                    "accounts receivable and accounts payable.",
+                    "sales and cost of goods sold."
+                ],
+                answer: 2,
+                explanation: "Accounts receivable and accounts payable are two common subsidiary ledgers. The other choices are incorrect because (a) cash receipts, (b) cash payments, and (d) sales revenue and cost of goods sold are not subsidiary ledgers."
+            },
+            {
+                lo: "LO 2",
+                text: "At the beginning of the month, the accounts receivable subsidiary ledger showed balances for Apple Company $5,000 and Berry Company $7,000. During the month, credit sales were made to Apple $6,000, Berry $4,500, and Cantaloupe $8,500. Cash was collected on account from Berry $11,500 and Cantaloupe $3,000. At the end of the month, the control account Accounts Receivable in the general ledger should have a balance of:",
+                options: [
+                    "$11,000.",
+                    "$12,000.",
+                    "$16,500.",
+                    "$31,000."
+                ],
+                answer: 2,
+                explanation: "The accounts receivable subsidiary ledger balances are the following: Apple Company $11,000 (beginning balance $5,000 + credit sales $6,000), Berry Company $0 (beginning balance $7,000 + credit sales $4,500 - cash collected on account $11,500), and Cantaloupe $5,500 (credit sales $8,500 - cash collected on account $3,000). The Accounts Receivable control account in the general ledger therefore has a balance of $16,500 ($11,000 + $0 + $5,500), not (a) $11,000, (b) $12,000, or (d) $31,000."
+            },
+            {
+                lo: "LO 3",
+                text: "A sales journal will be used for:",
+                options: [
+                    "Credit Sales: No | Cash Sales: Yes | Sales Discounts: Yes",
+                    "Credit Sales: Yes | Cash Sales: No | Sales Discounts: Yes",
+                    "Credit Sales: Yes | Cash Sales: No | Sales Discounts: No",
+                    "Credit Sales: Yes | Cash Sales: Yes | Sales Discounts: No"
+                ],
+                answer: 2,
+                explanation: "The sales journal is used for credit sales. The cash receipts journal is used for cash sales and sales discounts. Therefore, choices (a), (b), and (d) are incorrect."
+            },
+            {
+                lo: "LO 3",
+                text: "A purchase of equipment on account is recorded in the:",
+                options: [
+                    "cash receipts journal.",
+                    "purchases journal.",
+                    "cash payments journal.",
+                    "general journal."
+                ],
+                answer: 3,
+                explanation: "Unless the company uses a multi-column purchases journal, the general journal is used to record the purchase of equipment on account. The other choices are incorrect because (a) the cash receipts journal would be used only if cash is received, (b) a one-column purchases journal cannot be used to record a purchase of equipment on account, and (c) the cash payments journal would be used only if this is a cash purchase."
+            },
+            {
+                lo: "LO 3",
+                text: "A purchase of equipment using cash is recorded in the:",
+                options: [
+                    "cash receipts journal.",
+                    "purchases journal.",
+                    "cash payments journal.",
+                    "general journal."
+                ],
+                answer: 2,
+                explanation: "The cash payments journal includes all cash paid, including all cash purchases. The other choices are incorrect because (a) the cash receipts journal includes all cash received, including cash sales, not cash purchases; (b) the purchases journal includes only purchases of inventory on account, not cash purchases; and (d) the general journal is only used if a transaction cannot be entered in a special journal. In this case, this transaction can be entered into the cash payments journal."
+            },
+            {
+                lo: "LO 3",
+                text: "Which of the following statements is correct?",
+                options: [
+                    "The sales discount column is included in the cash receipts journal.",
+                    "The purchases journal records all purchases of merchandise whether for cash or on account.",
+                    "The cash receipts journal records sales on account.",
+                    "Merchandise returned by the buyer is recorded by the seller in the purchases journal."
+                ],
+                answer: 0,
+                explanation: "The sales discount column is included in the cash receipts journal. The other choices are incorrect because (b) the purchases journal only records purchases of inventory on account, not for cash; (c) the sales journal, not the cash receipts journal, records sales on account; and (d) when merchandise is returned by a buyer, the seller records this sales return in the general journal."
+            },
+            {
+                lo: "LO 3",
+                text: "Dotel Company's cash receipts journal includes an Accounts Receivable column and an Other Accounts column. At the end of the month, these columns are posted to the general ledger as:",
+                options: [
+                    "Accounts Receivable: column total | Other Accounts: column total",
+                    "Accounts Receivable: individual amounts | Other Accounts: column total",
+                    "Accounts Receivable: individual amounts | Other Accounts: individual amounts",
+                    "Accounts Receivable: column total | Other Accounts: individual amounts"
+                ],
+                answer: 3,
+                explanation: "The Accounts Receivable column would be posted to the general ledger as a column total, and the Other Accounts column would be posted as individual amounts. Therefore, the other choices are incorrect."
+            },
+            {
+                lo: "LO 3",
+                text: "Which of the following is incorrect concerning the posting of the cash receipts journal?",
+                options: [
+                    "The total of the Other Accounts column is not posted.",
+                    "All column totals except the total for the Other Accounts column are posted once at the end of the month to the account title(s) specified in the column heading.",
+                    "The totals of all columns are posted daily to the accounts specified in the column heading.",
+                    "The individual amounts in a column posted in total to a control account are posted daily to the subsidiary ledger account specified in the Account Credited column."
+                ],
+                answer: 2,
+                explanation: "The totals of all columns are not posted daily to the accounts specified in the column heading. Instead, all column totals except the total for the Other Accounts column (which is never posted) are posted once at the end of the month to the account title(s) specified in the column heading. The other choices are true statements."
+            },
+            {
+                lo: "LO 3",
+                text: "Postings from the purchases journal to the subsidiary ledger are generally made:",
+                options: [
+                    "yearly.",
+                    "monthly.",
+                    "weekly.",
+                    "daily."
+                ],
+                answer: 3,
+                explanation: "Postings from the purchases journal to the subsidiary ledger are usually made daily, not (a) yearly, (b) monthly, or (c) weekly."
+            },
+            {
+                lo: "LO 3",
+                text: "Which statement is incorrect regarding the general journal?",
+                options: [
+                    "Only transactions that cannot be entered in a special journal are recorded in the general journal.",
+                    "Dual postings are always required in the general journal.",
+                    "The general journal may be used to record acceptance of a note receivable in payment of an account receivable.",
+                    "Correcting, adjusting, and closing entries are made in the general journal."
+                ],
+                answer: 1,
+                explanation: "Dual postings are not always required in the general journal. Only when control and subsidiary accounts are involved are companies required to dual post: once to the control account and once to the subsidiary account. The other choices are true statements."
+            },
+            {
+                lo: "LO 3",
+                text: "When companies use special journals:",
+                options: [
+                    "they record all purchase transactions in the purchases journal.",
+                    "they record all cash received, except from cash sales, in the cash receipts journal.",
+                    "they record all cash disbursements in the cash payments journal.",
+                    "a general journal is not necessary."
+                ],
+                answer: 2,
+                explanation: "When special journals are used, companies record all cash disbursements in the cash payments journal. The other choices are incorrect because when special journals are used, (a) companies record only purchases of inventory on account in the purchases journal; (b) companies record all cash receipts, including cash sales, in the cash receipts journal; and (d) a general journal is still needed."
+            },
+            {
+                lo: "LO 3",
+                text: "If a customer returns goods for credit, the selling company normally makes an entry in the:",
+                options: [
+                    "cash payments journal.",
+                    "sales journal.",
+                    "general journal.",
+                    "cash receipts journal."
+                ],
+                answer: 2,
+                explanation: "When a customer returns goods for credit (i.e., no cash is involved), the selling company records the transaction in the general journal, not the (a) cash payments journal, (b) sales journal, or (d) cash receipts journal."
+            }
+        ]
+    },
+    8: {
+        title: "Chapter 8",
+        questions: [
+            {
+                lo: "LO 1",
+                text: "Which of the following is not a factor of the fraud triangle?",
+                options: [
+                    "Rationalization.",
+                    "Financial pressure.",
+                    "Segregation of duties.",
+                    "Opportunity."
+                ],
+                answer: 2,
+                explanation: "Segregation of duties is not a factor of the fraud triangle. The other choices are fraud triangle factors."
+            },
+            {
+                lo: "LO 1",
+                text: "An organization uses internal control to enhance the accuracy and reliability of accounting records and to:",
+                options: [
+                    "safeguard assets.",
+                    "prevent fraud.",
+                    "produce correct financial statements.",
+                    "deter employee dishonesty."
+                ],
+                answer: 0,
+                explanation: "Safeguarding assets is one of the purposes of using internal control. The other choices are incorrect because while internal control can help to (b) prevent fraud, (c) produce correct financial statements, and (d) deter employee dishonesty, these are not the main purposes of using it."
+            },
+            {
+                lo: "LO 1",
+                text: "Which of the following was not a result of the Sarbanes-Oxley Act?",
+                options: [
+                    "Companies must file financial statements with the Internal Revenue Service.",
+                    "All publicly traded companies must maintain adequate internal controls.",
+                    "The Public Company Accounting Oversight Board was created to establish auditing standards and regulate auditor activity.",
+                    "Corporate executives and board of directors must ensure that controls are reliable and effective, and they can be fined or imprisoned for failure to do so."
+                ],
+                answer: 0,
+                explanation: "Filing financial statements with the IRS is not a result of the Sarbanes-Oxley Act (SOX); SOX focuses on the prevention or detection of fraud. The other choices are results of SOX."
+            },
+            {
+                lo: "LO 1",
+                text: "The principles of internal control do not include:",
+                options: [
+                    "establishment of responsibility.",
+                    "documentation procedures.",
+                    "management responsibility.",
+                    "independent internal verification."
+                ],
+                answer: 2,
+                explanation: "Management responsibility is not one of the principles of internal control. The other choices are true statements."
+            },
+            {
+                lo: "LO 1",
+                text: "Physical controls do not include:",
+                options: [
+                    "safes and vaults to store cash.",
+                    "independent bank reconciliations.",
+                    "locked warehouses for inventories.",
+                    "bank safety deposit boxes for important papers."
+                ],
+                answer: 1,
+                explanation: "Independent bank reconciliations are not a physical control. The other choices are true statements."
+            },
+            {
+                lo: "LO 1",
+                text: "Which of the following control activities is not relevant when a company uses a computerized (rather than manual) accounting system?",
+                options: [
+                    "Establishment of responsibility.",
+                    "Segregation of duties.",
+                    "Independent internal verification.",
+                    "All of these control activities are relevant to a computerized system."
+                ],
+                answer: 3,
+                explanation: "Establishment of responsibility, segregation of duties, and independent internal verification are all relevant to a computerized system."
+            },
+            {
+                lo: "LO 2",
+                text: "Permitting only designated personnel to handle cash receipts is an application of the principle of:",
+                options: [
+                    "segregation of duties.",
+                    "establishment of responsibility.",
+                    "independent internal verification.",
+                    "human resource controls."
+                ],
+                answer: 1,
+                explanation: "Permitting only designated personnel to handle cash receipts is an application of the principle of establishment of responsibility, not (a) segregation of duties, (c) independent internal verification, or (d) human resource controls."
+            },
+            {
+                lo: "LO 2",
+                text: "The use of prenumbered checks in disbursing cash is an application of the principle of:",
+                options: [
+                    "establishment of responsibility.",
+                    "segregation of duties.",
+                    "physical controls.",
+                    "documentation procedures."
+                ],
+                answer: 3,
+                explanation: "The use of prenumbered checks in disbursing cash is an application of the principle of documentation procedures, not (a) establishment of responsibility, (b) segregation of duties, or (c) physical controls."
+            },
+            {
+                lo: "LO 2",
+                text: "A company writes a check to replenish a $100 petty cash fund when the fund contains receipts of $94 and $4 in cash. In recording the replenishment, the company should:",
+                options: [
+                    "debit Cash Over and Short for $2.",
+                    "debit Petty Cash for $94.",
+                    "credit Cash for $94.",
+                    "credit Petty Cash for $2."
+                ],
+                answer: 0,
+                explanation: "When the replenishment check is recorded, the company should debit Cash Over and Short for the shortage of $2 (total of the receipts plus cash in the drawer ($98) versus $100), not (b) debit Petty Cash for $94, (c) credit Cash for $94, or (d) credit Petty Cash for $2."
+            },
+            {
+                lo: "LO 3",
+                text: "The control features of a bank account do not include:",
+                options: [
+                    "having bank auditors verify the correctness of the bank balance per books.",
+                    "minimizing the amount of cash that must be kept on hand.",
+                    "providing a double record of all bank transactions.",
+                    "safeguarding cash by using a bank as a depository."
+                ],
+                answer: 0,
+                explanation: "Having bank auditors verify the correctness of the bank balance per books is not one of the control features of a bank account. The other choices are true statements."
+            },
+            {
+                lo: "LO 3",
+                text: "In a bank reconciliation, deposits in transit are:",
+                options: [
+                    "deducted from the book balance.",
+                    "added to the book balance.",
+                    "added to the bank balance.",
+                    "deducted from the bank balance."
+                ],
+                answer: 2,
+                explanation: "Deposits in transit are added to the bank balance on a bank reconciliation, not (a) deducted from the book balance, (b) added to the book balance, or (d) deducted from the bank balance."
+            },
+            {
+                lo: "LO 3",
+                text: "The reconciling item in a bank reconciliation that will result in an adjusting entry by the depositor is:",
+                options: [
+                    "outstanding checks.",
+                    "a bank error.",
+                    "deposit in transit.",
+                    "bank service charges."
+                ],
+                answer: 3,
+                explanation: "Because the depositor does not know the amount of the bank service charges until the bank statement is received, an adjusting entry must be made when the statement is received. The other choices are incorrect because (a) outstanding checks do not require an adjusting entry by the depositor because the checks have already been recorded in the depositor's books, (b) deposits in transit do not require an adjusting entry by the depositor because the deposits have already been recorded in the depositor's books, and (c) bank errors do not require an adjusting entry by the depositor, but the depositor does need to inform the bank of the error so it can be corrected."
+            },
+            {
+                lo: "LO 4",
+                text: "Which of the following items in a cash drawer at November 30 is not cash?",
+                options: [
+                    "Money orders.",
+                    "Coins and currency.",
+                    "An NSF check.",
+                    "A customer check dated November 28."
+                ],
+                answer: 2,
+                explanation: "An NSF check should not be considered cash. The other choices are true statements."
+            },
+            {
+                lo: "LO 4",
+                text: "Which of the following statements correctly describes the reporting of cash?",
+                options: [
+                    "Cash cannot be combined with cash equivalents.",
+                    "Restricted cash funds may be combined with cash.",
+                    "Cash is listed first in the current assets section.",
+                    "Restricted cash funds cannot be reported as a current asset."
+                ],
+                answer: 2,
+                explanation: "Cash is listed first in the current assets section. The other choices are incorrect because (a) cash and cash equivalents can be appropriately combined when reporting cash on the balance sheet, (b) restricted cash is not to be combined with cash when reporting cash on the balance sheet, and (d) restricted funds can be reported as current assets if they will be used within one year."
+            }
+        ]
+    },
+    9: {
+        title: "Chapter 9",
+        questions: [
+            {
+                lo: "LO 1",
+                text: "Receivables are frequently classified as:",
+                options: [
+                    "accounts receivable, company receivables, and other receivables.",
+                    "accounts receivable, notes receivable, and employee receivables.",
+                    "accounts receivable and general receivables.",
+                    "accounts receivable, notes receivable, and other receivables."
+                ],
+                answer: 3,
+                explanation: "Receivables are frequently classified as accounts receivable, notes receivable, and other receivables. The other choices are incorrect because receivables are not frequently classified as (a) company receivables, (b), employee receivables, or (c) general receivables."
+            },
+            {
+                lo: "LO 1",
+                text: "Buehler Company on June 15 sells merchandise on account to Chaz Co. for $1,000, terms 2/10, n/30. On June 20, Chaz Co. returns merchandise worth $300 to Buehler Company. On June 24, payment is received from Chaz Co. for the balance due. What is the amount of cash received?",
+                options: [
+                    "$700.",
+                    "$680.",
+                    "$686.",
+                    "None of the answer choices is correct."
+                ],
+                answer: 2,
+                explanation: "Because payment is received within 10 days of the purchase, the cash received is $686 {[$1,000 - $300] - [($1,000 - $300) * 2%]}. The other choices are incorrect because (a) $700 does not consider the 2% discount; (b) the amount of the discount is based upon the amount after the return is granted ($700 * 2%), not the amount before the return of merchandise ($1,000 * 2%); and (d) there is a correct answer."
+            },
+            {
+                lo: "LO 2",
+                text: "Hughes Company has a credit balance of $5,000 in its Allowance for Doubtful Accounts before any adjustments are made at the end of the year. Based on review and aging of its accounts receivable at the end of the year, Hughes estimates that $60,000 of its receivables are uncollectible. The amount of bad debt expense which should be reported for the year is:",
+                options: [
+                    "$5,000.",
+                    "$55,000.",
+                    "$60,000.",
+                    "$65,000."
+                ],
+                answer: 1,
+                explanation: "By crediting Allowance for Doubtful Accounts for $55,000, the new balance will be the required balance of $60,000. This adjusting entry debits Bad Debt Expense for $55,000 and credits Allowance for Doubtful Accounts for $55,000, not (a) $5,000, (c) $60,000, or (d) $65,000."
+            },
+            {
+                lo: "LO 2",
+                text: "Hughes Company has a debit balance of $5,000 in its Allowance for Doubtful Accounts before any adjustments are made at the end of the year. Based on review and aging of its accounts receivable at the end of the year, Hughes estimates that $60,000 of its receivables are uncollectible. The amount of bad debt expense that should be reported for the year is:",
+                options: [
+                    "$5,000.",
+                    "$55,000.",
+                    "$60,000.",
+                    "$65,000."
+                ],
+                answer: 3,
+                explanation: "By crediting Allowance for Doubtful Accounts for $65,000, the new balance will be the required balance of $60,000. This adjusting entry debits Bad Debt Expense for $65,000 and credits Allowance for Doubtful Accounts for $65,000, not (a) $5,000, (b) $55,000, or (c) $60,000."
+            },
+            {
+                lo: "LO 2",
+                text: "Accounts receivable at the end of the month are $800,000. Bad debts are expected to be 1.5% of accounts receivable. If Allowance for Doubtful Accounts has a credit balance of $1,000 before adjustment, what is the balance after adjustment?",
+                options: [
+                    "$7,000.",
+                    "$11,000.",
+                    "$12,000.",
+                    "$13,000."
+                ],
+                answer: 2,
+                explanation: "Accounts receivable times the percentage expected to default equals $12,000 ($800,000 * 1.5%), which represents the balance in Allowance for Doubtful Accounts after the adjusting entry, not (a) $7,000, (b) $11,000, or (d) $13,000."
+            },
+            {
+                lo: "LO 2",
+                text: "At December 31, 2022, Roso Carlson Company had accounts receivable of $750,000. On January 1, 2022, Allowance for Doubtful Accounts had a credit balance of $18,000. During 2022, $30,000 of uncollectible accounts receivable were written off. Past experience indicates that 3% of accounts receivable become uncollectible. What should be the bad debt expense for 2022?",
+                options: [
+                    "$10,500.",
+                    "$22,500.",
+                    "$30,000.",
+                    "$34,500."
+                ],
+                answer: 3,
+                explanation: "The accounts written off during the year will result in a debit balance in Allowance for Doubtful Accounts of $12,000 ($30,000 - $18,000) at the end of the year. As indicated, 3% of accounts receivable are uncollectible, or $22,500 ($750,000 * 3%). Given a debit balance of $12,000 in Allowance for Doubtful Accounts at the end of the year, the adjusting entry at the end of the year is a debit to Bad Debt Expense of $34,500 ($22,500 + $12,000) and a credit to Allowance for Doubtful Accounts of $34,500 not (a) $10,500, (b) $22,500, or (c) $30,000."
+            },
+            {
+                lo: "LO 2",
+                text: "An analysis and aging of the accounts receivable of Prince Company at December 31 reveals the following data:\n\n* Accounts receivable: $800,000\n* Allowance for doubtful accounts per books before adjustment: $50,000\n* Amounts expected to become uncollectible: $65,000\n\nThe cash realizable value of the accounts receivable at December 31, after adjustment, is:",
+                options: [
+                    "$685,000.",
+                    "$750,000.",
+                    "$800,000.",
+                    "$735,000."
+                ],
+                answer: 3,
+                explanation: "Accounts Receivable less the expected uncollectible amount equals the cash realizable value of $735,000 ($800,000 - $65,000), not (a) $685,000, (b) $750,000, or (c) $800,000."
+            },
+            {
+                lo: "LO 2",
+                text: "Which of the following statements about Visa credit card sales is incorrect?",
+                options: [
+                    "The credit card issuer makes the credit investigation of the customer.",
+                    "The retailer is not involved in the collection process.",
+                    "Two parties are involved.",
+                    "The retailer receives cash more quickly than it would from individual customers on account."
+                ],
+                answer: 2,
+                explanation: "There are three parties, not two, involved in Visa credit card sales: the credit card company, the retailer, and the customer. The other choices are true statements."
+            },
+            {
+                lo: "LO 2",
+                text: "Blinka Retailers accepted $50,000 of Citibank Visa credit card charges for merchandise sold on July 1. Citibank charges 4% for its credit card use. The entry to record this transaction by Blinka Retailers will include a credit to Sales Revenue of $50,000 and a debit(s) to:",
+                options: [
+                    "Cash $48,000 and Service Charge Expense $2,000.",
+                    "Accounts Receivable $48,000 and Service Charge Expense $2,000.",
+                    "Cash $50,000.",
+                    "Accounts Receivable $50,000."
+                ],
+                answer: 0,
+                explanation: "Credit card sales are considered cash sales. Cash is debited $48,000 for the net amount received ($50,000 - $2,000 for credit card use fee), and Service Charge Expense is debited $2,000 for the 4% credit card use fee ($50,000 * 4%). The other choices are therefore incorrect."
+            },
+            {
+                lo: "LO 3",
+                text: "One of the following statements about promissory notes is incorrect. The incorrect statement is:",
+                options: [
+                    "The party making the promise to pay is called the maker.",
+                    "The party to whom payment is to be made is called the payee.",
+                    "A promissory note is not a negotiable instrument.",
+                    "A promissory note is often required from high-risk customers."
+                ],
+                answer: 2,
+                explanation: "A promissory note is a negotiable instrument. The other choices are true statements."
+            },
+            {
+                lo: "LO 3",
+                text: "Foti Co. accepts a $1,000, 3-month, 6% promissory note in settlement of an account with Bartelt Co. The entry to record this transaction is as follows:",
+                options: [
+                    "Debit Notes Receivable $1,015 | Credit Accounts Receivable $1,015",
+                    "Debit Notes Receivable $1,000 | Credit Accounts Receivable $1,000",
+                    "Debit Notes Receivable $1,000 | Credit Sales Revenue $1,000",
+                    "Debit Notes Receivable $1,030 | Credit Accounts Receivable $1,030"
+                ],
+                answer: 1,
+                explanation: "Notes Receivable is recorded at face value ($1,000). No interest on the note is recorded until it is earned. Accounts Receivable is credited because no new sales have been made. The other choices are therefore incorrect."
+            },
+            {
+                lo: "LO 3",
+                text: "Ginter Co. holds Kolar Inc.'s $10,000, 120-day, 9% note. The entry made by Ginter Co. when the note is collected, assuming no interest has been previously accrued, is:",
+                options: [
+                    "Debit Cash $10,300 | Credit Notes Receivable $10,300",
+                    "Debit Cash $10,000 | Credit Notes Receivable $10,000",
+                    "Debit Accounts Receivable $10,300 | Credit Notes Receivable $10,000, Credit Interest Revenue $300",
+                    "Debit Cash $10,300 | Credit Notes Receivable $10,000, Credit Interest Revenue $300"
+                ],
+                answer: 3,
+                explanation: "Cash is debited for its maturity value [$10,000 + interest earned ($10,000 * 120/360 * 9%) = $10,300], Notes Receivable credited for its face value ($10,000), and Interest Revenue credited for the amount of interest earned ($300). The other choices are therefore incorrect."
+            },
+            {
+                lo: "LO 4",
+                text: "Accounts and notes receivable are reported in the current assets section of the balance sheet at:",
+                options: [
+                    "cash (net) realizable value.",
+                    "net book value.",
+                    "lower-of-cost-or-net realizable value.",
+                    "invoice cost."
+                ],
+                answer: 0,
+                explanation: "Accounts Receivable is reported in the current assets section of the balance sheet at the gross amount less the allowance for doubtful accounts, not at (b) net book value, (c) lower-of-cost-or-net realizable value, or (d) invoice cost."
+            },
+            {
+                lo: "LO 4",
+                text: "Oliveras Company had net credit sales during the year of $800,000 and cost of goods sold of $500,000. The balance in accounts receivable at the beginning of the year was $100,000, and the end of the year it was $150,000. What were the accounts receivable turnover and the average collection period in days?",
+                options: [
+                    "4.0 and 91.3 days.",
+                    "5.3 and 68.9 days.",
+                    "6.4 and 57 days.",
+                    "8.0 and 45.6 days."
+                ],
+                answer: 2,
+                explanation: "The accounts receivable turnover is 6.4 [$800,000 / ($100,000 + $150,000) / 2]. The average collection period in days is 57 days (365 / 6.4). The other choices are therefore incorrect."
+            }
+        ]
+    }
+};
+
+/* =================================================================
+   STATE
+================================================================= */
+let activeChapter = 1;
+let answered = {};   // { qIndex: true/false }  for current chapter
+let score  = 0;
+let correct = 0;
+let wrong   = 0;
+let streak  = 0;
+const LETTERS = ['a','b','c','d','e'];
+
+/* =================================================================
+   STARS BG
+================================================================= */
+(function() {
+    const canvas = document.getElementById('stars-canvas');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+        stars = Array.from({ length: 140 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 1.3 + 0.3,
+            a: Math.random(),
+            speed: Math.random() * 0.007 + 0.003
+        }));
+    }
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(s => {
+            s.a += s.speed;
+            const alpha = (Math.sin(s.a) + 1) / 2 * 0.8 + 0.1;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(200,220,255,${alpha})`;
+            ctx.fill();
+        });
+        requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize', resize);
+    resize(); draw();
+})();
+
+/* =================================================================
+   BUILD TABS
+================================================================= */
+function buildTabs() {
+    const container = document.getElementById('chapter-tabs');
+    container.innerHTML = '';
+    for (let ch = 1; ch <= 9; ch++) {
+        const btn = document.createElement('button');
+        btn.className = 'ch-tab' + (ch === activeChapter ? ' active' : '');
+        btn.id = `tab-ch${ch}`;
+        const qCount = chapters[ch] ? chapters[ch].questions.length : 0;
+        btn.innerHTML = `Ch ${ch}${qCount ? `<span class="tab-badge">${qCount}</span>` : ''}`;
+        btn.onclick = () => switchChapter(ch);
+        container.appendChild(btn);
+    }
+}
+
+/* =================================================================
+   SWITCH CHAPTER
+================================================================= */
+function switchChapter(ch) {
+    activeChapter = ch;
+    answered = {};
+    score = 0; correct = 0; wrong = 0; streak = 0;
+    updateHUD();
+    buildTabs();
+    renderQuiz();
+    document.getElementById('ch-summary').classList.remove('show');
+}
+
+/* =================================================================
+   RENDER QUIZ
+================================================================= */
+function renderQuiz() {
+    const area = document.getElementById('quiz-area');
+    const data = chapters[activeChapter];
+
+    if (!data) {
+        area.innerHTML = `
+            <div class="coming-soon">
+                <div class="cs-emoji">🚧</div>
+                <h3>Coming Soon</h3>
+                <p>Chapter ${activeChapter} questions are not yet loaded.<br>Add your questions and they'll appear here!</p>
+            </div>`;
+        updateProgress(0, 0);
+        return;
+    }
+
+    area.innerHTML = '';
+    data.questions.forEach((q, i) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+        card.id = `qcard-${i}`;
+        card.style.animationDelay = `${i * 0.045}s`;
+
+        card.innerHTML = `
+            <div class="q-meta">
+                <span class="q-num">Q${i + 1}</span>
+                <span class="q-lo">${q.lo}</span>
+            </div>
+            <div class="q-text">${q.text}</div>
+            <div class="options" id="opts-${i}">
+                ${q.options.map((opt, oi) => `
+                    <button class="option-btn" id="opt-${i}-${oi}" onclick="selectAnswer(${i}, ${oi})" data-qi="${i}" data-oi="${oi}">
+                        <span class="option-letter">${LETTERS[oi]}</span>
+                        <span>${opt}</span>
+                    </button>
+                `).join('')}
+            </div>
+            <div class="explanation" id="exp-${i}">
+                <div class="exp-label" id="exp-label-${i}"></div>
+                <div id="exp-text-${i}">${q.explanation}</div>
+            </div>
+        `;
+        area.appendChild(card);
+    });
+
+    updateProgress(0, data.questions.length);
+}
+
+/* =================================================================
+   SELECT ANSWER
+================================================================= */
+function selectAnswer(qi, oi) {
+    if (answered[qi]) return;
+    answered[qi] = true;
+
+    const data = chapters[activeChapter];
+    const q    = data.questions[qi];
+    const isCorrect = (oi === q.answer);
+
+    // Disable all options in this question
+    const opts = document.querySelectorAll(`#opts-${qi} .option-btn`);
+    opts.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === q.answer) {
+            btn.classList.add('correct');
+        } else if (idx === oi && !isCorrect) {
+            btn.classList.add('wrong');
+        } else {
+            btn.classList.add('dimmed');
+        }
+    });
+
+    // Explanation
+    const exp      = document.getElementById(`exp-${qi}`);
+    const expLabel = document.getElementById(`exp-label-${qi}`);
+    expLabel.textContent = isCorrect ? '✅ Correct!' : '❌ Incorrect';
+    exp.classList.add('show', isCorrect ? 'correct-exp' : 'wrong-exp');
+
+    // Score & state
+    if (isCorrect) {
+        streak++;
+        const pts = 10 + (streak > 1 ? (streak - 1) * 3 : 0);
+        score  += pts;
+        correct++;
+        const btn = document.getElementById(`opt-${qi}-${oi}`);
+        const rect = btn.getBoundingClientRect();
+        spawnParticles(rect.left + rect.width / 2, rect.top + rect.height / 2, '#34d399');
+        floatText(rect.left + rect.width / 2, rect.top, `+${pts}`, '#fbbf24');
+    } else {
+        streak = 0;
+        wrong++;
+        const btn = document.getElementById(`opt-${qi}-${oi}`);
+        const rect = btn.getBoundingClientRect();
+        floatText(rect.left + rect.width / 2, rect.top, '−5', '#f87171');
+        score = Math.max(0, score - 5);
+    }
+
+    updateHUD();
+    updateProgress(Object.keys(answered).length, data.questions.length);
+
+    // Scroll to next unanswered or show summary
+    setTimeout(() => {
+        if (Object.keys(answered).length === data.questions.length) {
+            showSummary();
+        } else {
+            // Find next unanswered card and scroll to it
+            for (let i = qi + 1; i < data.questions.length; i++) {
+                if (!answered[i]) {
+                    document.getElementById(`qcard-${i}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    break;
+                }
+            }
+        }
+    }, 500);
+}
+
+/* =================================================================
+   HUD & PROGRESS
+================================================================= */
+function updateHUD() {
+    document.getElementById('hud-score').textContent   = score;
+    document.getElementById('hud-correct').textContent = correct;
+    document.getElementById('hud-wrong').textContent   = wrong;
+    document.getElementById('hud-streak').textContent  = streak;
+}
+
+function updateProgress(done, total) {
+    const pct = total ? (done / total * 100) : 0;
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-text').textContent = `${done} / ${total} answered`;
+}
+
+/* =================================================================
+   CHAPTER SUMMARY
+================================================================= */
+function showSummary() {
+    const data  = chapters[activeChapter];
+    const total = data.questions.length;
+    const pct   = correct / total;
+    const stars = pct >= 0.9 ? '⭐⭐⭐' : pct >= 0.7 ? '⭐⭐' : '⭐';
+    const msgs  = [
+        'Keep practicing — you\'ll get there!',
+        'Good effort! Review the explanations above.',
+        'Nice work! You\'re getting the hang of it.',
+        'Great job! Keep that momentum going!',
+        '🔥 Perfect score! You crushed it!'
+    ];
+    const msgIdx = pct >= 1 ? 4 : pct >= 0.8 ? 3 : pct >= 0.6 ? 2 : pct >= 0.4 ? 1 : 0;
+
+    document.getElementById('sum-stars').textContent = stars;
+    document.getElementById('sum-score').textContent = `${score} pts`;
+    document.getElementById('sum-sub').textContent   = `${correct}/${total} correct — ${msgs[msgIdx]}`;
+    document.getElementById('ch-summary').classList.add('show');
+    document.getElementById('ch-summary').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // Celebrate on high score
+    if (pct >= 0.8) {
+        setTimeout(() => { spawnParticles(window.innerWidth/2, window.innerHeight/2, '#fbbf24', 28); }, 100);
+        setTimeout(() => { spawnParticles(window.innerWidth/2, window.innerHeight/2, '#34d399', 20); }, 400);
+    }
+}
+
+function retryChapter() {
+    switchChapter(activeChapter);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* =================================================================
+   PARTICLES & FLOAT TEXT
+================================================================= */
+function spawnParticles(x, y, color, count = 14) {
+    for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size  = Math.random() * 10 + 5;
+        const angle = Math.random() * Math.PI * 2;
+        const dist  = Math.random() * 100 + 30;
+        p.style.cssText = `
+            width:${size}px; height:${size}px;
+            left:${x}px; top:${y}px;
+            background:${color};
+            --tx:${Math.cos(angle)*dist}px;
+            --ty:${Math.sin(angle)*dist}px;
+            --dur:${0.5 + Math.random()*0.5}s;
+            box-shadow:0 0 6px ${color};
+        `;
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 1100);
+    }
+}
+
+function floatText(x, y, text, color) {
+    const el = document.createElement('div');
+    el.className = 'float-text';
+    el.textContent = text;
+    el.style.cssText = `left:${x}px; top:${y}px; color:${color};`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1000);
+}
+
+/* =================================================================
+   INIT
+================================================================= */
+buildTabs();
+renderQuiz();
+</script>
+</body>
+</html>
