@@ -554,6 +554,113 @@
                 margin-right: auto;
                 justify-content: center;
             }
+            
+            /* Glossary Game Mobile Layout Redesign (2 Columns: Terms Left, Definitions Right) */
+            .grid {
+                grid-template-columns: 1fr 1.8fr !important;
+                grid-template-rows: repeat(8, minmax(65px, auto)) !important;
+                gap: 8px !important;
+            }
+            
+            /* Reposition columns to align Terms on Left, Definitions on Right */
+            .card[data-col="0"], .card-slot[data-col="0"],
+            .card[data-col="2"], .card-slot[data-col="2"] {
+                grid-column: 1 !important;
+            }
+            .card[data-col="1"], .card-slot[data-col="1"],
+            .card[data-col="3"], .card-slot[data-col="3"] {
+                grid-column: 2 !important;
+            }
+            
+            /* Reposition rows to stack Col 0 & Col 1 on top, Col 2 & Col 3 on bottom */
+            .card[data-col="0"][data-row="0"], .card-slot[data-col="0"][data-row="0"],
+            .card[data-col="1"][data-row="0"], .card-slot[data-col="1"][data-row="0"] {
+                grid-row: 1 !important;
+            }
+            .card[data-col="0"][data-row="1"], .card-slot[data-col="0"][data-row="1"],
+            .card[data-col="1"][data-row="1"], .card-slot[data-col="1"][data-row="1"] {
+                grid-row: 2 !important;
+            }
+            .card[data-col="0"][data-row="2"], .card-slot[data-col="0"][data-row="2"],
+            .card[data-col="1"][data-row="2"], .card-slot[data-col="1"][data-row="2"] {
+                grid-row: 3 !important;
+            }
+            .card[data-col="0"][data-row="3"], .card-slot[data-col="0"][data-row="3"],
+            .card[data-col="1"][data-row="3"], .card-slot[data-col="1"][data-row="3"] {
+                grid-row: 4 !important;
+            }
+            
+            .card[data-col="2"][data-row="0"], .card-slot[data-col="2"][data-row="0"],
+            .card[data-col="3"][data-row="0"], .card-slot[data-col="3"][data-row="0"] {
+                grid-row: 5 !important;
+            }
+            .card[data-col="2"][data-row="1"], .card-slot[data-col="2"][data-row="1"],
+            .card[data-col="3"][data-row="1"], .card-slot[data-col="3"][data-row="1"] {
+                grid-row: 6 !important;
+            }
+            .card[data-col="2"][data-row="2"], .card-slot[data-col="2"][data-row="2"],
+            .card[data-col="3"][data-row="2"], .card-slot[data-col="3"][data-row="2"] {
+                grid-row: 7 !important;
+            }
+            .card[data-col="2"][data-row="3"], .card-slot[data-col="2"][data-row="3"],
+            .card[data-col="3"][data-row="3"], .card-slot[data-col="3"][data-row="3"] {
+                grid-row: 8 !important;
+            }
+            
+            /* Responsive styling adjustments for cards */
+            .card {
+                padding: 8px 6px !important;
+                border-width: 1px !important;
+                border-radius: 8px !important;
+                transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1),
+                            box-shadow 0.18s ease,
+                            border-color 0.18s ease,
+                            opacity 0.3s ease !important;
+            }
+            .card.term {
+                font-size: 0.72rem !important;
+            }
+            .card.definition {
+                font-size: 0.8rem !important;
+                text-align: left !important;
+            }
+            .card-icon {
+                font-size: 0.85rem !important;
+                display: inline-block !important;
+                margin-right: 3px !important;
+                margin-bottom: 0 !important;
+                vertical-align: middle !important;
+            }
+            
+            /* HUD Mobile adjustments */
+            .hud {
+                gap: 6px !important;
+                margin-bottom: 12px !important;
+            }
+            .hud-box {
+                padding: 6px 10px !important;
+                min-width: 70px !important;
+                border-radius: 10px !important;
+            }
+            .hud-label {
+                font-size: 0.55rem !important;
+            }
+            .hud-value {
+                font-size: 1.1rem !important;
+            }
+            .hearts {
+                font-size: 0.95rem !important;
+            }
+            
+            /* Chapter tab selector mobile adjustments */
+            .ch-tab {
+                padding: 6px 10px !important;
+                font-size: 0.72rem !important;
+            }
+            .chapter-tabs {
+                border-radius: 20px !important;
+                padding: 4px !important;
+            }
         }
 
 
@@ -1184,6 +1291,8 @@ function renderGrid(animate = false) {
                 slot.className = 'card-slot';
                 slot.style.gridColumnStart = c + 1;
                 slot.style.gridRowStart    = r + 1;
+                slot.dataset.col = c;
+                slot.dataset.row = r;
                 gridEl.appendChild(slot);
                 continue;
             }
@@ -1436,6 +1545,8 @@ function applyGravity() {
                 slot.className = 'card-slot';
                 slot.style.gridColumnStart = c + 1;
                 slot.style.gridRowStart    = r + 1;
+                slot.dataset.col = c;
+                slot.dataset.row = r;
                 gridEl.appendChild(slot);
             }
         }
