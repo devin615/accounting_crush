@@ -59,6 +59,7 @@
         .page-header {
             text-align: center;
             padding: 28px 0 20px;
+            position: relative;
         }
         .page-badge {
             display: inline-block;
@@ -145,56 +146,154 @@
 
 
 
-        /* ── CHAPTER TABS ── */
-        .chapter-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            border-radius: 50px;
-            padding: 5px;
-            margin-bottom: 26px;
-            backdrop-filter: blur(14px);
-            box-shadow: 0 4px 28px rgba(0,0,0,0.35);
-            justify-content: center;
+        /* ========== SIDEBAR DRAWERS ========== */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 400;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
+        .sidebar-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100%;
+            background: linear-gradient(180deg, #16123f 0%, #0f0c29 100%);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 500;
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 10px 0;
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        .sidebar-logo-section {
+            display: flex;
+            align-items: center;
+            padding: 0 16px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 12px;
+            height: 56px;
+        }
+
+        .sidebar-logo-section .hamburger-btn {
+            position: static;
+            transform: none;
+            margin-right: 16px;
+        }
+
+        .sidebar-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--blue2), var(--green2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            overflow-y: auto;
+            padding: 0 8px;
+            flex-grow: 1;
+        }
+
+        /* YouTube-like chapter items */
         .ch-tab {
             background: transparent;
             border: none;
             color: var(--muted);
             font-family: 'Nunito', sans-serif;
-            font-size: 0.82rem;
-            font-weight: 800;
-            padding: 9px 16px;
-            border-radius: 50px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            padding: 12px 16px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.22s cubic-bezier(0.34,1.56,0.64,1);
-            white-space: nowrap;
-            letter-spacing: 0.02em;
-            position: relative;
+            transition: all 0.2s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin: 0;
         }
-        .ch-tab.active {
-            background: linear-gradient(135deg, var(--blue2), var(--green2));
-            color: #0f0c29;
-            box-shadow: 0 3px 16px rgba(96,165,250,0.45);
-            transform: scale(1.06);
-        }
-        .ch-tab:hover:not(.active) {
+
+        .ch-tab:hover {
             color: var(--text);
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.06);
         }
-        .ch-tab .tab-badge {
+
+        .ch-tab.active {
+            background: rgba(96, 165, 250, 0.15) !important;
+            color: var(--blue2) !important;
+            font-weight: 800;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .tab-badge {
             display: inline-block;
-            background: rgba(255,255,255,0.18);
-            font-size: 0.62rem;
-            padding: 1px 5px;
+            background: rgba(255, 255, 255, 0.18);
+            font-size: 0.65rem;
+            padding: 2px 6px;
             border-radius: 99px;
-            margin-left: 4px;
+            margin-left: 8px;
             font-weight: 900;
         }
-        .ch-tab.active .tab-badge { background: rgba(0,0,0,0.2); }
+
+        .ch-tab.active .tab-badge {
+            background: rgba(96, 165, 250, 0.25);
+            color: var(--blue2);
+        }
+
+        /* Hamburger button */
+        .hamburger-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 40px;
+            height: 40px;
+            padding: 12px 10px;
+            border-radius: 50%;
+            z-index: 100;
+            transition: background-color 0.2s;
+        }
+
+        .hamburger-btn:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .hamburger-btn span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: var(--text);
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
 
         /* ── SCORE HUD ── */
         .score-hud {
@@ -493,12 +592,30 @@
         /* ── RESPONSIVE ── */
         @media (max-width: 500px) {
             .q-card { padding: 20px 16px 18px; }
-            .chapter-tabs { border-radius: 20px; }
-            .ch-tab { padding: 7px 11px; font-size: 0.76rem; }
+            .ch-tab {
+                padding: 10px 14px !important;
+                font-size: 0.88rem !important;
+            }
         }
     </style>
 </head>
 <body>
+
+<!-- Sidebar Overlay -->
+<div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
+
+<!-- Sidebar Drawer -->
+<aside id="sidebar" class="sidebar">
+    <div class="sidebar-logo-section">
+        <button class="hamburger-btn" onclick="toggleSidebar(false)" aria-label="Close Sidebar Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <span class="sidebar-title">Accounting Game</span>
+    </div>
+    <nav class="sidebar-menu" id="chapter-tabs"></nav>
+</aside>
 
 <canvas id="stars-canvas"></canvas>
 
@@ -506,20 +623,21 @@
 
     <!-- Header -->
     <div class="page-header">
+        <button id="hamburger-menu-btn" class="hamburger-btn" onclick="toggleSidebar(true)" aria-label="Open Sidebar Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
         <div class="page-badge">📝 Practice Quiz</div>
         <h1 class="page-title">Multiple Choice Questions</h1>
         <p class="page-sub">Select the best answer — get instant feedback &amp; explanations</p>
     </div>
 
     <nav class="tab-nav">
-        <a class="tab-btn" href="accounting_crush.html">⚡ Accounting Crush</a>
+        <a class="tab-btn" href="index.html">⚡ Accounting Crush</a>
         <a class="tab-btn active" href="multiple_choice.html">📝 Multiple Choice</a>
         <a class="tab-btn" href="accounting_cycle.html">🔄 Accounting Cycle</a>
     </nav>
-
-
-    <!-- Chapter Tabs -->
-    <div class="chapter-tabs" id="chapter-tabs"></div>
 
     <!-- HUD -->
     <div class="score-hud">
@@ -2460,6 +2578,13 @@ function buildTabs() {
 /* =================================================================
    SWITCH CHAPTER
 ================================================================= */
+function toggleSidebar(open) {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    if (sidebar) sidebar.classList.toggle('open', open);
+    if (overlay) overlay.classList.toggle('open', open);
+}
+
 function switchChapter(ch) {
     activeChapter = ch;
     answered = {};
@@ -2468,6 +2593,7 @@ function switchChapter(ch) {
     buildTabs();
     renderQuiz();
     document.getElementById('ch-summary').classList.remove('show');
+    toggleSidebar(false);
 }
 
 /* =================================================================

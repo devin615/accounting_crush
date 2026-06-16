@@ -170,18 +170,105 @@
             max-width: 900px;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(4, minmax(110px, auto));
-            gap: 12px;
-            position: relative;
+        #term-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 22px;
+            width: 100%;
         }
 
-        /* Empty slot placeholder so grid keeps its shape */
-        .card-slot {
+        .term-display-card {
+            background: rgba(96, 165, 250, 0.08);
+            border: 2px solid var(--term);
             border-radius: var(--radius);
-            visibility: hidden;
+            padding: 20px 24px;
+            width: 100%;
+            max-width: 650px;
+            text-align: center;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text);
+            box-shadow: 0 4px 25px rgba(59, 130, 246, 0.2), inset 0 1px 0 rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            animation: pulse-blue 2s infinite alternate;
+        }
+
+        @keyframes pulse-blue {
+            from { box-shadow: 0 4px 20px rgba(59,130,246,0.15), 0 0 10px rgba(59,130,246,0.1); }
+            to   { box-shadow: 0 4px 30px rgba(59,130,246,0.35), 0 0 20px rgba(59,130,246,0.25); }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Choice Cards */
+        .choice-card {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: left;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 700;
+            user-select: none;
+            line-height: 1.45;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+            color: var(--text);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .choice-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 60%);
+            border-radius: inherit;
+            pointer-events: none;
+        }
+
+        .choice-card:hover:not(.locked) {
+            transform: translateY(-3px) scale(1.015);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        .choice-card.correct {
+            border-color: var(--def) !important;
+            background: rgba(52, 211, 153, 0.18) !important;
+            box-shadow: 0 0 0 3px var(--def-glow), 0 0 30px rgba(52,211,153,0.4) !important;
+            transform: scale(1.02) !important;
+        }
+
+        .choice-card.wrong {
+            border-color: var(--red) !important;
+            background: rgba(248, 113, 113, 0.15) !important;
+            animation: shake 0.5s ease;
+        }
+
+        .choice-card.locked {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        
+        .choice-card-icon {
+            font-size: 1.15rem;
+            margin-right: 10px;
+            flex-shrink: 0;
         }
 
         /* ========== CARDS ========== */
@@ -555,81 +642,30 @@
                 justify-content: center;
             }
             
-            /* Glossary Game Mobile Layout Redesign (2 Columns: Terms Left, Definitions Right) */
+            /* Glossary Game Mobile Layout Redesign (Single Column of choices) */
             .grid {
-                grid-template-columns: 1fr 1.8fr !important;
-                grid-template-rows: repeat(8, minmax(65px, auto)) !important;
-                gap: 8px !important;
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
             }
             
-            /* Reposition columns to align Terms on Left, Definitions on Right */
-            .card[data-col="0"], .card-slot[data-col="0"],
-            .card[data-col="2"], .card-slot[data-col="2"] {
-                grid-column: 1 !important;
-            }
-            .card[data-col="1"], .card-slot[data-col="1"],
-            .card[data-col="3"], .card-slot[data-col="3"] {
-                grid-column: 2 !important;
+            #term-container {
+                margin-bottom: 16px !important;
             }
             
-            /* Reposition rows to stack Col 0 & Col 1 on top, Col 2 & Col 3 on bottom */
-            .card[data-col="0"][data-row="0"], .card-slot[data-col="0"][data-row="0"],
-            .card[data-col="1"][data-row="0"], .card-slot[data-col="1"][data-row="0"] {
-                grid-row: 1 !important;
-            }
-            .card[data-col="0"][data-row="1"], .card-slot[data-col="0"][data-row="1"],
-            .card[data-col="1"][data-row="1"], .card-slot[data-col="1"][data-row="1"] {
-                grid-row: 2 !important;
-            }
-            .card[data-col="0"][data-row="2"], .card-slot[data-col="0"][data-row="2"],
-            .card[data-col="1"][data-row="2"], .card-slot[data-col="1"][data-row="2"] {
-                grid-row: 3 !important;
-            }
-            .card[data-col="0"][data-row="3"], .card-slot[data-col="0"][data-row="3"],
-            .card[data-col="1"][data-row="3"], .card-slot[data-col="1"][data-row="3"] {
-                grid-row: 4 !important;
+            .term-display-card {
+                font-size: 1.1rem !important;
+                padding: 16px 20px !important;
             }
             
-            .card[data-col="2"][data-row="0"], .card-slot[data-col="2"][data-row="0"],
-            .card[data-col="3"][data-row="0"], .card-slot[data-col="3"][data-row="0"] {
-                grid-row: 5 !important;
-            }
-            .card[data-col="2"][data-row="1"], .card-slot[data-col="2"][data-row="1"],
-            .card[data-col="3"][data-row="1"], .card-slot[data-col="3"][data-row="1"] {
-                grid-row: 6 !important;
-            }
-            .card[data-col="2"][data-row="2"], .card-slot[data-col="2"][data-row="2"],
-            .card[data-col="3"][data-row="2"], .card-slot[data-col="3"][data-row="2"] {
-                grid-row: 7 !important;
-            }
-            .card[data-col="2"][data-row="3"], .card-slot[data-col="2"][data-row="3"],
-            .card[data-col="3"][data-row="3"], .card-slot[data-col="3"][data-row="3"] {
-                grid-row: 8 !important;
+            .choice-card {
+                padding: 12px 14px !important;
+                font-size: 0.82rem !important;
+                border-radius: 10px !important;
             }
             
-            /* Responsive styling adjustments for cards */
-            .card {
-                padding: 8px 6px !important;
-                border-width: 1px !important;
-                border-radius: 8px !important;
-                transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1),
-                            box-shadow 0.18s ease,
-                            border-color 0.18s ease,
-                            opacity 0.3s ease !important;
-            }
-            .card.term {
-                font-size: 0.72rem !important;
-            }
-            .card.definition {
-                font-size: 0.8rem !important;
-                text-align: left !important;
-            }
-            .card-icon {
-                font-size: 0.85rem !important;
-                display: inline-block !important;
-                margin-right: 3px !important;
-                margin-bottom: 0 !important;
-                vertical-align: middle !important;
+            .choice-card-icon {
+                font-size: 1rem !important;
+                margin-right: 6px !important;
             }
             
             /* HUD Mobile adjustments */
@@ -654,12 +690,8 @@
             
             /* Chapter tab selector mobile adjustments */
             .ch-tab {
-                padding: 6px 10px !important;
-                font-size: 0.72rem !important;
-            }
-            .chapter-tabs {
-                border-radius: 20px !important;
-                padding: 4px !important;
+                padding: 10px 14px !important;
+                font-size: 0.88rem !important;
             }
         }
 
@@ -673,63 +705,174 @@
         }
 
 
-        /* ========== CHAPTER SELECTOR TABS ========== */
-        .chapter-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 50px;
-            padding: 5px;
-            margin-bottom: 18px;
-            backdrop-filter: blur(14px);
-            box-shadow: 0 4px 24px rgba(0,0,0,0.3);
-            justify-content: center;
-            width: 100%;
-            max-width: 900px;
-            position: relative;
-            z-index: 10;
+        /* ========== SIDEBAR DRAWERS ========== */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 400;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
+        .sidebar-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100%;
+            background: linear-gradient(180deg, #16123f 0%, #0f0c29 100%);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 500;
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 10px 0;
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        .sidebar-logo-section {
+            display: flex;
+            align-items: center;
+            padding: 0 16px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 12px;
+            height: 56px;
+        }
+
+        .sidebar-logo-section .hamburger-btn {
+            position: static;
+            transform: none;
+            margin-right: 16px;
+        }
+
+        .sidebar-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--term), var(--def));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            overflow-y: auto;
+            padding: 0 8px;
+            flex-grow: 1;
+        }
+
+        /* YouTube-like chapter items */
         .ch-tab {
             background: transparent;
             border: none;
             color: var(--text-muted);
             font-family: 'Nunito', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 800;
-            padding: 8px 14px;
-            border-radius: 50px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            padding: 12px 16px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.22s cubic-bezier(0.34,1.56,0.64,1);
-            white-space: nowrap;
-            letter-spacing: 0.02em;
+            transition: all 0.2s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin: 0;
         }
-        .ch-tab.active {
-            background: linear-gradient(135deg, var(--term-glow), var(--def-glow));
-            color: #0f0c29;
-            box-shadow: 0 3px 16px rgba(96,165,250,0.45);
-            transform: scale(1.06);
-        }
-        .ch-tab:hover:not(.active) {
+
+        .ch-tab:hover {
             color: var(--text);
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.06);
         }
+
+        .ch-tab.active {
+            background: rgba(59, 130, 246, 0.15) !important;
+            color: var(--term) !important;
+            font-weight: 800;
+            box-shadow: none;
+            transform: none;
+        }
+
         .tab-badge {
             display: inline-block;
-            background: rgba(255,255,255,0.18);
-            font-size: 0.6rem;
-            padding: 1px 5px;
+            background: rgba(255, 255, 255, 0.18);
+            font-size: 0.65rem;
+            padding: 2px 6px;
             border-radius: 99px;
-            margin-left: 3px;
+            margin-left: 8px;
             font-weight: 900;
         }
-        .ch-tab.active .tab-badge { background: rgba(0,0,0,0.2); }
+
+        .ch-tab.active .tab-badge {
+            background: rgba(59, 130, 246, 0.25);
+            color: var(--term);
+        }
+
+        /* Hamburger button */
+        .hamburger-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 40px;
+            height: 40px;
+            padding: 12px 10px;
+            border-radius: 50%;
+            z-index: 100;
+            transition: background-color 0.2s;
+        }
+
+        .hamburger-btn:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .hamburger-btn span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: var(--text);
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
 
     </style>
 </head>
 <body>
+
+<!-- Sidebar Overlay -->
+<div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
+
+<!-- Sidebar Drawer -->
+<aside id="sidebar" class="sidebar">
+    <div class="sidebar-logo-section">
+        <button class="hamburger-btn" onclick="toggleSidebar(false)" aria-label="Close Sidebar Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <span class="sidebar-title">Accounting Game</span>
+    </div>
+    <nav class="sidebar-menu" id="crush-chapter-tabs"></nav>
+</aside>
 
 <canvas id="stars-canvas"></canvas>
 
@@ -766,12 +909,14 @@
 
 <!-- Header -->
 <header class="game-header">
+    <button id="hamburger-menu-btn" class="hamburger-btn" onclick="toggleSidebar(true)" aria-label="Open Sidebar Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
     <h1 class="game-title">⚡ Accounting Crush</h1>
-    <p class="game-subtitle">Match terms with definitions — Candy Crush style!</p>
+    <p class="game-subtitle">Select the correct definition for each accounting term!</p>
 </header>
-
-<!-- Chapter Selector -->
-<div class="chapter-tabs" id="crush-chapter-tabs"></div>
 
 <!-- HUD -->
 <div class="hud">
@@ -810,15 +955,11 @@
 
 <!-- Grid -->
 <div class="game-wrap">
+    <div id="term-container"></div>
     <div class="grid" id="game-grid"></div>
 </div>
 
-<!-- Legend -->
-<div class="legend">
-    <div class="legend-item"><div class="legend-dot term"></div>Term</div>
-    <div class="legend-item"><div class="legend-dot def"></div>Definition</div>
-</div>
-<p class="hint-bar">💡 Select a <strong style="color:var(--term)">blue term</strong>, then its <strong style="color:var(--def)">green definition</strong> — pairs auto-vanish!</p>
+<p class="hint-bar">💡 Read the target term and select the correct definition from the choices below!</p>
 
 </div><!-- /game-crush -->
 
@@ -1082,6 +1223,13 @@ function buildCrushChapterTabs() {
     }
 }
 
+function toggleSidebar(open) {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    if (sidebar) sidebar.classList.toggle('open', open);
+    if (overlay) overlay.classList.toggle('open', open);
+}
+
 function switchCrushChapter(ch) {
     if (!glossaryByChapter[ch]) {
         // Show coming soon briefly then return
@@ -1091,30 +1239,24 @@ function switchCrushChapter(ch) {
     activeCrushChapter = ch;
     buildCrushChapterTabs();
     startNewGame();
+    toggleSidebar(false);
 }
 
 // ===============================================================
 //  GAME STATE
-
 // ===============================================================
-const ROWS = 4, COLS = 4, PAIRS_PER_ROUND = 8;
-// Term columns: 0, 2  |  Definition columns: 1, 3
-const TERM_COLS = [0, 2];
-const DEF_COLS  = [1, 3];
 const MAX_LIVES = 3;
 
 let score = 0;
 let lives = MAX_LIVES;
 let combo = 1;
 let matchedCount = 0;
-let selectedCards = [];
-let gridMatrix = [];
 let isLocked = false;
-let cardPool = [];    // shuffled glossary entries not yet shown
-let nextPairId = 0;   // ever-incrementing unique pair ID
+let cardPool = [];          // shuffled glossary entries not yet shown
+let currentTerm = null;     // the active target { term, def }
+let currentChoices = [];    // current choices displayed on screen
 
-const TERM_ICONS  = ['📘','📙','📚','📖','🗒️','📝','📋','📌'];
-const DEF_ICONS   = ['💡','🔍','📊','📈','🧮','💼','🏦','⚖️'];
+const CHOICE_ICONS = ['💡','🔍','📊','📈','🧮','💼','🏦','⚖️'];
 
 // ===============================================================
 //  STARS BG
@@ -1161,7 +1303,7 @@ function shuffle(arr) { return arr.sort(() => 0.5 - Math.random()); }
 
 function updateHUD() {
     document.getElementById('hud-score').textContent = score;
-    document.getElementById('hud-left').textContent  = cardPool.length;
+    document.getElementById('hud-left').textContent  = cardPool.length + (currentTerm ? 1 : 0);
     document.getElementById('hud-combo').textContent = `x${combo}`;
     const hearts = document.querySelectorAll('.heart');
     hearts.forEach((h, i) => { h.classList.toggle('lost', i >= lives); });
@@ -1223,404 +1365,172 @@ function showComboBurst(combo) {
 // ===============================================================
 //  GAME INIT
 // ===============================================================
+// ===============================================================
+//  GAME INIT
+// ===============================================================
 function startNewGame() {
     score = 0; lives = MAX_LIVES; combo = 1;
-    matchedCount = 0; nextPairId = 0;
+    matchedCount = 0;
     document.getElementById('end-screen').classList.remove('show');
     initGame();
 }
 
 function initGame() {
-    selectedCards = [];
     isLocked = false;
 
-    // Shuffle active chapter glossary; first 8 go to board, rest to pool
-    const shuffled = shuffle([...getActiveGlossary()]);
-    const initial  = shuffled.slice(0, PAIRS_PER_ROUND);
-    cardPool       = shuffled.slice(PAIRS_PER_ROUND);
+    // Shuffle active glossary
+    const glossary = getActiveGlossary();
+    cardPool = shuffle([...glossary]);
 
     updateHUD();
     updateProgress();
 
-    // Build deck from initial 8 pairs
-    let deck = [];
-    initial.forEach(pair => {
-        const id = nextPairId++;
-        deck.push({ id, type: 'term',       text: pair.term, icon: TERM_ICONS[id % TERM_ICONS.length] });
-        deck.push({ id, type: 'definition', text: pair.def,  icon: DEF_ICONS[id % DEF_ICONS.length]  });
-    });
-    shuffle(deck);
-
-    // Build two shuffled position lists: term cols (0,2) and def cols (1,3)
-    let termSlots = [];
-    let defSlots  = [];
-    for (let r = 0; r < ROWS; r++) {
-        TERM_COLS.forEach(c => termSlots.push({ c, r }));
-        DEF_COLS.forEach(c  => defSlots.push({ c, r }));
-    }
-    shuffle(termSlots);
-    shuffle(defSlots);
-
-    // Reset gridMatrix
-    gridMatrix = Array.from({ length: COLS }, () => Array(ROWS).fill(null));
-
-    // Place terms and definitions into their designated column types
-    const terms = deck.filter(d => d.type === 'term');
-    const defs  = deck.filter(d => d.type === 'definition');
-    terms.forEach((card, i) => { const {c,r} = termSlots[i]; gridMatrix[c][r] = card; });
-    defs.forEach((card, i)  => { const {c,r} = defSlots[i];  gridMatrix[c][r] = card; });
-
-    renderGrid(true);
+    loadNextQuestion();
 }
 
-// ===============================================================
-//  RENDER
-// ===============================================================
-function renderGrid(animate = false) {
-    const gridEl = document.getElementById('game-grid');
-    gridEl.innerHTML = '';
-
-    let delay = 0;
-    for (let r = 0; r < ROWS; r++) {
-        for (let c = 0; c < COLS; c++) {
-            const data = gridMatrix[c][r];
-
-            if (!data) {
-                // Render an invisible placeholder to keep grid rows intact
-                const slot = document.createElement('div');
-                slot.className = 'card-slot';
-                slot.style.gridColumnStart = c + 1;
-                slot.style.gridRowStart    = r + 1;
-                slot.dataset.col = c;
-                slot.dataset.row = r;
-                gridEl.appendChild(slot);
-                continue;
-            }
-
-            const card = document.createElement('div');
-            card.className = `card ${data.type}`;
-
-            card.innerHTML = `<span class="card-icon">${data.icon}</span>${data.text}`;
-
-            card.style.gridColumnStart = c + 1;
-            card.style.gridRowStart    = r + 1;
-            card.dataset.col    = c;
-            card.dataset.row    = r;
-            card.dataset.pairId = data.id;
-            card.dataset.type   = data.type;   // 'term' or 'definition' – used for unique lookup
-
-            if (animate) {
-                card.classList.add('drop-in', 'locked');
-                card.style.setProperty('--drop-delay', `${delay}s`);
-                delay += 0.045;
-                setTimeout(() => {
-                    card.classList.remove('drop-in', 'locked');
-                }, delay * 1000 + 500);
-            }
-
-            card.addEventListener('click', onCardClick);
-            gridEl.appendChild(card);
-        }
-    }
-}
-
-// ===============================================================
-//  CLICK HANDLER
-// ===============================================================
-function onCardClick(e) {
-    if (isLocked) return;
-    const card = e.currentTarget;
-    if (card.classList.contains('matched') || card.classList.contains('locked')) return;
-
-    // Clicking a selected card deselects it
-    if (card.classList.contains('selected')) {
-        card.classList.remove('selected');
-        selectedCards = selectedCards.filter(c => c !== card);
+function loadNextQuestion() {
+    if (cardPool.length === 0) {
+        currentTerm = null;
+        updateHUD();
+        checkGameComplete();
         return;
     }
 
-    card.classList.add('selected');
-    selectedCards.push(card);
+    currentTerm = cardPool.pop();
+    updateHUD();
 
-    if (selectedCards.length === 2) checkMatch();
+    // Generate choices: 1 correct + 3 distractors
+    const activeGlossary = getActiveGlossary();
+    const distractors = activeGlossary.filter(item => item.term !== currentTerm.term);
+    const shuffledDistractors = shuffle([...distractors]).slice(0, 3).map(item => item.def);
+
+    // If there aren't enough distractors (shouldn't happen since chapters have >=12 terms, but good fallback)
+    while (shuffledDistractors.length < 3) {
+        shuffledDistractors.push("Placeholder distractor definition");
+    }
+
+    // Combine correct definition with distractors
+    const choices = [
+        { text: currentTerm.def, isCorrect: true },
+        ...shuffledDistractors.map(def => ({ text: def, isCorrect: false }))
+    ];
+
+    currentChoices = shuffle(choices);
+
+    // Render term card
+    const termContainer = document.getElementById('term-container');
+    termContainer.innerHTML = `
+        <div class="term-display-card drop-in">
+            <span class="card-icon">📘</span>
+            ${currentTerm.term}
+        </div>
+    `;
+
+    // Render choice cards in grid
+    const gridEl = document.getElementById('game-grid');
+    gridEl.innerHTML = '';
+
+    currentChoices.forEach((choice, index) => {
+        const card = document.createElement('div');
+        card.className = 'choice-card drop-in locked';
+        card.style.setProperty('--drop-delay', `${index * 0.08}s`);
+        card.dataset.index = index;
+        card.innerHTML = `
+            <span class="choice-card-icon">${CHOICE_ICONS[index % CHOICE_ICONS.length]}</span>
+            <div>${choice.text}</div>
+        `;
+
+        card.addEventListener('click', onChoiceClick);
+        gridEl.appendChild(card);
+
+        // Unlock click after drop-in animation completes
+        setTimeout(() => {
+            card.classList.remove('drop-in', 'locked');
+        }, index * 80 + 500);
+    });
+
+    isLocked = false;
 }
 
-// ===============================================================
-//  MATCH CHECK
-// ===============================================================
-function checkMatch() {
-    isLocked = true;
-    const [c1, c2] = selectedCards;
-    const id1 = c1.dataset.pairId, id2 = c2.dataset.pairId;
-    const isMatch = (id1 === id2) && (c1.dataset && c1.className !== c2.className) &&
-                    ((c1.classList.contains('term') && c2.classList.contains('definition')) ||
-                     (c1.classList.contains('definition') && c2.classList.contains('term')));
+function onChoiceClick(e) {
+    if (isLocked) return;
+    const card = e.currentTarget;
+    if (card.classList.contains('correct') || card.classList.contains('wrong') || card.classList.contains('locked')) return;
 
-    if (isMatch) {
-        // Points with combo
+    const index = parseInt(card.dataset.index);
+    const choice = currentChoices[index];
+
+    if (choice.isCorrect) {
+        // Correct Answer
+        isLocked = true;
+        card.classList.add('correct');
+        
+        // Disable other cards
+        document.querySelectorAll('.choice-card').forEach(el => {
+            if (el !== card) el.classList.add('locked');
+        });
+
+        // Points and scoring
         const pts = 10 * combo;
         score += pts;
         matchedCount++;
+        
         updateHUD();
         updateProgress();
 
-        // Visual feedback
-        const r1 = c1.getBoundingClientRect();
-        const r2 = c2.getBoundingClientRect();
-        const mx = (r1.left + r1.right) / 2, my = (r1.top + r1.bottom) / 2;
-        const mx2 = (r2.left + r2.right) / 2, my2 = (r2.top + r2.bottom) / 2;
-
-        spawnParticles(mx, my, '#fbbf24', 18);
-        spawnParticles(mx2, my2, '#34d399', 18);
+        // Particles & float text
+        const rect = card.getBoundingClientRect();
+        const mx = (rect.left + rect.right) / 2;
+        const my = (rect.top + rect.bottom) / 2;
+        spawnParticles(mx, my, '#34d399', 18);
         floatText(mx, my - 20, `+${pts}`, combo >= 3 ? '#c084fc' : '#fbbf24');
         showComboBurst(combo);
 
         combo++;
 
+        // Wait brief delay then load next
         setTimeout(() => {
-            c1.classList.add('matched');
-            c2.classList.add('matched');
-
-            const col1 = parseInt(c1.dataset.col), row1 = parseInt(c1.dataset.row);
-            const col2 = parseInt(c2.dataset.col), row2 = parseInt(c2.dataset.row);
-            gridMatrix[col1][row1] = null;
-            gridMatrix[col2][row2] = null;
+            // Add fade-out transition
+            const termCard = document.querySelector('.term-display-card');
+            if (termCard) {
+                termCard.style.transform = 'scale(0.8)';
+                termCard.style.opacity = '0';
+                termCard.style.transition = 'all 0.3s ease';
+            }
+            document.querySelectorAll('.choice-card').forEach(c => {
+                c.style.transform = 'scale(0.8)';
+                c.style.opacity = '0';
+                c.style.transition = 'all 0.3s ease';
+            });
 
             setTimeout(() => {
-                reshuffleBoard();
-                // After board re-renders, drop in fresh pair and check completion
-                setTimeout(() => {
-                    addNewPair();
-                    updateHUD();
-                    checkGameComplete();
-                }, 520);
-            }, 480);
-        }, 200);
+                loadNextQuestion();
+            }, 300);
+        }, 1200);
 
     } else {
-        // Wrong
+        // Wrong Answer
         combo = 1;
         lives = Math.max(0, lives - 1);
         updateHUD();
 
-        c1.classList.add('wrong');
-        c2.classList.add('wrong');
+        card.classList.add('wrong');
+        card.classList.add('locked'); // lock the incorrect choice
 
-        // Shake the page briefly
-        document.querySelector('.game-wrap').style.animation = 'none';
-
-        setTimeout(() => {
-            c1.classList.remove('selected', 'wrong');
-            c2.classList.remove('selected', 'wrong');
-            isLocked = false;
-
-            if (lives === 0) {
-                setTimeout(() => showEndScreen(false), 400);
-            }
-        }, 600);
-    }
-
-    selectedCards = [];
-}
-
-// ===============================================================
-//  RESHUFFLE  –  scramble remaining cards into new positions
-// ===============================================================
-function reshuffleBoard() {
-    // 1. Remove matched card DOM elements (crush-out animation finished)
-    const gridEl = document.getElementById('game-grid');
-    gridEl.querySelectorAll('.card.matched').forEach(el => el.remove());
-
-    // 2. Collect all remaining card data, separated by type
-    const remainingTerms = [];
-    const remainingDefs  = [];
-    for (let c = 0; c < COLS; c++) {
-        for (let r = 0; r < ROWS; r++) {
-            const d = gridMatrix[c][r];
-            if (!d) continue;
-            (d.type === 'term' ? remainingTerms : remainingDefs).push(d);
-        }
-    }
-
-    // 3. Build shuffled slot lists for each column type
-    let termSlots = [];
-    let defSlots  = [];
-    for (let r = 0; r < ROWS; r++) {
-        TERM_COLS.forEach(c => termSlots.push({ c, r }));
-        DEF_COLS.forEach(c  => defSlots.push({ c, r }));
-    }
-    shuffle(termSlots);
-    shuffle(defSlots);
-
-    // 4. Rebuild gridMatrix with randomised positions
-    gridMatrix = Array.from({ length: COLS }, () => Array(ROWS).fill(null));
-    remainingTerms.forEach((card, i) => {
-        const { c, r } = termSlots[i];
-        gridMatrix[c][r] = card;
-    });
-    remainingDefs.forEach((card, i) => {
-        const { c, r } = defSlots[i];
-        gridMatrix[c][r] = card;
-    });
-
-    // 5. Re-render entire board with drop-in animation
-    renderGrid(true);
-
-    // Unlock — individual cards still have the 'locked' class during their
-    // drop-in animation, so clicks are blocked per-card until they land.
-    isLocked = false;
-}
-
-// ===============================================================
-//  GRAVITY  –  FLIP technique: move cards in-place, no full re-render
-// ===============================================================
-function applyGravity() {
-    const gridEl  = document.getElementById('game-grid');
-    const gap     = 12; // matches CSS gap
-    const gridRect = gridEl.getBoundingClientRect();
-    const rowH    = (gridRect.height - gap * (ROWS - 1)) / ROWS;
-
-    // 1. Remove matched cards from DOM (crush-out animation already finished)
-    gridEl.querySelectorAll('.card.matched').forEach(el => el.remove());
-
-    // 2. For each column, figure out which cards need to fall and by how many rows
-    for (let c = 0; c < COLS; c++) {
-        // Collect non-null entries in their current order (top → bottom)
-        const items = [];
-        for (let r = 0; r < ROWS; r++) {
-            if (gridMatrix[c][r] !== null) {
-                items.push({ data: gridMatrix[c][r], oldRow: r });
-            }
+        // Shake the target wrapper briefly
+        const gameWrap = document.querySelector('.game-wrap');
+        if (gameWrap) {
+            gameWrap.style.animation = 'shake 0.5s ease';
+            setTimeout(() => { gameWrap.style.animation = ''; }, 500);
         }
 
-        // New rows: pack everything to the bottom
-        const offset = ROWS - items.length;
-        items.forEach((item, i) => { item.newRow = offset + i; });
-
-        // Update gridMatrix
-        for (let r = 0; r < ROWS; r++) gridMatrix[c][r] = null;
-        items.forEach(({ data, newRow }) => { gridMatrix[c][newRow] = data; });
-
-        // 3. Animate each card that needs to move
-        items.forEach(({ data, oldRow, newRow }) => {
-            const fallRows = newRow - oldRow;
-            if (fallRows === 0) return;
-
-            // Find the live DOM card by col + old row (still in DOM, just not yet moved)
-            const card = gridEl.querySelector(
-                `.card[data-col="${c}"][data-row="${oldRow}"][data-pair-id="${data.id}"][data-type="${data.type}"]`
-            );
-            if (!card) return;
-
-            const pixelFall = fallRows * (rowH + gap);
-
-            // FLIP: snap to old visual position, then transition to new grid position
-            card.style.transition = 'none';
-            card.style.transform  = `translateY(-${pixelFall}px)`;
-
-            // Update dataset + grid-row so the card occupies its new cell
-            card.dataset.row = newRow;
-            card.style.gridRowStart = newRow + 1;
-
-            // Force reflow so the browser registers the starting transform
-            card.offsetHeight;
-
-            // Animate to resting position
-            card.style.transition = 'transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1)';
-            card.style.transform  = 'translateY(0)';
-
-            card.addEventListener('transitionend', () => {
-                card.style.transition = '';
-                card.style.transform  = '';
-            }, { once: true });
-        });
-    }
-
-    // 4. Refresh placeholder slots so empty top rows are visible
-    gridEl.querySelectorAll('.card-slot').forEach(s => s.remove());
-    for (let c = 0; c < COLS; c++) {
-        for (let r = 0; r < ROWS; r++) {
-            if (gridMatrix[c][r] === null) {
-                const slot = document.createElement('div');
-                slot.className = 'card-slot';
-                slot.style.gridColumnStart = c + 1;
-                slot.style.gridRowStart    = r + 1;
-                slot.dataset.col = c;
-                slot.dataset.row = r;
-                gridEl.appendChild(slot);
-            }
+        if (lives === 0) {
+            isLocked = true;
+            setTimeout(() => showEndScreen(false), 400);
         }
     }
-
-    isLocked = false;
 }
 
-// ===============================================================
-//  ADD NEW PAIR  –  drop a fresh term+def into empty grid slots
-// ===============================================================
-function addNewPair() {
-    if (cardPool.length === 0) return;
-
-    const pairData = cardPool.shift();
-    const id       = nextPairId++;
-    const termCard = { id, type: 'term',       text: pairData.term, icon: TERM_ICONS[id % TERM_ICONS.length] };
-    const defCard  = { id, type: 'definition', text: pairData.def,  icon: DEF_ICONS[id % DEF_ICONS.length]  };
-
-    // Collect empty slots split by column type
-    const emptyTermSlots = [];
-    const emptyDefSlots  = [];
-    for (let c = 0; c < COLS; c++) {
-        const isTermCol = TERM_COLS.includes(c);
-        for (let r = 0; r < ROWS; r++) {
-            if (gridMatrix[c][r] === null) {
-                (isTermCol ? emptyTermSlots : emptyDefSlots).push({ c, r });
-            }
-        }
-    }
-    if (emptyTermSlots.length === 0 || emptyDefSlots.length === 0) return;
-
-    shuffle(emptyTermSlots);
-    shuffle(emptyDefSlots);
-    const slot1 = emptyTermSlots[0];
-    const slot2 = emptyDefSlots[0];
-
-    // Write into gridMatrix
-    gridMatrix[slot1.c][slot1.r] = termCard;
-    gridMatrix[slot2.c][slot2.r] = defCard;
-
-    const gridEl = document.getElementById('game-grid');
-
-    // Remove placeholder slots at those positions
-    gridEl.querySelectorAll('.card-slot').forEach(s => {
-        const sc = parseInt(s.style.gridColumnStart) - 1;
-        const sr = parseInt(s.style.gridRowStart)    - 1;
-        if ((sc === slot1.c && sr === slot1.r) || (sc === slot2.c && sr === slot2.r)) s.remove();
-    });
-
-    // Create and drop in new card elements
-    [{ slot: slot1, data: termCard }, { slot: slot2, data: defCard }].forEach(({ slot, data }, i) => {
-        const card = document.createElement('div');
-        card.className = `card ${data.type} drop-in locked`;
-        card.innerHTML = `<span class="card-icon">${data.icon}</span>${data.text}`;
-        card.style.gridColumnStart = slot.c + 1;
-        card.style.gridRowStart    = slot.r + 1;
-        card.dataset.col    = slot.c;
-        card.dataset.row    = slot.r;
-        card.dataset.pairId = data.id;
-        card.dataset.type   = data.type;
-        card.style.setProperty('--drop-delay', `${i * 0.12}s`);
-
-        const unlockMs = (i * 0.12 + 0.55) * 1000;
-        setTimeout(() => card.classList.remove('drop-in', 'locked'), unlockMs);
-
-        card.addEventListener('click', onCardClick);
-        gridEl.appendChild(card);
-    });
-}
-
-// ===============================================================
-//  GAME COMPLETE CHECK
-// ===============================================================
 function checkGameComplete() {
     const gl = getActiveGlossary();
     if (matchedCount >= gl.length) {
@@ -1651,9 +1561,6 @@ function showEndScreen(win) {
     }
 }
 
-// ===============================================================
-//  START
-// ===============================================================
 window.onload = function() {
     buildCrushChapterTabs();
     startNewGame();
