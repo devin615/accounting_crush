@@ -91,54 +91,76 @@
 
         /* ── TAB NAV ── */
         .tab-nav {
+            position: relative;
+            z-index: 20;
             display: flex;
-            gap: 6px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 50px;
-            padding: 5px;
-            margin: 0 auto 22px auto;
-            backdrop-filter: blur(14px);
-            box-shadow: 0 4px 28px rgba(0,0,0,0.35);
-            width: fit-content;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 3px;
+            margin: 16px auto 26px auto;
+            width: max-content;
+            max-width: 95%;
+            gap: 2px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.25);
         }
 
         .tab-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
             background: transparent;
             border: none;
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.5); /* muted silver/gray */
             font-family: var(--font);
-            font-size: 0.88rem;
-            font-weight: 800;
-            padding: 11px 26px;
-            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 26px;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
             white-space: nowrap;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.04em;
             text-decoration: none;
         }
 
-        .tab-btn:hover {
-            color: var(--text);
+        .tab-btn.active {
+            background: rgba(45, 212, 191, 0.15); /* subtle translucent teal */
+            color: #2dd4bf; /* vibrant translucent teal */
+            box-shadow: inset 0 0 0 1px rgba(45, 212, 191, 0.25);
         }
 
-        .tab-btn.active {
-            background: linear-gradient(135deg, var(--blue2), var(--green2));
-            color: #0f0c29;
-            box-shadow: 0 3px 16px rgba(96,165,250,0.45);
+        .tab-btn:hover:not(.active) {
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         @media (max-width: 600px) {
             .tab-btn {
-                padding: 8px 14px;
-                font-size: 0.76rem;
+                padding: 6px 12px;
+                font-size: 0.74rem;
+                flex-shrink: 0;
             }
             .tab-nav {
-                gap: 4px;
-                padding: 4px;
-                width: 95%;
-                justify-content: center;
+                gap: 2px;
+                padding: 3px 6px;
+                width: auto;
+                max-width: 95%;
+                margin-left: auto;
+                margin-right: auto;
+                justify-content: flex-start;
+                overflow-x: auto;
+                white-space: nowrap;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .tab-nav::-webkit-scrollbar {
+                display: none;
             }
         }
 
@@ -163,7 +185,7 @@
 
         .chevron-menu {
             display: flex;
-            min-width: 950px;
+            min-width: 1250px;
             padding-bottom: 4px;
         }
 
@@ -973,6 +995,54 @@
             20%, 60% { transform: translateX(-6px); }
             40%, 80% { transform: translateX(6px); }
         }
+
+        /* CLOSING LEDGER INTERACTIVE FLOW KEY */
+        .flow-key-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 10px 14px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.25s ease;
+        }
+
+        .flow-key-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .flow-badge {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.72rem;
+            color: #0f0c29;
+        }
+
+        .badge-1 { background-color: var(--blue); }
+        .badge-2 { background-color: var(--red); }
+        .badge-3 { background-color: var(--green); }
+        .badge-4 { background-color: var(--purple); }
+
+        .closing-entry-1, .closing-entry-2, .closing-entry-3, .closing-entry-4 {
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border-radius: 4px;
+        }
+
+        .highlight-c-1 { background-color: rgba(96, 165, 250, 0.22) !important; transform: scale(1.02); }
+        .highlight-c-2 { background-color: rgba(248, 113, 113, 0.22) !important; transform: scale(1.02); }
+        .highlight-c-3 { background-color: rgba(52, 211, 153, 0.22) !important; transform: scale(1.02); }
+        .highlight-c-4 { background-color: rgba(167, 139, 250, 0.22) !important; transform: scale(1.02); }
     </style>
 </head>
 <body>
@@ -982,19 +1052,19 @@
 
 <div class="wrapper">
 
-    <!-- Header -->
-    <div class="page-header">
-        <div class="page-badge">🔄 Cycle Walkthrough</div>
-        <h1 class="page-title">The Accounting Cycle</h1>
-        <p class="page-sub">Interactive recording process: Analyze, Journalize, and Post transactions</p>
-    </div>
-
     <!-- Navigation Tabs -->
     <nav class="tab-nav">
         <a class="tab-btn" href="index.html">⚡ Accounting Crush</a>
         <a class="tab-btn" href="multiple_choice.html">📝 Multiple Choice</a>
         <a class="tab-btn active" href="accounting_cycle.html">🔄 Accounting Cycle</a>
     </nav>
+
+    <!-- Header -->
+    <div class="page-header">
+        <div class="page-badge">🔄 Cycle Walkthrough</div>
+        <h1 class="page-title">The Accounting Cycle</h1>
+        <p class="page-sub">Interactive recording process: Analyze, Journalize, and Post transactions</p>
+    </div>
 
     <!-- Chevron Progress Steps -->
     <div class="chevron-menu-container">
@@ -1003,12 +1073,13 @@
             <div class="chevron-step" onclick="switchStep(2)" id="step-btn-2">Journalize</div>
             <div class="chevron-step" onclick="switchStep(3)" id="step-btn-3">Post to Ledger</div>
             <div class="chevron-step" onclick="switchStep(4)" id="step-btn-4">Trial Balance</div>
-            <div class="chevron-step" onclick="switchStep(5)" id="step-btn-5">Adjusted journal entries</div>
+            <div class="chevron-step" onclick="switchStep(5)" id="step-btn-5">Adjusted Journal Entries</div>
             <div class="chevron-step" onclick="switchStep(6)" id="step-btn-6">Adjusted Ledger</div>
             <div class="chevron-step" onclick="switchStep(7)" id="step-btn-7">Adjusted TB</div>
             <div class="chevron-step" onclick="switchStep(8)" id="step-btn-8">Financials</div>
-            <div class="chevron-step" onclick="switchStep(9)" id="step-btn-9">Closing</div>
-            <div class="chevron-step" onclick="switchStep(10)" id="step-btn-10">Post-Closing TB</div>
+            <div class="chevron-step" onclick="switchStep(9)" id="step-btn-9">Closing Journal Entries</div>
+            <div class="chevron-step" onclick="switchStep(10)" id="step-btn-10">Closing Ledger</div>
+            <div class="chevron-step" onclick="switchStep(11)" id="step-btn-11">Post-Closing TB</div>
         </div>
     </div>
 
@@ -1291,7 +1362,604 @@
 
             <div style="margin-top: 32px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
                 <button class="btn-action" onclick="switchStep(1)" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff;">Return to Step 1 ↺</button>
-                <button class="btn-action" onclick="switchStep(9)">Proceed to Closing Entries ➔</button>
+                <button class="btn-action" onclick="switchStep(9)">Proceed to Closing Journal Entries ➔</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!--  STEP 9: CLOSING JOURNAL ENTRIES PANEL         -->
+    <!-- ============================================== -->
+    <div class="section-panel" id="panel-step-9">
+        <div class="glass-card" style="max-width: 900px; margin: 0 auto;">
+            <h2 class="panel-title">✍️ Step 9: Closing Journal Entries</h2>
+            <p style="margin-bottom: 20px; font-weight:600; color: var(--text-muted); font-size: 0.9rem;">
+                Review the closing journal entries recorded in the General Journal (Page J3) dated October 31, 2022. These entries close all temporary accounts (revenues, expenses, drawings) to zero, transferring balances to Owner's Capital.
+            </p>
+
+            <div class="journal-box" style="width: 100%; margin-bottom: 20px;">
+                <table class="general-journal-table" id="closing-journal-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 110px;">Date</th>
+                            <th>Account Titles and Explanation</th>
+                            <th style="width: 70px; text-align: center;">Ref.</th>
+                            <th style="width: 100px; text-align: right;">Debit</th>
+                            <th style="width: 100px; text-align: right;">Credit</th>
+                        </tr>
+                    </thead>
+                    <tbody id="closing-journal-table-body">
+                        <!-- Entry (1) -->
+                        <tr class="journal-title-row">
+                            <td colspan="5">Entry (1) - Close Revenue</td>
+                        </tr>
+                        <tr>
+                            <td>2022<br>Oct. 31</td>
+                            <td>Service Revenue</td>
+                            <td class="ref-cell">400</td>
+                            <td class="debit-amount">$10,600</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="credit-acc-cell">Income Summary</td>
+                            <td class="ref-cell">350</td>
+                            <td></td>
+                            <td class="credit-amount">$10,600</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="explanation-cell">(To close revenue account)</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        <!-- Entry (2) -->
+                        <tr class="journal-title-row">
+                            <td colspan="5">Entry (2) - Close Expenses</td>
+                        </tr>
+                        <tr>
+                            <td>Oct. 31</td>
+                            <td>Income Summary</td>
+                            <td class="ref-cell">350</td>
+                            <td class="debit-amount">$7,740</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="credit-acc-cell">Supplies Expense</td>
+                            <td class="ref-cell">631</td>
+                            <td></td>
+                            <td class="credit-amount">$1,500</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="credit-acc-cell">Depreciation Expense</td>
+                            <td class="ref-cell">711</td>
+                            <td></td>
+                            <td class="credit-amount">$40</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="credit-acc-cell">Insurance Expense</td>
+                            <td class="ref-cell">722</td>
+                            <td></td>
+                            <td class="credit-amount">$50</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="credit-acc-cell">Salaries and Wages Expense</td>
+                            <td class="ref-cell">726</td>
+                            <td></td>
+                            <td class="credit-amount">$5,200</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="credit-acc-cell">Rent Expense</td>
+                            <td class="ref-cell">729</td>
+                            <td></td>
+                            <td class="credit-amount">$900</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="credit-acc-cell">Interest Expense</td>
+                            <td class="ref-cell">905</td>
+                            <td></td>
+                            <td class="credit-amount">$50</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="explanation-cell">(To close expense accounts)</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        <!-- Entry (3) -->
+                        <tr class="journal-title-row">
+                            <td colspan="5">Entry (3) - Close Net Income to Capital</td>
+                        </tr>
+                        <tr>
+                            <td>Oct. 31</td>
+                            <td>Income Summary</td>
+                            <td class="ref-cell">350</td>
+                            <td class="debit-amount">$2,860</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="credit-acc-cell">Owner's Capital</td>
+                            <td class="ref-cell">301</td>
+                            <td></td>
+                            <td class="credit-amount">$2,860</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="explanation-cell">(To close net income to capital)</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        <!-- Entry (4) -->
+                        <tr class="journal-title-row">
+                            <td colspan="5">Entry (4) - Close Drawings to Capital</td>
+                        </tr>
+                        <tr>
+                            <td>Oct. 31</td>
+                            <td>Owner's Capital</td>
+                            <td class="ref-cell">301</td>
+                            <td class="debit-amount">$500</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="credit-acc-cell">Owner's Drawings</td>
+                            <td class="ref-cell">306</td>
+                            <td></td>
+                            <td class="credit-amount">$500</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="explanation-cell">(To close drawings to capital)</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 24px; text-align: right;">
+                <button class="btn-action" onclick="switchStep(10)">Proceed to Closing Ledger ➔</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!--  STEP 10: CLOSING LEDGER PANEL                 -->
+    <!-- ============================================== -->
+    <div class="section-panel" id="panel-step-10">
+        <div class="glass-card">
+            <h2 class="panel-title">📋 Step 10: Post Closing Entries to Ledger</h2>
+            <p style="margin-bottom: 20px; font-weight:600; color: var(--text-muted); font-size: 0.9rem;">
+                See how closing entries (1), (2), (3), and (4) are posted to the ledger accounts. All temporary accounts (revenues, expenses, drawings) are zeroed out, and the Owner's Capital account is updated to its final balance of $12,360.
+            </p>
+
+            <!-- Interactive Key -->
+            <div style="background: rgba(96,165,250,0.08); border: 1px solid rgba(96,165,250,0.18); padding: 16px; border-radius: 12px; margin-bottom: 24px;">
+                <h3 style="font-weight: 800; font-size: 0.95rem; color: var(--blue); margin-bottom: 8px;">Interactive Closing Entry Flow Key:</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+                    <div class="flow-key-item" id="flow-key-1" onmouseover="highlightFlow(1)" onmouseout="clearHighlightFlow()">
+                        <span class="flow-badge badge-1">1</span> Close Revenues to Income Summary
+                    </div>
+                    <div class="flow-key-item" id="flow-key-2" onmouseover="highlightFlow(2)" onmouseout="clearHighlightFlow()">
+                        <span class="flow-badge badge-2">2</span> Close Expenses to Income Summary
+                    </div>
+                    <div class="flow-key-item" id="flow-key-3" onmouseover="highlightFlow(3)" onmouseout="clearHighlightFlow()">
+                        <span class="flow-badge badge-3">3</span> Close Income Summary to Owner's Capital
+                    </div>
+                    <div class="flow-key-item" id="flow-key-4" onmouseover="highlightFlow(4)" onmouseout="clearHighlightFlow()">
+                        <span class="flow-badge badge-4">4</span> Close Owner's Drawings to Owner's Capital
+                    </div>
+                </div>
+                <p style="font-size: 0.76rem; color: var(--text-muted); margin-top: 10px; font-style: italic;">
+                    * Hover over each step above to trace the transfer paths of the closing entries in the T-accounts below.
+                </p>
+            </div>
+
+            <div class="ledger-cards-grid" id="closing-ledger-grid">
+                <!-- Service Revenue T-Account -->
+                <div class="ledger-card closing-ledger-card" id="card-srv-revenue">
+                    <div class="t-account-header">Service Revenue (No. 400)</div>
+                    <div class="t-account-divider-horizontal"></div>
+                    <div class="t-account-body">
+                        <div class="t-account-column">
+                            <!-- Debits -->
+                            <div class="t-account-entry closing-entry-1">
+                                <span class="t-account-entry-date">Oct. 31 <strong style="color: var(--blue2);">(1)</strong></span>
+                                <span class="t-account-entry-amt">$10,600</span>
+                            </div>
+                            <div class="t-account-balance-line"></div>
+                            <div class="t-account-balance-row" style="color: #666;">
+                                <span>Bal.</span>
+                                <span>$0</span>
+                            </div>
+                        </div>
+                        <div class="t-account-vertical-line"></div>
+                        <div class="t-account-column">
+                            <!-- Credits -->
+                            <div class="t-account-entry">
+                                <span class="t-account-entry-date">Oct. 31</span>
+                                <span class="t-account-entry-amt">$10,000</span>
+                            </div>
+                            <div class="t-account-entry">
+                                <span class="t-account-entry-date">31 (Adj)</span>
+                                <span class="t-account-entry-amt">$400</span>
+                            </div>
+                            <div class="t-account-entry">
+                                <span class="t-account-entry-date">31 (Adj)</span>
+                                <span class="t-account-entry-amt">$200</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Supplies Expense T-Account -->
+                <div class="ledger-card closing-ledger-card" id="card-supplies-exp">
+                    <div class="t-account-header">Supplies Expense (No. 631)</div>
+                    <div class="t-account-divider-horizontal"></div>
+                    <div class="t-account-body">
+                        <div class="t-account-column">
+                            <div class="t-account-entry">
+                                <span class="t-account-entry-date">Oct. 31 (Adj)</span>
+                                <span class="t-account-entry-amt">$1,500</span>
+                            </div>
+                            <div class="t-account-balance-line"></div>
+                            <div class="t-account-balance-row" style="color: #666;">
+                                <span>Bal.</span>
+                                <span>$0</span>
+                            </div>
+                        </div>
+                        <div class="t-account-vertical-line"></div>
+                        <div class="t-account-column">
+                            <div class="t-account-entry closing-entry-2">
+                                <span class="t-account-entry-date">Oct. 31 <strong style="color: var(--red2);">(2)</strong></span>
+                                <span class="t-account-entry-amt">$1,500</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Depreciation Expense T-Account -->
+                <div class="ledger-card closing-ledger-card" id="card-depr-exp">
+                    <div class="t-account-header">Depreciation Expense (No. 711)</div>
+                    <div class="t-account-divider-horizontal"></div>
+                    <div class="t-account-body">
+                        <div class="t-account-column">
+                            <div class="t-account-entry">
+                                <span class="t-account-entry-date">Oct. 31 (Adj)</span>
+                                <span class="t-account-entry-amt">$40</span>
+                            </div>
+                            <div class="t-account-balance-line"></div>
+                            <div class="t-account-balance-row" style="color: #666;">
+                                <span>Bal.</span>
+                                <span>$0</span>
+                            </div>
+                        </div>
+                        <div class="t-account-vertical-line"></div>
+                        <div class="t-account-column">
+                            <div class="t-account-entry closing-entry-2">
+                                <span class="t-account-entry-date">Oct. 31 <strong style="color: var(--red2);">(2)</strong></span>
+                                <span class="t-account-entry-amt">$40</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Insurance Expense T-Account -->
+                <div class="ledger-card closing-ledger-card" id="card-ins-exp">
+                    <div class="t-account-header">Insurance Expense (No. 722)</div>
+                    <div class="t-account-divider-horizontal"></div>
+                    <div class="t-account-body">
+                        <div class="t-account-column">
+                            <div class="t-account-entry">
+                                <span class="t-account-entry-date">Oct. 31 (Adj)</span>
+                                <span class="t-account-entry-amt">$50</span>
+                            </div>
+                            <div class="t-account-balance-line"></div>
+                            <div class="t-account-balance-row" style="color: #666;">
+                                <span>Bal.</span>
+                                <span>$0</span>
+                            </div>
+                        </div>
+                        <div class="t-account-vertical-line"></div>
+                        <div class="t-account-column">
+                            <div class="t-account-entry closing-entry-2">
+                                <span class="t-account-entry-date">Oct. 31 <strong style="color: var(--red2);">(2)</strong></span>
+                                <span class="t-account-entry-amt">$50</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Salaries and Wages Expense T-Account -->
+                <div class="ledger-card closing-ledger-card" id="card-salaries-exp">
+                    <div class="t-account-header">Salaries and Wages Expense (No. 726)</div>
+                    <div class="t-account-divider-horizontal"></div>
+                    <div class="t-account-body">
+                        <div class="t-account-column">
+                            <div class="t-account-entry">
+                                <span class="t-account-entry-date">Oct. 26</span>
+                                <span class="t-account-entry-amt">$4,000</span>
+                            </div>
+                            <div class="t-account-entry">
+                                <span class="t-account-entry-date">31 (Adj)</span>
+                                <span class="t-account-entry-amt">$1,200</span>
+                            </div>
+                            <div class="t-account-balance-line"></div>
+                            <div class="t-account-balance-row" style="color: #666;">
+                                <span>Bal.</span>
+                                <span>$0</span>
+                            </div>
+                        </div>
+                        <div class="t-account-vertical-line"></div>
+                        <div class="t-account-column">
+                            <div class="t-account-entry closing-entry-2">
+                                <span class="t-account-entry-date">Oct. 31 <strong style="color: var(--red2);">(2)</strong></span>
+                                <span class="t-account-entry-amt">$5,200</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rent Expense T-Account -->
+                <div class="ledger-card closing-ledger-card" id="card-rent-exp">
+                    <div class="t-account-header">Rent Expense (No. 729)</div>
+                    <div class="t-account-divider-horizontal"></div>
+                    <div class="t-account-body">
+                        <div class="t-account-column">
+                            <div class="t-account-entry">
+                                <span class="t-account-entry-date">Oct. 3</span>
+                                <span class="t-account-entry-amt">$900</span>
+                            </div>
+                            <div class="t-account-balance-line"></div>
+                            <div class="t-account-balance-row" style="color: #666;">
+                                <span>Bal.</span>
+                                <span>$0</span>
+                            </div>
+                        </div>
+                        <div class="t-account-vertical-line"></div>
+                        <div class="t-account-column">
+                            <div class="t-account-entry closing-entry-2">
+                                <span class="t-account-entry-date">Oct. 31 <strong style="color: var(--red2);">(2)</strong></span>
+                                <span class="t-account-entry-amt">$900</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interest Expense T-Account -->
+                <div class="ledger-card closing-ledger-card" id="card-interest-exp">
+                    <div class="t-account-header">Interest Expense (No. 905)</div>
+                    <div class="t-account-divider-horizontal"></div>
+                    <div class="t-account-body">
+                        <div class="t-account-column">
+                            <div class="t-account-entry">
+                                <span class="t-account-entry-date">Oct. 31 (Adj)</span>
+                                <span class="t-account-entry-amt">$50</span>
+                            </div>
+                            <div class="t-account-balance-line"></div>
+                            <div class="t-account-balance-row" style="color: #666;">
+                                <span>Bal.</span>
+                                <span>$0</span>
+                            </div>
+                        </div>
+                        <div class="t-account-vertical-line"></div>
+                        <div class="t-account-column">
+                            <div class="t-account-entry closing-entry-2">
+                                <span class="t-account-entry-date">Oct. 31 <strong style="color: var(--red2);">(2)</strong></span>
+                                <span class="t-account-entry-amt">$50</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Owner's Drawings T-Account -->
+                <div class="ledger-card closing-ledger-card" id="card-drawings">
+                    <div class="t-account-header">Owner's Drawings (No. 306)</div>
+                    <div class="t-account-divider-horizontal"></div>
+                    <div class="t-account-body">
+                        <div class="t-account-column">
+                            <div class="t-account-entry">
+                                <span class="t-account-entry-date">Oct. 20</span>
+                                <span class="t-account-entry-amt">$500</span>
+                            </div>
+                            <div class="t-account-balance-line"></div>
+                            <div class="t-account-balance-row" style="color: #666;">
+                                <span>Bal.</span>
+                                <span>$0</span>
+                            </div>
+                        </div>
+                        <div class="t-account-vertical-line"></div>
+                        <div class="t-account-column">
+                            <div class="t-account-entry closing-entry-4">
+                                <span class="t-account-entry-date">Oct. 31 <strong style="color: var(--purple);">(4)</strong></span>
+                                <span class="t-account-entry-amt">$500</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Income Summary T-Account -->
+                <div class="ledger-card closing-ledger-card" id="card-income-summary">
+                    <div class="t-account-header">Income Summary (No. 350)</div>
+                    <div class="t-account-divider-horizontal"></div>
+                    <div class="t-account-body">
+                        <div class="t-account-column">
+                            <div class="t-account-entry closing-entry-2">
+                                <span class="t-account-entry-date">Oct. 31 <strong style="color: var(--red2);">(2)</strong></span>
+                                <span class="t-account-entry-amt">$7,740</span>
+                            </div>
+                            <div class="t-account-entry closing-entry-3">
+                                <span class="t-account-entry-date">Oct. 31 <strong style="color: var(--green2);">(3)</strong></span>
+                                <span class="t-account-entry-amt">$2,860</span>
+                            </div>
+                            <div class="t-account-balance-line"></div>
+                            <div class="t-account-balance-row" style="color: #666;">
+                                <span>Bal.</span>
+                                <span>$0</span>
+                            </div>
+                        </div>
+                        <div class="t-account-vertical-line"></div>
+                        <div class="t-account-column">
+                            <div class="t-account-entry closing-entry-1">
+                                <span class="t-account-entry-date">Oct. 31 <strong style="color: var(--blue2);">(1)</strong></span>
+                                <span class="t-account-entry-amt">$10,600</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Owner's Capital T-Account -->
+                <div class="ledger-card closing-ledger-card" id="card-capital">
+                    <div class="t-account-header">Owner's Capital (No. 301)</div>
+                    <div class="t-account-divider-horizontal"></div>
+                    <div class="t-account-body">
+                        <div class="t-account-column">
+                            <div class="t-account-entry closing-entry-4">
+                                <span class="t-account-entry-date">Oct. 31 <strong style="color: var(--purple);">(4)</strong></span>
+                                <span class="t-account-entry-amt">$500</span>
+                            </div>
+                        </div>
+                        <div class="t-account-vertical-line"></div>
+                        <div class="t-account-column">
+                            <div class="t-account-entry">
+                                <span class="t-account-entry-date">Oct. 1</span>
+                                <span class="t-account-entry-amt">$10,000</span>
+                            </div>
+                            <div class="t-account-entry closing-entry-3">
+                                <span class="t-account-entry-date">Oct. 31 <strong style="color: var(--green2);">(3)</strong></span>
+                                <span class="t-account-entry-amt">$2,860</span>
+                            </div>
+                            <div class="t-account-balance-line"></div>
+                            <div class="t-account-balance-row" style="color: var(--blue2);">
+                                <span>Bal.</span>
+                                <span>$12,360</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 24px; text-align: right;">
+                <button class="btn-action" onclick="switchStep(11)">Proceed to Post-Closing Trial Balance ➔</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!--  STEP 11: POST-CLOSING TRIAL BALANCE PANEL     -->
+    <!-- ============================================== -->
+    <div class="section-panel" id="panel-step-11">
+        <div class="glass-card" style="max-width: 800px; margin: 0 auto;">
+            <h2 class="panel-title">⚖️ Step 11: Post-Closing Trial Balance</h2>
+            <p style="margin-bottom: 20px; font-weight:600; color: var(--text-muted); font-size: 0.9rem;">
+                Verify the Post-Closing Trial Balance. This final trial balance contains only permanent accounts (Assets, Liabilities, Owner's Capital). All temporary accounts (revenues, expenses, drawings) have been closed and have a zero balance.
+            </p>
+
+            <!-- Table with dark cosmic styling matching existing system -->
+            <div style="background-color: rgba(255, 255, 255, 0.03); color: var(--text); border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.4); max-width: 580px; margin: 0 auto; padding: 24px; backdrop-filter: blur(12px);">
+                <!-- Banner Header -->
+                <div style="text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed rgba(255, 255, 255, 0.15);">
+                    <div style="font-size: 1.4rem; font-weight: 900; background: linear-gradient(90deg, #ffffff, var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 0.5px;">Pioneer Advertising</div>
+                    <div style="font-size: 1.1rem; font-weight: 800; color: var(--blue); margin-top: 4px;">Post-Closing Trial Balance</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 2px;">October 31, 2022</div>
+                </div>
+                
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.92rem; color: var(--text);">
+                    <thead>
+                        <tr style="border-bottom: 2px solid rgba(255, 255, 255, 0.15); font-weight: 800; color: var(--blue);">
+                            <th style="text-align: left; padding: 8px 4px;">Account Title</th>
+                            <th style="text-align: right; padding: 8px 4px; width: 120px;">Debit ($)</th>
+                            <th style="text-align: right; padding: 8px 4px; width: 120px;">Credit ($)</th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-weight: 600;">
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 8px 4px;">Cash</td>
+                            <td style="text-align: right; padding: 8px 4px;">$15,200</td>
+                            <td style="text-align: right; padding: 8px 4px;"></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 8px 4px;">Accounts Receivable</td>
+                            <td style="text-align: right; padding: 8px 4px;">200</td>
+                            <td style="text-align: right; padding: 8px 4px;"></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 8px 4px;">Supplies</td>
+                            <td style="text-align: right; padding: 8px 4px;">1,000</td>
+                            <td style="text-align: right; padding: 8px 4px;"></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 8px 4px;">Prepaid Insurance</td>
+                            <td style="text-align: right; padding: 8px 4px;">550</td>
+                            <td style="text-align: right; padding: 8px 4px;"></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 8px 4px;">Equipment</td>
+                            <td style="text-align: right; padding: 8px 4px;">5,000</td>
+                            <td style="text-align: right; padding: 8px 4px;"></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 8px 4px;">Accumulated Depreciation—Equipment</td>
+                            <td style="text-align: right; padding: 8px 4px;"></td>
+                            <td style="text-align: right; padding: 8px 4px;">$40</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 8px 4px;">Notes Payable</td>
+                            <td style="text-align: right; padding: 8px 4px;"></td>
+                            <td style="text-align: right; padding: 8px 4px;">5,000</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 8px 4px;">Accounts Payable</td>
+                            <td style="text-align: right; padding: 8px 4px;"></td>
+                            <td style="text-align: right; padding: 8px 4px;">2,500</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 8px 4px;">Unearned Service Revenue</td>
+                            <td style="text-align: right; padding: 8px 4px;"></td>
+                            <td style="text-align: right; padding: 8px 4px;">800</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 8px 4px;">Salaries and Wages Payable</td>
+                            <td style="text-align: right; padding: 8px 4px;"></td>
+                            <td style="text-align: right; padding: 8px 4px;">1,200</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 8px 4px;">Interest Payable</td>
+                            <td style="text-align: right; padding: 8px 4px;"></td>
+                            <td style="text-align: right; padding: 8px 4px;">50</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.15);">
+                            <td style="padding: 8px 4px;">Owner's Capital</td>
+                            <td style="text-align: right; padding: 8px 4px;"></td>
+                            <td style="text-align: right; padding: 8px 4px;">12,360</td>
+                        </tr>
+                        <!-- Totals Row with double-underline -->
+                        <tr style="font-weight: 800; font-size: 0.95rem; color: var(--green);">
+                            <td style="padding: 12px 4px 4px 4px;">Totals</td>
+                            <td style="text-align: right; padding: 12px 4px 4px 4px; border-bottom: 4px double var(--green);">$21,950</td>
+                            <td style="text-align: right; padding: 12px 4px 4px 4px; border-bottom: 4px double var(--green);">$21,950</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 32px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                <button class="btn-action" onclick="switchStep(1)" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff;">Return to Step 1 ↺</button>
+                <button class="btn-action" style="background: linear-gradient(135deg, var(--gold2), var(--gold)); color: #0f0c29;" onclick="finishClosingCycle()">Complete Cycle & Celebrate 🏆</button>
             </div>
         </div>
     </div>
@@ -1744,7 +2412,7 @@
         currentStep = step;
         
         // Update menu buttons
-        for (let i = 1; i <= 10; i++) {
+        for (let i = 1; i <= 11; i++) {
             const btn = document.getElementById(`step-btn-${i}`);
             if (btn) {
                 btn.classList.remove('active');
@@ -1755,7 +2423,7 @@
         // Hide all panels
         document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
 
-        if (step >= 1 && step <= 8) {
+        if (step >= 1 && step <= 11) {
             document.getElementById(`panel-step-${step}`).classList.add('active');
             if (step === 1) renderStep1();
             else if (step === 2) renderStep2();
@@ -1771,6 +2439,9 @@
             }
             else if (step === 7) renderStep7();
             else if (step === 8) renderStep8();
+            else if (step === 9) renderStep9();
+            else if (step === 10) renderStep10();
+            else if (step === 11) renderStep11();
         } else {
             // Placeholder page
             document.getElementById('panel-step-placeholder').classList.add('active');
@@ -1783,6 +2454,88 @@
             document.getElementById('placeholder-text').innerText = pData.text;
             document.getElementById('placeholder-badge').innerText = pData.badge;
         }
+    }
+
+    function renderStep9() {
+        document.getElementById('step-btn-9').classList.add('completed');
+    }
+
+    // Since step 10 has a static but interactive closing ledger pre-populated,
+    // we can simply mark it completed on viewing.
+    function renderStep10() {
+        document.getElementById('step-btn-10').classList.add('completed');
+    }
+
+    function renderStep11() {
+        // Post-Closing Trial Balance
+    }
+
+    function highlightFlow(step) {
+        clearHighlightFlow();
+        const keyItem = document.getElementById(`flow-key-${step}`);
+        if (keyItem) {
+            let color = 'var(--blue)';
+            if (step === 2) color = 'var(--red)';
+            if (step === 3) color = 'var(--green)';
+            if (step === 4) color = 'var(--purple)';
+            keyItem.style.borderColor = color;
+            keyItem.style.background = `rgba(255,255,255,0.08)`;
+        }
+        document.querySelectorAll(`.closing-entry-${step}`).forEach(el => {
+            el.classList.add(`highlight-c-${step}`);
+        });
+    }
+
+    function clearHighlightFlow() {
+        for (let i = 1; i <= 4; i++) {
+            const keyItem = document.getElementById(`flow-key-${i}`);
+            if (keyItem) {
+                keyItem.style.borderColor = '';
+                keyItem.style.background = '';
+            }
+            document.querySelectorAll(`.closing-entry-${i}`).forEach(el => {
+                el.classList.remove(`highlight-c-${i}`);
+            });
+        }
+    }
+
+    function finishClosingCycle() {
+        document.getElementById('step-btn-9').classList.add('completed');
+        document.getElementById('step-btn-10').classList.add('completed');
+        document.getElementById('step-btn-11').classList.add('completed');
+        
+        document.getElementById('confetti-canvas').style.display = 'block';
+        isCelebrating = true;
+        initConfetti();
+        
+        let finalModal = document.getElementById('final-success-modal');
+        if (!finalModal) {
+            finalModal = document.createElement('div');
+            finalModal.className = 'modal-overlay';
+            finalModal.id = 'final-success-modal';
+            finalModal.innerHTML = `
+                <div class="modal-content" style="border-color: var(--gold2); box-shadow: 0 0 30px rgba(245, 158, 11, 0.4);">
+                    <div class="modal-emoji">🎓</div>
+                    <h3 class="modal-title" style="background: linear-gradient(90deg, var(--gold), #ffffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Accounting Cycle Mastered!</h3>
+                    <p class="modal-text">
+                        Congratulations! You have successfully completed the entire 11-step accounting cycle for Pioneer Advertising Agency, including adjusting entries, financial statements, closing entries, ledger posting, and the final Post-Closing Trial Balance.
+                    </p>
+                    <button class="btn-action" style="background: linear-gradient(135deg, var(--gold2), var(--gold)); color: #0f0c29;" onclick="closeFinalSuccessModal()">Awesome! 🌟</button>
+                </div>
+            `;
+            document.body.appendChild(finalModal);
+        }
+        setTimeout(() => finalModal.classList.add('show'), 50);
+    }
+
+    function closeFinalSuccessModal() {
+        const finalModal = document.getElementById('final-success-modal');
+        if (finalModal) {
+            finalModal.classList.remove('show');
+        }
+        isCelebrating = false;
+        document.getElementById('confetti-canvas').style.display = 'none';
+        switchStep(1);
     }
 
     // ===============================================================
@@ -2210,6 +2963,9 @@
         document.getElementById('step-btn-6').classList.remove('completed');
         document.getElementById('step-btn-7').classList.remove('completed');
         document.getElementById('step-btn-8').classList.remove('completed');
+        document.getElementById('step-btn-9').classList.remove('completed');
+        document.getElementById('step-btn-10').classList.remove('completed');
+        document.getElementById('step-btn-11').classList.remove('completed');
         
         showToast("Reset Done", "Ledger accounts cleared.", "info");
         renderStep3();

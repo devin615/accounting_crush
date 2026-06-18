@@ -54,6 +54,17 @@
             margin-bottom: 18px;
             width: 100%;
             max-width: 900px;
+            min-height: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .game-header .hamburger-btn {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         .game-title {
@@ -591,55 +602,73 @@
             position: relative;
             z-index: 20;
             display: flex;
-            gap: 6px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 50px;
-            padding: 5px;
-            margin-bottom: 22px;
-            backdrop-filter: blur(14px);
-            box-shadow: 0 4px 28px rgba(0,0,0,0.35);
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 3px;
+            margin: 16px auto 26px auto;
+            width: max-content;
+            max-width: 95%;
+            gap: 2px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.25);
         }
 
         .tab-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
             background: transparent;
             border: none;
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.5); /* muted silver/gray */
             font-family: 'Nunito', sans-serif;
-            font-size: 0.88rem;
-            font-weight: 800;
-            padding: 11px 26px;
-            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 26px;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
             white-space: nowrap;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.04em;
+            text-decoration: none;
         }
 
         .tab-btn.active {
-            background: linear-gradient(135deg, var(--term), var(--def));
-            color: #0f0c29;
-            box-shadow: 0 3px 16px rgba(96,165,250,0.45);
-            transform: scale(1.04);
+            background: rgba(45, 212, 191, 0.15); /* subtle translucent teal */
+            color: #2dd4bf; /* vibrant translucent teal */
+            box-shadow: inset 0 0 0 1px rgba(45, 212, 191, 0.25);
         }
 
         .tab-btn:hover:not(.active) {
-            color: var(--text);
-            background: rgba(255,255,255,0.08);
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         @media (max-width: 600px) {
             .tab-btn {
-                padding: 8px 14px;
-                font-size: 0.76rem;
+                padding: 6px 12px;
+                font-size: 0.74rem;
+                flex-shrink: 0;
             }
             .tab-nav {
-                gap: 4px;
-                padding: 4px;
-                width: 95%;
+                gap: 2px;
+                padding: 3px 6px;
+                width: auto;
+                max-width: 95%;
                 margin-left: auto;
                 margin-right: auto;
-                justify-content: center;
+                justify-content: flex-start;
+                overflow-x: auto;
+                white-space: nowrap;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .tab-nav::-webkit-scrollbar {
+                display: none;
             }
             
             /* Glossary Game Mobile Layout Redesign (Single Column of choices) */
@@ -889,7 +918,6 @@
     <div class="end-card">
         <div class="end-emoji" id="end-emoji">🏆</div>
         <div class="end-title" id="end-title">You Win!</div>
-        <div class="end-score" id="end-score">0 pts</div>
         <p class="end-sub" id="end-sub">You matched all accounting terms!</p>
         <button class="btn-restart" onclick="startNewGame()">Play Again 🚀</button>
     </div>
@@ -919,26 +947,10 @@
 </header>
 
 <!-- HUD -->
-<div class="hud">
-    <div class="hud-box">
-        <span class="hud-label">Score</span>
-        <span class="hud-value" id="hud-score">0</span>
-    </div>
+<div class="hud" style="justify-content: center;">
     <div class="hud-box">
         <span class="hud-label">Left</span>
         <span class="hud-value" id="hud-left" style="color:var(--term)">27</span>
-    </div>
-    <div class="hud-box">
-        <span class="hud-label">Lives</span>
-        <div class="hearts" id="hearts">
-            <span class="heart">❤️</span>
-            <span class="heart">❤️</span>
-            <span class="heart">❤️</span>
-        </div>
-    </div>
-    <div class="hud-box">
-        <span class="hud-label">Combo</span>
-        <span class="hud-value" id="hud-combo">x1</span>
     </div>
 </div>
 
@@ -1302,11 +1314,10 @@ const CHOICE_ICONS = ['💡','🔍','📊','📈','🧮','💼','🏦','⚖️']
 function shuffle(arr) { return arr.sort(() => 0.5 - Math.random()); }
 
 function updateHUD() {
-    document.getElementById('hud-score').textContent = score;
-    document.getElementById('hud-left').textContent  = cardPool.length + (currentTerm ? 1 : 0);
-    document.getElementById('hud-combo').textContent = `x${combo}`;
-    const hearts = document.querySelectorAll('.heart');
-    hearts.forEach((h, i) => { h.classList.toggle('lost', i >= lives); });
+    const leftEl = document.getElementById('hud-left');
+    if (leftEl) {
+        leftEl.textContent  = cardPool.length + (currentTerm ? 1 : 0);
+    }
 }
 
 function updateProgress() {
@@ -1369,7 +1380,6 @@ function showComboBurst(combo) {
 //  GAME INIT
 // ===============================================================
 function startNewGame() {
-    score = 0; lives = MAX_LIVES; combo = 1;
     matchedCount = 0;
     document.getElementById('end-screen').classList.remove('show');
     initGame();
@@ -1470,23 +1480,17 @@ function onChoiceClick(e) {
             if (el !== card) el.classList.add('locked');
         });
 
-        // Points and scoring
-        const pts = 10 * combo;
-        score += pts;
+        // Points and scoring (removed)
         matchedCount++;
         
         updateHUD();
         updateProgress();
 
-        // Particles & float text
+        // Particles
         const rect = card.getBoundingClientRect();
         const mx = (rect.left + rect.right) / 2;
         const my = (rect.top + rect.bottom) / 2;
         spawnParticles(mx, my, '#34d399', 18);
-        floatText(mx, my - 20, `+${pts}`, combo >= 3 ? '#c084fc' : '#fbbf24');
-        showComboBurst(combo);
-
-        combo++;
 
         // Wait brief delay then load next
         setTimeout(() => {
@@ -1510,10 +1514,6 @@ function onChoiceClick(e) {
 
     } else {
         // Wrong Answer
-        combo = 1;
-        lives = Math.max(0, lives - 1);
-        updateHUD();
-
         card.classList.add('wrong');
         card.classList.add('locked'); // lock the incorrect choice
 
@@ -1522,11 +1522,6 @@ function onChoiceClick(e) {
         if (gameWrap) {
             gameWrap.style.animation = 'shake 0.5s ease';
             setTimeout(() => { gameWrap.style.animation = ''; }, 500);
-        }
-
-        if (lives === 0) {
-            isLocked = true;
-            setTimeout(() => showEndScreen(false), 400);
         }
     }
 }
@@ -1542,12 +1537,9 @@ function checkGameComplete() {
 function showEndScreen(win) {
     const gl     = getActiveGlossary();
     const screen = document.getElementById('end-screen');
-    document.getElementById('end-emoji').textContent  = win ? '🏆' : '💔';
-    document.getElementById('end-title').textContent  = win ? 'You Crushed It!' : 'Game Over!';
-    document.getElementById('end-score').textContent  = `${score} pts`;
-    document.getElementById('end-sub').textContent    = win
-        ? `Amazing! You matched all ${gl.length} Chapter ${activeCrushChapter} terms!`
-        : `You ran out of lives! You scored ${score} points.`;
+    document.getElementById('end-emoji').textContent  = '🏆';
+    document.getElementById('end-title').textContent  = 'You Crushed It!';
+    document.getElementById('end-sub').textContent    = `Amazing! You matched all ${gl.length} Chapter ${activeCrushChapter} terms!`;
     screen.classList.add('show');
 
     if (win) {
