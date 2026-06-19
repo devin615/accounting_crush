@@ -58,13 +58,14 @@
         /* ── HEADER ── */
         .page-header {
             text-align: center;
-            padding: 28px 0 20px;
+            padding: 28px 56px 20px;
             position: relative;
             min-height: 48px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            box-sizing: border-box;
         }
         .page-header .hamburger-btn {
             position: absolute;
@@ -172,6 +173,12 @@
             }
             .tab-nav::-webkit-scrollbar {
                 display: none;
+            }
+            .page-title {
+                font-size: 1.45rem !important;
+            }
+            .page-sub {
+                font-size: 0.82rem !important;
             }
         }
 
@@ -657,6 +664,7 @@
         <a class="tab-btn" href="index.html">⚡ Accounting Crush</a>
         <a class="tab-btn active" href="multiple_choice.html">📝 Multiple Choice</a>
         <a class="tab-btn" href="accounting_cycle.html">🔄 Accounting Cycle</a>
+        <a class="tab-btn" href="study_notes.html">📚 Study Notes</a>
     </nav>
 
     <!-- Header -->

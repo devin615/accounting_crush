@@ -59,6 +59,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 0 56px;
+            box-sizing: border-box;
         }
         .game-header .hamburger-btn {
             position: absolute;
@@ -671,6 +673,13 @@
                 display: none;
             }
             
+            .game-title {
+                font-size: 1.35rem !important;
+            }
+            .game-subtitle {
+                font-size: 0.8rem !important;
+            }
+            
             /* Glossary Game Mobile Layout Redesign (Single Column of choices) */
             .grid {
                 grid-template-columns: 1fr !important;
@@ -928,6 +937,7 @@
     <button class="tab-btn active" id="tab-crush" onclick="showGame('crush')">⚡ Accounting Crush</button>
     <a class="tab-btn" href="multiple_choice.html" style="text-decoration:none">📝 Multiple Choice</a>
     <a class="tab-btn" href="accounting_cycle.html" style="text-decoration:none">🔄 Accounting Cycle</a>
+    <a class="tab-btn" href="study_notes.html" style="text-decoration:none">📚 Study Notes</a>
 </nav>
 
 <!-- ====================================================== -->

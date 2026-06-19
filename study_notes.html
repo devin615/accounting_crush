@@ -1,0 +1,3071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 1 Study Notes: Accounting in Action</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f0c29;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text: #f0f4ff;
+            --text-muted: #94a3b8;
+            --blue: #60a5fa;
+            --blue-glow: rgba(96, 165, 250, 0.35);
+            --green: #34d399;
+            --teal: #2dd4bf;
+            --gold: #fbbf24;
+            --red: #f87171;
+            --purple: #a78bfa;
+            --radius: 16px;
+            --font: 'Nunito', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            background-image: radial-gradient(circle at 50% 0%, #1c1854 0%, #0f0c29 70%);
+            font-family: var(--font);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        #stars-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 16px 80px;
+            box-sizing: border-box;
+        }
+
+        /* ── TAB NAV ── */
+        .tab-nav {
+            position: relative;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 3px;
+            margin: 16px auto 26px auto;
+            width: max-content;
+            max-width: 95%;
+            gap: 2px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+        }
+
+        .tab-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: var(--font);
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 26px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+            white-space: nowrap;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+        }
+
+        .tab-btn.active {
+            background: rgba(45, 212, 191, 0.15);
+            color: #2dd4bf;
+            box-shadow: inset 0 0 0 1px rgba(45, 212, 191, 0.25);
+        }
+
+        .tab-btn:hover:not(.active) {
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        @media (max-width: 600px) {
+            .tab-btn {
+                padding: 6px 12px;
+                font-size: 0.74rem;
+                flex-shrink: 0;
+            }
+            .tab-nav {
+                gap: 2px;
+                padding: 3px 6px;
+                width: auto;
+                max-width: 95%;
+                margin-left: auto;
+                margin-right: auto;
+                justify-content: flex-start;
+                overflow-x: auto;
+                white-space: nowrap;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .tab-nav::-webkit-scrollbar {
+                display: none;
+            }
+            .page-title {
+                font-size: 1.45rem !important;
+            }
+            .page-sub {
+                font-size: 0.82rem !important;
+            }
+        }
+
+        /* ── HEADER ── */
+        .page-header {
+            text-align: center;
+            padding: 10px 56px 30px;
+            position: relative;
+            min-height: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        .page-header .hamburger-btn {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        #hamburger-menu-btn.scrolled {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            z-index: 999;
+            background: rgba(22, 18, 63, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            transform: none !important;
+        }
+        @media (max-width: 600px) {
+            #hamburger-menu-btn.scrolled {
+                left: 12px;
+                top: 12px;
+                background: rgba(22, 18, 63, 0.9);
+            }
+        }
+        .page-badge {
+            display: inline-block;
+            background: rgba(167, 139, 250, 0.15);
+            color: var(--purple);
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 999px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(167, 139, 250, 0.25);
+        }
+        .page-title {
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--blue), var(--green), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 18px rgba(96,165,250,0.35));
+            line-height: 1.2;
+            margin: 0 0 8px 0;
+        }
+        .page-sub {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* ── STUDY NOTES SECTIONS ── */
+        .notes-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 32px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            scroll-margin-top: 24px;
+        }
+        .notes-section:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--blue);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 12px;
+            margin: 0 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-subtitle {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--purple);
+            margin: 20px 0 10px 0;
+        }
+
+        /* Images */
+        .study-image-container {
+            background: rgba(0,0,0,0.25);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 10px;
+            margin: 16px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .study-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+
+        /* Grid & Cards */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .step-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .step-card:hover {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+        .step-num {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--teal);
+            margin-bottom: 8px;
+        }
+        .step-title {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+        .step-desc {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* Scenario Checker */
+        .criteria-container {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+            .criteria-container {
+                grid-template-columns: 1fr;
+            }
+            .grid-2 {
+                grid-template-columns: 1fr !important;
+            }
+            .checklist-container {
+                grid-template-columns: 1fr !important;
+            }
+        }
+        .criteria-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .filter-box {
+            background: rgba(96, 165, 250, 0.08);
+            border: 1px solid rgba(96, 165, 250, 0.25);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(96,165,250,0.1);
+        }
+        .filter-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--blue);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 4px;
+        }
+        .filter-q {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .scenario-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .scenario-text {
+            font-size: 0.88rem;
+        }
+        .scenario-result {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.82rem;
+            font-weight: 800;
+        }
+        .scenario-result.yes {
+            color: var(--green);
+        }
+        .scenario-result.no {
+            color: var(--red);
+            opacity: 0.8;
+        }
+        .scenario-result.no .scenario-text-val {
+            text-decoration: line-through;
+        }
+
+        /* Columns */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .column-card {
+            background: rgba(255,255,255,0.015);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .column-hdr {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+        .column-desc {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin: 0 0 16px 0;
+        }
+        .qa-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .qa-item {
+            border-left: 2px solid var(--purple);
+            padding-left: 12px;
+        }
+        .qa-dept {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .qa-q {
+            font-size: 0.88rem;
+            font-style: italic;
+            color: #fff;
+        }
+
+        /* Checklist step card */
+        .checklist-container {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 20px;
+            align-items: center;
+        }
+        .checklist-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .checklist-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            gap: 12px;
+        }
+        .checklist-num {
+            background: rgba(167, 139, 250, 0.15);
+            border: 1px solid rgba(167, 139, 250, 0.25);
+            color: var(--purple);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.82rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+        .checklist-content {
+            font-size: 0.88rem;
+        }
+        .checklist-title {
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+        .checklist-desc {
+            color: var(--text-muted);
+        }
+
+        /* Building Blocks */
+        .equation-box {
+            background: rgba(251, 191, 36, 0.04);
+            border: 1px solid rgba(251, 191, 36, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.05);
+        }
+        .equation-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 6px;
+        }
+        .equation-formula {
+            font-size: clamp(1.1rem, 4vw, 1.6rem);
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 0.02em;
+        }
+        .equation-detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .detail-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 14px;
+        }
+        .detail-item-title {
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .detail-item-desc {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        /* Tables */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(0,0,0,0.15);
+            margin-top: 16px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.1) transparent;
+        }
+        .table-responsive::-webkit-scrollbar {
+            height: 6px;
+        }
+        .table-responsive::-webkit-scrollbar-thumb {
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 3px;
+        }
+        .study-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.82rem;
+        }
+        .study-table th {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.68rem;
+            letter-spacing: 0.05em;
+            padding: 10px 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            white-space: nowrap;
+        }
+        .study-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #f0f4ff;
+            white-space: nowrap;
+        }
+        .study-table tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+        .badge-up {
+            background: rgba(52, 211, 153, 0.15);
+            color: var(--green);
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.74rem;
+        }
+        .badge-down {
+            background: rgba(248, 113, 113, 0.15);
+            color: var(--red);
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.74rem;
+        }
+
+        /* Reconciler */
+        .reconciler-container {
+            background: rgba(52, 211, 153, 0.03);
+            border: 1px solid rgba(52, 211, 153, 0.15);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            box-shadow: 0 0 15px rgba(52,211,153,0.05);
+        }
+        .reconciler-parts {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .reconciler-part {
+            display: flex;
+            flex-direction: column;
+        }
+        .reconciler-lbl {
+            font-size: 0.68rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .reconciler-val {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: #fff;
+        }
+        .reconciler-badge {
+            background: rgba(52, 211, 153, 0.15);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            color: var(--green);
+            font-size: 0.8rem;
+            font-weight: 900;
+            padding: 6px 14px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(52, 211, 153, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Statement Flows */
+        .flow-step-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .flow-card {
+            background: rgba(255,255,255,0.015);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .flow-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .flow-icon {
+            font-size: 1.2rem;
+        }
+        .flow-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #fff;
+        }
+        .flow-content {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+        .flow-connector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--red);
+            font-size: 1.5rem;
+            margin: -6px 0;
+            z-index: 10;
+            position: relative;
+        }
+        .flow-connector::after {
+            content: '↓';
+            font-weight: 900;
+        }
+        .flow-alternative-note {
+            background: rgba(248, 113, 113, 0.03);
+            border: 1px solid rgba(248, 113, 113, 0.12);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+        .flow-alternative-note strong {
+            color: var(--red);
+        }
+
+        /* ── SIDEBAR DRAWERS ── */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 400;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .sidebar-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100%;
+            background: linear-gradient(180deg, #16123f 0%, #0f0c29 100%);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 500;
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 10px 0;
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+        }
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        .sidebar-logo-section {
+            display: flex;
+            align-items: center;
+            padding: 0 16px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 12px;
+            height: 56px;
+        }
+        .sidebar-logo-section .hamburger-btn {
+            position: static;
+            transform: none;
+            margin-right: 16px;
+        }
+        .sidebar-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--blue), var(--green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            overflow-y: auto;
+            padding: 0 8px;
+            flex-grow: 1;
+        }
+        .ch-tab {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: var(--font);
+            font-size: 0.88rem;
+            font-weight: 700;
+            padding: 12px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            width: 100%;
+            margin: 0;
+        }
+        .ch-tab:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .ch-tab.active {
+            background: rgba(96, 165, 250, 0.15) !important;
+            color: var(--blue) !important;
+            font-weight: 800;
+        }
+
+        /* Hamburger button */
+        .hamburger-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 40px;
+            height: 40px;
+            padding: 12px 10px;
+            border-radius: 50%;
+            z-index: 100;
+            transition: background-color 0.2s;
+        }
+        .hamburger-btn:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+        .hamburger-btn span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: var(--text);
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+
+        /* ── CHAPTER 2 ADDITIONAL STYLES ── */
+        .sidebar-chap-hdr {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 12px 16px 4px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 4px;
+            margin-top: 12px;
+        }
+        .chapter-divider {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.1) 0%, rgba(96, 165, 250, 0.05) 100%);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin: 40px 0 24px 0;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        .chapter-divider h2 {
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            font-weight: 800;
+            margin: 0 0 6px 0;
+            background: linear-gradient(90deg, var(--purple), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .chapter-divider p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+        
+        /* T-Account Visuals */
+        .t-accounts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .t-account {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+        .t-account-title {
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: #fff;
+            padding-bottom: 6px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+            width: 100%;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .t-account-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            position: relative;
+        }
+        .t-account-body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .t-account-side {
+            padding: 4px 8px;
+            display: flex;
+            flex-direction: column;
+            font-size: 0.8rem;
+        }
+        .t-account-side.left {
+            align-items: flex-start;
+        }
+        .t-account-side.right {
+            align-items: flex-end;
+        }
+        .t-side-hdr {
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .t-entry {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+        .t-badge-plus {
+            background: rgba(52, 211, 153, 0.15);
+            color: var(--green);
+            font-weight: 900;
+            padding: 1px 4px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+        .t-badge-minus {
+            background: rgba(248, 113, 113, 0.15);
+            color: var(--red);
+            font-weight: 900;
+            padding: 1px 4px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+        .t-bal-indicator {
+            grid-column: span 2;
+            text-align: center;
+            font-size: 0.76rem;
+            font-weight: 800;
+            color: var(--teal);
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            padding-top: 8px;
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        /* Journal Table specific overrides */
+        .journal-table td {
+            font-family: monospace;
+            font-size: 0.84rem;
+        }
+        .journal-table tr.explanation-row td {
+            font-family: var(--font);
+            padding-top: 2px;
+            padding-bottom: 8px;
+            border-bottom: none;
+        }
+        .journal-table tr.separator-row td {
+            padding: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        /* Ledger card structures */
+        .ledger-account-card {
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius);
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+        .ledger-account-header {
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--blue);
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar Overlay -->
+<div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
+
+<!-- Sidebar Drawer -->
+<aside id="sidebar" class="sidebar">
+    <div class="sidebar-logo-section">
+        <button class="hamburger-btn" onclick="toggleSidebar(false)" aria-label="Close Sidebar Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <span class="sidebar-title">Study Sections</span>
+    </div>
+    <nav class="sidebar-menu">
+        <div class="sidebar-chap-hdr">Chapter 1: Accounting in Action</div>
+        <button class="ch-tab" onclick="scrollToSection('sec-1')">1. The Accounting Process</button>
+        <button class="ch-tab" onclick="scrollToSection('sec-2')">2. Users of Information</button>
+        <button class="ch-tab" onclick="scrollToSection('sec-3')">3. Ethics in Reporting</button>
+        <button class="ch-tab" onclick="scrollToSection('sec-4')">4. Building Blocks</button>
+        <button class="ch-tab" onclick="scrollToSection('sec-5')">5. Tabular Summary</button>
+        <button class="ch-tab" onclick="scrollToSection('sec-6')">6. Financial Statements</button>
+        <button class="ch-tab" onclick="scrollToSection('sec-7')">7. Interconnected Data Flows</button>
+
+        <div class="sidebar-chap-hdr">Chapter 2: The Recording Process</div>
+        <button class="ch-tab" onclick="scrollToSection('ch2-sec-1')">1. Account & T-Account</button>
+        <button class="ch-tab" onclick="scrollToSection('ch2-sec-2')">2. Debit/Credit Rules</button>
+        <button class="ch-tab" onclick="scrollToSection('ch2-sec-3')">3. Recording Steps</button>
+        <button class="ch-tab" onclick="scrollToSection('ch2-sec-4')">4. General Journal</button>
+        <button class="ch-tab" onclick="scrollToSection('ch2-sec-5')">5. General Ledger</button>
+        <button class="ch-tab" onclick="scrollToSection('ch2-sec-6')">6. Posting Process</button>
+        <button class="ch-tab" onclick="scrollToSection('ch2-sec-7')">7. Trial Balance</button>
+
+        <div class="sidebar-chap-hdr">Chapter 3: Adjusting Accounts</div>
+        <button class="ch-tab" onclick="scrollToSection('ch3-sec-1')">1. Timing Issues</button>
+        <button class="ch-tab" onclick="scrollToSection('ch3-sec-2')">2. 5-Step Framework</button>
+        <button class="ch-tab" onclick="scrollToSection('ch3-sec-3')">3. Deferrals (Prepaid/Unearned)</button>
+        <button class="ch-tab" onclick="scrollToSection('ch3-sec-4')">4. Accruals (Rev/Exp)</button>
+        <button class="ch-tab" onclick="scrollToSection('ch3-sec-5')">5. Adjusting Journal</button>
+        <button class="ch-tab" onclick="scrollToSection('ch3-sec-6')">6. Trial Balance &amp; Flow</button>
+    </nav>
+</aside>
+
+<canvas id="stars-canvas"></canvas>
+
+<div class="wrapper">
+
+    <!-- Navigation Tabs -->
+    <nav class="tab-nav">
+        <a class="tab-btn" href="index.html">⚡ Accounting Crush</a>
+        <a class="tab-btn" href="multiple_choice.html">📝 Multiple Choice</a>
+        <a class="tab-btn" href="accounting_cycle.html">🔄 Accounting Cycle</a>
+        <a class="tab-btn active" href="study_notes.html">📚 Study Notes</a>
+    </nav>
+
+    <!-- Header -->
+    <header class="page-header">
+        <button id="hamburger-menu-btn" class="hamburger-btn" onclick="toggleSidebar(true)" aria-label="Open Sidebar Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="page-badge">📚 Chapters 1, 2 &amp; 3 Study Manual</div>
+        <h1 class="page-title">Accounting Study Notes</h1>
+        <p class="page-sub">Comprehensive Reference Materials for Chapters 1, 2 &amp; 3</p>
+    </header>
+
+    <!-- CHAPTER 1 DIVIDER -->
+    <div class="chapter-divider" id="chapter-1-top">
+        <h2>Chapter 1: Accounting in Action</h2>
+        <p>Foundations of Accounting, basic terminology, structural blocks, and statements</p>
+    </div>
+
+    <!-- SECTION 1 -->
+    <section class="notes-section" id="sec-1">
+        <h2 class="section-title"><span>📘</span> Section 1: The Accounting Process</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">Accounting consists of three basic activities: identifying, recording, and communicating economic events.</p>
+        
+        <div class="grid-3">
+            <div class="step-card">
+                <span class="step-num">01</span>
+                <span class="step-title">Identification</span>
+                <p class="step-desc">Selecting specific economic events (transactions) that are relevant to a particular business entity.</p>
+            </div>
+            <div class="step-card">
+                <span class="step-num">02</span>
+                <span class="step-title">Recording</span>
+                <p class="step-desc">Systematically keeping a chronological diary of measured events. This involves recording, classifying, and summarizing financial details.</p>
+            </div>
+            <div class="step-card">
+                <span class="step-num">03</span>
+                <span class="step-title">Communication</span>
+                <p class="step-desc">Preparing formal accounting reports (Financial Statements) and actively analyzing and interpreting those results for a wide variety of users.</p>
+            </div>
+        </div>
+
+        <div class="study-image-container">
+            <img src="screenshots/Screenshot 2026-06-18 202604.png" alt="The Accounting Process Flowchart" class="study-image">
+        </div>
+
+        <h3 class="section-subtitle">The Transaction Identification Criteria Matrix</h3>
+        <div class="criteria-container">
+            <div class="criteria-flow">
+                <div class="filter-box">
+                    <div class="filter-title">Core Filter Question</div>
+                    <div class="filter-q">"Is the financial position (assets, liabilities, or owner's equity) of the company changed?"</div>
+                </div>
+                
+                <div class="scenario-item">
+                    <span class="scenario-text"><strong>Scenario A:</strong> Purchase a Computer</span>
+                    <span class="scenario-result yes">
+                        <span>✓ Yes</span> &middot; <span style="font-weight: normal; opacity:0.8;">Record Transaction</span>
+                    </span>
+                </div>
+                <div class="scenario-item">
+                    <span class="scenario-text" style="opacity: 0.6; text-decoration: line-through;"><strong>Scenario B:</strong> Discuss Guided Trip Options with a Potential Customer</span>
+                    <span class="scenario-result no">
+                        <span class="scenario-text-val">✗ No</span> &middot; <span style="font-weight: normal; opacity:0.8;">Do NOT Record</span>
+                    </span>
+                </div>
+                <div class="scenario-item">
+                    <span class="scenario-text"><strong>Scenario C:</strong> Pay Rent</span>
+                    <span class="scenario-result yes">
+                        <span>✓ Yes</span> &middot; <span style="font-weight: normal; opacity:0.8;">Record Transaction</span>
+                    </span>
+                </div>
+            </div>
+            <div class="study-image-container" style="margin: 0;">
+                <img src="screenshots/Screenshot 2026-06-18 202917.png" alt="Transaction Identification Criteria Diagram" class="study-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section class="notes-section" id="sec-2">
+        <h2 class="section-title"><span>👥</span> Section 2: Users of Accounting Information</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">Accounting information serves both those inside the organization (internal users) and outside parties (external users).</p>
+
+        <div class="grid-2">
+            <div class="column-card">
+                <div>
+                    <h3 class="column-hdr"><span>💼</span> Internal Users</h3>
+                    <p class="column-desc">Managers who plan, organize, and run the business from the inside.</p>
+                    <div class="qa-list">
+                        <div class="qa-item">
+                            <span class="qa-dept">Finance Departments</span>
+                            <div class="qa-q">"Is cash sufficient to pay dividends to Microsoft stockholders?"</div>
+                        </div>
+                        <div class="qa-item">
+                            <span class="qa-dept">Marketing Staff</span>
+                            <div class="qa-q">"What price should Apple charge for an iPhone to maximize the company's net income?"</div>
+                        </div>
+                        <div class="qa-item">
+                            <span class="qa-dept">Human Resources (HR)</span>
+                            <div class="qa-q">"Can General Motors afford to give its employees pay raises this year?"</div>
+                        </div>
+                        <div class="qa-item">
+                            <span class="qa-dept">Management</span>
+                            <div class="qa-q">"Which PepsiCo product line is the most profitable? Should any product lines be eliminated?"</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="study-image-container" style="margin-bottom: 0;">
+                    <img src="screenshots/Screenshot 2026-06-18 202621.png" alt="Questions Internal Users Ask" class="study-image">
+                </div>
+            </div>
+
+            <div class="column-card">
+                <div>
+                    <h3 class="column-hdr"><span>🌎</span> External Users</h3>
+                    <p class="column-desc">Individuals and organizations outside the company who want financial data about the business.</p>
+                    <div class="qa-list">
+                        <div class="qa-item" style="border-left-color: var(--green);">
+                            <span class="qa-dept" style="color: var(--green);">Investors (Owners / Potential Owners)</span>
+                            <div class="qa-q">"Is General Electric earning satisfactory income?"</div>
+                            <div class="qa-q" style="margin-top: 4px;">"How does Disney compare in size and profitability with WarnerMedia?"</div>
+                        </div>
+                        <div class="qa-item" style="border-left-color: var(--green);">
+                            <span class="qa-dept" style="color: var(--green);">Creditors (Suppliers &amp; Bankers)</span>
+                            <div class="qa-q">"Will United Airlines be able to pay its debts as they come due?"</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="study-image-container" style="margin-bottom: 0;">
+                    <img src="screenshots/Screenshot 2026-06-18 202635.png" alt="Questions External Users Ask" class="study-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section class="notes-section" id="sec-3">
+        <h2 class="section-title"><span>⚖️</span> Section 3: Ethics in Financial Reporting</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">Ethics is a fundamental business concept. For financial reports to be effective, they must be prepared ethically, presenting information that is both relevant and faithfully represented.</p>
+
+        <div class="checklist-container">
+            <div class="checklist-list">
+                <div class="checklist-item">
+                    <span class="checklist-num">1</span>
+                    <div class="checklist-content">
+                        <div class="checklist-title">Recognize an Ethical Situation and the Ethical Issues Involved</div>
+                        <div class="checklist-desc">Use your personal ethics to identify ethical situations and issues. Note that professional organizations provide written codes of ethics for guidance in business situations.</div>
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <span class="checklist-num">2</span>
+                    <div class="checklist-content">
+                        <div class="checklist-title">Identify and Analyze the Principal Elements in the Situation</div>
+                        <div class="checklist-desc">Identify the stakeholders—persons or groups who may be harmed or benefited. Ask the core question: "What are the responsibilities and obligations of the parties involved?"</div>
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <span class="checklist-num">3</span>
+                    <div class="checklist-content">
+                        <div class="checklist-title">Identify Alternatives, and Weigh the Impact of Each Alternative</div>
+                        <div class="checklist-desc">Select the most ethical alternative, considering all consequences. Sometimes there will be one right answer; other situations require an evaluation of each and a selection of the best unique alternative.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="study-image-container" style="margin: 0;">
+                <img src="screenshots/Screenshot 2026-06-18 202733.png" alt="Ethics in Financial Reporting - Balancing Alternatives Diagram" class="study-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section class="notes-section" id="sec-4">
+        <h2 class="section-title"><span>🧩</span> Section 4: The Building Blocks &amp; Accounting Equation</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">The basic components of accounting are assets, liabilities, and owner's equity, bound together mathematically by the accounting equation.</p>
+
+        <h3 class="section-subtitle">The Basic Accounting Equation</h3>
+        <div class="equation-box">
+            <div class="equation-title">Basic Formula</div>
+            <div class="equation-formula">Assets = Liabilities + Owner's Equity</div>
+        </div>
+
+        <div class="grid-3" style="margin-top: 10px;">
+            <div class="detail-item">
+                <div class="detail-item-title" style="color: var(--blue);">Assets</div>
+                <div class="detail-item-desc">Resources a business owns. These resources represent future economic benefits and values (e.g., Cash, Accounts Receivable, Supplies, Equipment).</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-item-title" style="color: var(--red);">Liabilities</div>
+                <div class="detail-item-desc">Claims against those assets; legal debts and obligations. Creditors represent claims of those to whom the business owes money (e.g., Accounts Payable, Notes Payable).</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-item-title" style="color: var(--purple);">Owner's Equity</div>
+                <div class="detail-item-desc">The owner's remaining claim on total assets after all liabilities are deducted. Often referred to as residual equity or net assets.</div>
+            </div>
+        </div>
+
+        <div class="study-image-container">
+            <img src="screenshots/Screenshot 2026-06-18 202812.png" alt="Basic Accounting Equation Car Example" class="study-image">
+        </div>
+
+        <h3 class="section-subtitle" style="margin-top: 30px;">The Expanded Accounting Equation</h3>
+        <div class="equation-box" style="background: rgba(167, 139, 250, 0.04); border-color: rgba(167, 139, 250, 0.15);">
+            <div class="equation-title" style="color: var(--purple)">Expanded Formula</div>
+            <div class="equation-formula" style="font-size: clamp(0.95rem, 3.5vw, 1.4rem);">Assets = Liabilities + Owner's Capital - Owner's Drawings + Revenues - Expenses</div>
+        </div>
+
+        <div class="grid-2" style="margin-top: 10px;">
+            <div class="step-card">
+                <span class="step-title" style="color: var(--green);">▲ Increases Equity</span>
+                <p class="step-desc">Owner's equity is increased by:
+                    <ul style="margin: 4px 0 0 16px; padding: 0; font-size: 0.82rem; color: var(--text-muted);">
+                        <li><strong>Owner's Capital:</strong> Assets placed in the business by the owner.</li>
+                        <li><strong>Revenues:</strong> Gross increases in owner's equity resulting from business activities entered into for the purpose of earning income.</li>
+                    </ul>
+                </p>
+            </div>
+            <div class="step-card">
+                <span class="step-title" style="color: var(--red);">▼ Decreases Equity</span>
+                <p class="step-desc">Owner's equity is decreased by:
+                    <ul style="margin: 4px 0 0 16px; padding: 0; font-size: 0.82rem; color: var(--text-muted);">
+                        <li><strong>Owner's Drawings:</strong> Withdrawals of cash or other assets by the owner for personal use.</li>
+                        <li><strong>Expenses:</strong> The cost of assets consumed or services used in the process of earning revenue.</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="study-image-container">
+            <img src="screenshots/Screenshot 2026-06-08 181111.png" alt="Expanded Accounting Equation Components Matrix" class="study-image">
+        </div>
+
+        <h3 class="section-subtitle" style="margin-top: 30px;">Component Classification Examples Table</h3>
+        <div class="table-responsive">
+            <table class="study-table">
+                <thead>
+                    <tr>
+                        <th>Classification</th>
+                        <th>Component Account Names</th>
+                        <th>Effect on Owner's Equity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Assets</strong></td>
+                        <td>Cash, Accounts Receivable, Supplies, Equipment, Land, Buildings</td>
+                        <td>None (Asset class)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Liabilities</strong></td>
+                        <td>Accounts Payable, Notes Payable, Salaries and Wages Payable</td>
+                        <td>None (Liability class)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Owner's Capital</strong></td>
+                        <td>Owner's Capital</td>
+                        <td><span class="badge-up">Increases Equity</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Owner's Drawings</strong></td>
+                        <td>Owner's Drawings</td>
+                        <td><span class="badge-down">Decreases Equity</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Revenues</strong></td>
+                        <td>Service Revenue, Rent Revenue, Commission Revenue</td>
+                        <td><span class="badge-up">Increases Equity</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Expenses</strong></td>
+                        <td>Advertising Expense, Rent Expense, Salaries and Wages Expense, Utilities Expense</td>
+                        <td><span class="badge-down">Decreases Equity</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- SECTION 5 -->
+    <section class="notes-section" id="sec-5">
+        <h2 class="section-title"><span>📊</span> Section 5: Complete Tabular Summary of Transactions</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">Transactions are analyzed and recorded in a tabular layout, showing how each event affects assets, liabilities, and owner's equity. Every transaction must keep the basic equation in balance.</p>
+
+        <div class="table-responsive">
+            <table class="study-table" style="font-size: 0.8rem;">
+                <thead>
+                    <tr>
+                        <th>Trans.</th>
+                        <th style="color: var(--blue);">Cash</th>
+                        <th style="color: var(--blue);">Accounts Rec.</th>
+                        <th style="color: var(--blue);">Supplies</th>
+                        <th style="color: var(--blue);">Equipment</th>
+                        <th style="color: var(--red);">= Accounts Pay.</th>
+                        <th style="color: var(--purple);">+ Capital</th>
+                        <th style="color: var(--purple);">- Drawings</th>
+                        <th style="color: var(--purple);">+ Revenues</th>
+                        <th style="color: var(--purple);">- Expenses</th>
+                        <th>Transaction Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>(1)</td>
+                        <td>+$15,000</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>+$15,000</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="color: var(--text-muted);">Initial Investment (Capital Invest.)</td>
+                    </tr>
+                    <tr>
+                        <td>(2)</td>
+                        <td>-$7,000</td>
+                        <td></td>
+                        <td></td>
+                        <td>+$7,000</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="color: var(--text-muted);">Purchase Equipment for Cash</td>
+                    </tr>
+                    <tr>
+                        <td>(3)</td>
+                        <td></td>
+                        <td></td>
+                        <td>+$1,600</td>
+                        <td></td>
+                        <td>+$1,600</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="color: var(--text-muted);">Purchase Supplies on Credit</td>
+                    </tr>
+                    <tr>
+                        <td>(4)</td>
+                        <td>+$1,200</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>+$1,200</td>
+                        <td></td>
+                        <td style="color: var(--text-muted);">Perform Services for Cash</td>
+                    </tr>
+                    <tr>
+                        <td>(5)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>+$250</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>-$250</td>
+                        <td style="color: var(--text-muted);">Advertising on Credit (Adver. Expense)</td>
+                    </tr>
+                    <tr>
+                        <td>(6)</td>
+                        <td>+$1,500</td>
+                        <td>+$2,000</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>+$3,500</td>
+                        <td></td>
+                        <td style="color: var(--text-muted);">Services Rendered for Cash and Account</td>
+                    </tr>
+                    <tr>
+                        <td>(7)</td>
+                        <td>-$1,700</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>-$1,700</td>
+                        <td style="color: var(--text-muted);">Paid Expenses: Rent (-$600), Wages (-$900), Util (-$200)</td>
+                    </tr>
+                    <tr>
+                        <td>(8)</td>
+                        <td>-$250</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>-$250</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="color: var(--text-muted);">Paid Accounts Payable Balance</td>
+                    </tr>
+                    <tr>
+                        <td>(9)</td>
+                        <td>+$600</td>
+                        <td>-$600</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="color: var(--text-muted);">Collected Accounts Receivable Cash</td>
+                    </tr>
+                    <tr>
+                        <td>(10)</td>
+                        <td>-$1,300</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>-$1,300</td>
+                        <td></td>
+                        <td></td>
+                        <td style="color: var(--text-muted);">Owner Personal Drawings</td>
+                    </tr>
+                    <tr style="background: rgba(255,255,255,0.06); font-weight: 800; border-top: 2px solid rgba(255,255,255,0.15)">
+                        <td>Bal.</td>
+                        <td>$8,050</td>
+                        <td>$1,400</td>
+                        <td>$1,600</td>
+                        <td>$7,000</td>
+                        <td>$1,600</td>
+                        <td>$15,000</td>
+                        <td>-$1,300</td>
+                        <td>$4,700</td>
+                        <td>-$1,950</td>
+                        <td style="color: #fff;">Ending Account Balances</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="reconciler-container">
+            <div class="reconciler-parts">
+                <div class="reconciler-part">
+                    <span class="reconciler-lbl">Total Assets Side</span>
+                    <span class="reconciler-val">Cash ($8,050) + AR ($1,400) + Supplies ($1,600) + Equip ($7,000) = <strong>$18,050</strong></span>
+                </div>
+                <div class="reconciler-part">
+                    <span class="reconciler-lbl">Total Liabilities &amp; Owner's Equity Side</span>
+                    <span class="reconciler-val">AP ($1,600) + Capital ($15,000) - Drawings ($1,300) + Rev ($4,700) - Exp ($1,950) = <strong>$18,050</strong></span>
+                </div>
+            </div>
+            <div class="reconciler-badge">
+                <span>⚖️</span>
+                <span>$18,050 = $18,050 Balances Perfectly</span>
+            </div>
+        </div>
+
+        <div class="study-image-container">
+            <img src="screenshots/Screenshot 2026-06-18 203018.png" alt="Tabular Summary of Transactions Matrix" class="study-image">
+        </div>
+    </section>
+
+    <!-- SECTION 6 -->
+    <section class="notes-section" id="sec-6">
+        <h2 class="section-title"><span>📋</span> Section 6: Financial Statements Matrix &amp; Data Timeframes</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">Companies prepare four financial statements from the summarized accounting data. The timeframe of each statement dictates whether it reports activity over a period or values at a point in time.</p>
+
+        <div class="grid-2">
+            <div class="step-card">
+                <span class="step-num">1</span>
+                <span class="step-title">Income Statement</span>
+                <p class="step-desc" style="margin: 0 0 10px 0;">Reports the success or profitability of the company's operations over a specific period of time.</p>
+                <div style="font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px;">
+                    <div><strong>Timeframe Window:</strong> Period of time (e.g., <em>"For the Month Ended October 31, 2022"</em>)</div>
+                    <div style="margin-top: 4px; color: var(--teal);"><strong>Formula:</strong> Revenues - Expenses = Net Income / (Net Loss)</div>
+                </div>
+            </div>
+            <div class="step-card">
+                <span class="step-num">2</span>
+                <span class="step-title">Owner's Equity Statement</span>
+                <p class="step-desc" style="margin: 0 0 10px 0;">Summarizes the changes in owner's equity that occurred over a specific period of time.</p>
+                <div style="font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px;">
+                    <div><strong>Timeframe Window:</strong> Period of time (e.g., <em>"For the Month Ended October 31, 2022"</em>)</div>
+                    <div style="margin-top: 4px; color: var(--teal);"><strong>Formula:</strong> Beginning Capital + Investments +/- Net Income/(Loss) - Drawings = Ending Capital</div>
+                </div>
+            </div>
+            <div class="step-card">
+                <span class="step-num">3</span>
+                <span class="step-title">Balance Sheet</span>
+                <p class="step-desc" style="margin: 0 0 10px 0;">Reports the assets, liabilities, and owner's equity of a business at a specific point in time.</p>
+                <div style="font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px;">
+                    <div><strong>Timeframe Window:</strong> Point in time (e.g., <em>"October 31, 2022"</em>)</div>
+                    <div style="margin-top: 4px; color: var(--teal);"><strong>Formula:</strong> Assets = Liabilities + Owner's Equity <span style="color: var(--text-muted);">(utilizes Ending Capital from Equity Stmt)</span></div>
+                </div>
+            </div>
+            <div class="step-card">
+                <span class="step-num">4</span>
+                <span class="step-title">Statement of Cash Flows</span>
+                <p class="step-desc" style="margin: 0 0 10px 0;">Reports cash receipts, cash payments, and net change in cash resulting from operating, investing, and financing activities.</p>
+                <div style="font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px;">
+                    <div><strong>Timeframe Window:</strong> Period of time (e.g., <em>"For the Month Ended October 31, 2022"</em>)</div>
+                    <div style="margin-top: 4px; color: var(--teal);"><strong>Formula:</strong> +/- Operating Cash +/- Investing Cash +/- Financing Cash = Net Cash Change + Beg. Cash = Ending Cash</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="study-image-container">
+            <img src="screenshots/Screenshot 2026-06-18 203408.png" alt="Financial Statements Timeframes Reference Table" class="study-image">
+        </div>
+    </section>
+
+    <!-- SECTION 7 -->
+    <section class="notes-section" id="sec-7">
+        <h2 class="section-title"><span>🔗</span> Section 7: Interconnected Multi-Statement Data Flows</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">Financial statements are highly interconnected. The output of one statement is a crucial input for the next, forming an integrated reporting loop.</p>
+
+        <div class="flow-step-container">
+            
+            <!-- Flow 1 -->
+            <div class="flow-card" style="border-left: 3px solid var(--gold);">
+                <div class="flow-header">
+                    <span class="flow-icon">⚡</span>
+                    <span class="flow-title">Flow Step 1: Income Statement to Owner's Equity Statement</span>
+                </div>
+                <div class="flow-content">
+                    <p style="margin: 0 0 8px 0;">The Income Statement calculates the net result of business operations over the period:</p>
+                    <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px; font-family: monospace; font-size: 0.88rem; color: #fff;">
+                        Revenues ($4,700) - Expenses ($1,950) = <strong>Net Income ($2,750)</strong>
+                    </div>
+                    <p style="margin: 8px 0 0 0; color: var(--gold);"><strong>Connector Flow:</strong> This Net Income of <strong>$2,750</strong> is pushed directly into the Owner's Equity Statement as an addition to the beginning capital to calculate changes in equity.</p>
+                </div>
+            </div>
+
+            <div class="flow-connector"></div>
+
+            <!-- Flow 2 -->
+            <div class="flow-card" style="border-left: 3px solid var(--purple);">
+                <div class="flow-header">
+                    <span class="flow-icon">🔄</span>
+                    <span class="flow-title">Flow Step 2: Owner's Equity Statement to Balance Sheet</span>
+                </div>
+                <div class="flow-content">
+                    <p style="margin: 0 0 8px 0;">The Owner's Equity Statement calculates the ending claim of the owner on the assets:</p>
+                    <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px; font-family: monospace; font-size: 0.88rem; color: #fff;">
+                        Beg. Capital ($0) + Investments ($15,000) + Net Income ($2,750) - Drawings ($1,300) = <strong>Ending Owner's Capital ($16,450)</strong>
+                    </div>
+                    <p style="margin: 8px 0 0 0; color: var(--purple);"><strong>Connector Flow:</strong> This Ending Owner's Capital of <strong>$16,450</strong> is pushed directly down into the Owner's Equity section of the Balance Sheet to balance the total Assets.</p>
+                    
+                    <div class="flow-alternative-note">
+                        <strong>Alternative Net Loss Scenario:</strong> If operational expenses exceed revenues, a <strong>Net Loss</strong> occurs. For example, if a company has an initial investment of $15,000, incurs a Net Loss of -$10,000, and drawings of -$1,300, it results in a reduced Ending Owner's Capital of <strong>$3,700</strong>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-connector"></div>
+
+            <!-- Flow 3 -->
+            <div class="flow-card" style="border-left: 3px solid var(--teal);">
+                <div class="flow-header">
+                    <span class="flow-icon">💵</span>
+                    <span class="flow-title">Flow Step 3: Statement of Cash Flows to Balance Sheet</span>
+                </div>
+                <div class="flow-content">
+                    <p style="margin: 0 0 8px 0;">The Statement of Cash Flows analyzes how Cash was generated and spent over the period, matching the exact ending Cash balance:</p>
+                    <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px; font-family: monospace; font-size: 0.88rem; color: #fff;">
+                        Ending Cash from Cash Flow Statement = <strong>$8,050</strong>
+                    </div>
+                    <p style="margin: 8px 0 0 0; color: var(--teal);"><strong>Connector Flow:</strong> The final line item <strong>Cash at the end of the period ($8,050)</strong> must match the exact <strong>Cash Asset ($8,050)</strong> reported in the Assets section of the Balance Sheet. This serves as a critical reconciler of cash accounting.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <h3 class="section-subtitle" style="margin-top: 30px;">Textbook Visual Layout References</h3>
+        <div class="grid-2">
+            <div class="study-image-container">
+                <div style="text-align: center; width: 100%;">
+                    <div style="font-size: 0.72rem; font-weight: 800; color: var(--blue); margin-bottom: 6px;">Income &amp; Equity Link</div>
+                    <img src="screenshots/Screenshot 2026-06-08 181401.png" alt="Income statement to Owner's Equity Flow" class="study-image">
+                </div>
+            </div>
+            <div class="study-image-container">
+                <div style="text-align: center; width: 100%;">
+                    <div style="font-size: 0.72rem; font-weight: 800; color: var(--blue); margin-bottom: 6px;">Equity &amp; Balance Sheet Link</div>
+                    <img src="screenshots/Screenshot 2026-06-08 181426.png" alt="Owner's Equity to Balance Sheet Flow" class="study-image">
+                </div>
+            </div>
+            <div class="study-image-container">
+                <div style="text-align: center; width: 100%;">
+                    <div style="font-size: 0.72rem; font-weight: 800; color: var(--blue); margin-bottom: 6px;">Cash Flow &amp; Balance Sheet Link</div>
+                    <img src="screenshots/Screenshot 2026-06-08 181512.png" alt="Cash Flows to Balance Sheet Flow" class="study-image">
+                </div>
+            </div>
+            <div class="study-image-container">
+                <div style="text-align: center; width: 100%;">
+                    <div style="font-size: 0.72rem; font-weight: 800; color: var(--blue); margin-bottom: 6px;">Reconciliation Flows</div>
+                    <img src="screenshots/image_7545a3.png" alt="Textbook Interconnected Statements Flowchart" class="study-image" onerror="this.src='screenshots/Screenshot 2026-06-18 203018.png'; this.parentNode.querySelector('div').textContent='Flowchart Flow Reconciliations (Replaced with summary reference)';">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!--  CHAPTER 2 DIVIDER & SECTIONS                          -->
+    <!-- ====================================================== -->
+    <div class="chapter-divider" id="chapter-2-top">
+        <h2>Chapter 2: The Recording Process</h2>
+        <p>The Account, Debit/Credit rules, Journalizing, Posting, Ledger, and Trial Balance</p>
+    </div>
+
+    <!-- CHAPTER 2 SECTION 1 -->
+    <section class="notes-section" id="ch2-sec-1">
+        <h2 class="section-title"><span>📘</span> Section 1: The Account and T-Account Mechanics</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">Understanding the shift from a chronological list to a structured account form.</p>
+        
+        <div class="grid-2">
+            <div class="step-card">
+                <span class="step-title">The Account</span>
+                <p class="step-desc">An individual accounting record of increases and decreases in a specific asset, liability, or owner's equity item.</p>
+                
+                <span class="step-title" style="margin-top: 16px;">The Balancing Rule</span>
+                <p class="step-desc">Debits must always exceed credits to show a net Debit Balance; Credits must exceed debits to show a net Credit Balance.</p>
+            </div>
+            <div class="step-card">
+                <span class="step-title">The T-Account Standard Layout</span>
+                <p class="step-desc">In its simplest form, an account consists of three distinct parts:</p>
+                <ol style="margin: 8px 0 0 16px; padding: 0; font-size: 0.88rem; color: var(--text-muted);">
+                    <li>The <strong>Title</strong> of the specific account.</li>
+                    <li>A left side, which is strictly called the <strong>Debit (Dr.)</strong> side.</li>
+                    <li>A right side, which is strictly called the <strong>Credit (Cr.)</strong> side.</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="study-image-container">
+            <img src="screenshots/Screenshot 2026-06-08 182534.png" alt="Comparison between tabular list and formal Debit/Credit layout" class="study-image">
+        </div>
+    </section>
+
+    <!-- CHAPTER 2 SECTION 2 -->
+    <section class="notes-section" id="ch2-sec-2">
+        <h2 class="section-title"><span>⚖️</span> Section 2: The Expanded Debit / Credit Rules Matrix</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">The formal guidelines that determine when to debit and credit specific accounts under the basic equation framework.</p>
+
+        <div class="equation-box" style="background: rgba(45, 212, 191, 0.04); border-color: rgba(45, 212, 191, 0.15);">
+            <div class="equation-title" style="color: var(--teal);">Core Equation Anchor</div>
+            <div class="equation-formula">Assets = Liabilities + Owner's Equity</div>
+        </div>
+
+        <div class="t-accounts-grid">
+            <!-- Assets -->
+            <div class="t-account">
+                <div class="t-account-title">Asset Accounts</div>
+                <div class="t-account-body">
+                    <div class="t-account-side left">
+                        <span class="t-side-hdr">Debit (Dr.)</span>
+                        <div class="t-entry"><span class="t-badge-plus">+</span> Increase</div>
+                    </div>
+                    <div class="t-account-side right">
+                        <span class="t-side-hdr">Credit (Cr.)</span>
+                        <div class="t-entry">Decrease <span class="t-badge-minus">-</span></div>
+                    </div>
+                    <div class="t-bal-indicator">★ Normal Balance: Debit</div>
+                </div>
+            </div>
+
+            <!-- Liabilities -->
+            <div class="t-account">
+                <div class="t-account-title">Liability Accounts</div>
+                <div class="t-account-body">
+                    <div class="t-account-side left">
+                        <span class="t-side-hdr">Debit (Dr.)</span>
+                        <div class="t-entry"><span class="t-badge-minus">-</span> Decrease</div>
+                    </div>
+                    <div class="t-account-side right">
+                        <span class="t-side-hdr">Credit (Cr.)</span>
+                        <div class="t-entry">Increase <span class="t-badge-plus">+</span></div>
+                    </div>
+                    <div class="t-bal-indicator" style="color: var(--gold);">★ Normal Balance: Credit</div>
+                </div>
+            </div>
+
+            <!-- Owner's Capital -->
+            <div class="t-account">
+                <div class="t-account-title">Owner's Capital</div>
+                <div class="t-account-body">
+                    <div class="t-account-side left">
+                        <span class="t-side-hdr">Debit (Dr.)</span>
+                        <div class="t-entry"><span class="t-badge-minus">-</span> Decrease</div>
+                    </div>
+                    <div class="t-account-side right">
+                        <span class="t-side-hdr">Credit (Cr.)</span>
+                        <div class="t-entry">Increase <span class="t-badge-plus">+</span></div>
+                    </div>
+                    <div class="t-bal-indicator" style="color: var(--gold);">★ Normal Balance: Credit</div>
+                </div>
+            </div>
+
+            <!-- Owner's Drawings -->
+            <div class="t-account">
+                <div class="t-account-title">Owner's Drawings</div>
+                <div class="t-account-body">
+                    <div class="t-account-side left">
+                        <span class="t-side-hdr">Debit (Dr.)</span>
+                        <div class="t-entry"><span class="t-badge-plus">+</span> Increase</div>
+                    </div>
+                    <div class="t-account-side right">
+                        <span class="t-side-hdr">Credit (Cr.)</span>
+                        <div class="t-entry">Decrease <span class="t-badge-minus">-</span></div>
+                    </div>
+                    <div class="t-bal-indicator">★ Normal Balance: Debit</div>
+                </div>
+            </div>
+
+            <!-- Revenues -->
+            <div class="t-account">
+                <div class="t-account-title">Revenues</div>
+                <div class="t-account-body">
+                    <div class="t-account-side left">
+                        <span class="t-side-hdr">Debit (Dr.)</span>
+                        <div class="t-entry"><span class="t-badge-minus">-</span> Decrease</div>
+                    </div>
+                    <div class="t-account-side right">
+                        <span class="t-side-hdr">Credit (Cr.)</span>
+                        <div class="t-entry">Increase <span class="t-badge-plus">+</span></div>
+                    </div>
+                    <div class="t-bal-indicator" style="color: var(--gold);">★ Normal Balance: Credit</div>
+                </div>
+            </div>
+
+            <!-- Expenses -->
+            <div class="t-account">
+                <div class="t-account-title">Expenses</div>
+                <div class="t-account-body">
+                    <div class="t-account-side left">
+                        <span class="t-side-hdr">Debit (Dr.)</span>
+                        <div class="t-entry"><span class="t-badge-plus">+</span> Increase</div>
+                    </div>
+                    <div class="t-account-side right">
+                        <span class="t-side-hdr">Credit (Cr.)</span>
+                        <div class="t-entry">Decrease <span class="t-badge-minus">-</span></div>
+                    </div>
+                    <div class="t-bal-indicator">★ Normal Balance: Debit</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="study-image-container" style="margin-top: 24px;">
+            <img src="screenshots/Screenshot 2026-06-08 181930.png" alt="Double Entry Equation Debit Credit Matrix" class="study-image">
+        </div>
+    </section>
+
+    <!-- CHAPTER 2 SECTION 3 -->
+    <section class="notes-section" id="ch2-sec-3">
+        <h2 class="section-title"><span>🔄</span> Section 3: The Three Steps of the Recording Process</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">The systematic sequence of steps that records economic events chronologically and transfers them to the ledger accounts.</p>
+
+        <div class="grid-3">
+            <div class="step-card">
+                <span class="step-num">01</span>
+                <span class="step-title">Analyze Each Transaction</span>
+                <p class="step-desc">Determine how the event affects specific accounts using source documents (like an Invoice or receipt).</p>
+            </div>
+            <div class="step-card">
+                <span class="step-num">02</span>
+                <span class="step-title">Enter Transaction in a Journal</span>
+                <p class="step-desc">Record the transaction chronologically in a General Journal to create a complete history of the transaction.</p>
+            </div>
+            <div class="step-card">
+                <span class="step-num">03</span>
+                <span class="step-title">Transfer Journal Information to Ledger Accounts</span>
+                <p class="step-desc">Post the entries by moving the raw debit and credit numbers into the corresponding accounts inside the general ledger.</p>
+            </div>
+        </div>
+
+        <div class="study-image-container">
+            <img src="screenshots/Screenshot 2026-06-08 182549.png" alt="Operational Steps of the Recording Process Graphic" class="study-image">
+        </div>
+    </section>
+
+    <!-- CHAPTER 2 SECTION 4 -->
+    <section class="notes-section" id="ch2-sec-4">
+        <h2 class="section-title"><span>📝</span> Section 4: The General Journal &amp; Journalizing Technique</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">The book of original entry where events are chronologically registered. The recording requires strict syntax and indentation formatting rules.</p>
+
+        <div class="step-card" style="margin-bottom: 20px;">
+            <span class="step-title" style="color: var(--purple);">Syntax Presentation Requirements</span>
+            <ul style="margin: 8px 0 0 16px; padding: 0; font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
+                <li>The date is entered chronologically in the Date Column.</li>
+                <li>The account to be <strong>Debited</strong> is always listed first and positioned completely flush-left.</li>
+                <li>The account to be <strong>Credited</strong> is listed on the line directly below and must be explicitly indented to the right.</li>
+                <li>A brief, clear narrative explanation is written on the line directly below the credit entry.</li>
+                <li>A completely blank line must be left between subsequent journal entries to ensure clear visual separation.</li>
+            </ul>
+        </div>
+
+        <h3 class="section-subtitle">Master General Journal Registry (Page J1)</h3>
+        <div class="table-responsive">
+            <table class="study-table journal-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%">Date</th>
+                        <th>Account Titles and Explanation</th>
+                        <th style="width: 10%">Ref.</th>
+                        <th style="width: 15%">Debit</th>
+                        <th style="width: 15%">Credit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Oct 1 Investment -->
+                    <tr>
+                        <td>2022 Oct. 1</td>
+                        <td>Cash</td>
+                        <td>101</td>
+                        <td style="color: var(--green);">$10,000</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-left: 24px;">Owner's Capital</td>
+                        <td>301</td>
+                        <td></td>
+                        <td style="color: var(--teal);">$10,000</td>
+                    </tr>
+                    <tr class="explanation-row">
+                        <td></td>
+                        <td colspan="4" style="color: var(--text-muted); font-size: 0.76rem; font-style: italic;">
+                            (Owner's investment of cash in business)
+                        </td>
+                    </tr>
+                    <tr class="separator-row"><td colspan="5"></td></tr>
+
+                    <!-- Oct 1 Equip Notes -->
+                    <tr>
+                        <td>Oct. 1</td>
+                        <td>Equipment</td>
+                        <td>157</td>
+                        <td style="color: var(--green);">$5,000</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-left: 24px;">Notes Payable</td>
+                        <td>200</td>
+                        <td></td>
+                        <td style="color: var(--teal);">$5,000</td>
+                    </tr>
+                    <tr class="explanation-row">
+                        <td></td>
+                        <td colspan="4" style="color: var(--text-muted); font-size: 0.76rem; font-style: italic;">
+                            (Issued 3-month, 12% note for office equipment)
+                        </td>
+                    </tr>
+                    <tr class="separator-row"><td colspan="5"></td></tr>
+
+                    <!-- Oct 2 Unearned Rev -->
+                    <tr>
+                        <td>Oct. 2</td>
+                        <td>Cash</td>
+                        <td>101</td>
+                        <td style="color: var(--green);">$1,200</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-left: 24px;">Unearned Service Revenue</td>
+                        <td>209</td>
+                        <td></td>
+                        <td style="color: var(--teal);">$1,200</td>
+                    </tr>
+                    <tr class="explanation-row">
+                        <td></td>
+                        <td colspan="4" style="color: var(--text-muted); font-size: 0.76rem; font-style: italic;">
+                            (Received advance from R. Knox for future services)
+                        </td>
+                    </tr>
+                    <tr class="separator-row"><td colspan="5"></td></tr>
+
+                    <!-- Oct 3 Rent Expense -->
+                    <tr>
+                        <td>Oct. 3</td>
+                        <td>Rent Expense</td>
+                        <td>729</td>
+                        <td style="color: var(--green);">$900</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-left: 24px;">Cash</td>
+                        <td>101</td>
+                        <td></td>
+                        <td style="color: var(--teal);">$900</td>
+                    </tr>
+                    <tr class="explanation-row">
+                        <td></td>
+                        <td colspan="4" style="color: var(--text-muted); font-size: 0.76rem; font-style: italic;">
+                            (Paid cash for October office rent)
+                        </td>
+                    </tr>
+                    <tr class="separator-row"><td colspan="5"></td></tr>
+
+                    <!-- Oct 4 Prepaid Ins -->
+                    <tr>
+                        <td>Oct. 4</td>
+                        <td>Prepaid Insurance</td>
+                        <td>130</td>
+                        <td style="color: var(--green);">$600</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-left: 24px;">Cash</td>
+                        <td>101</td>
+                        <td></td>
+                        <td style="color: var(--teal);">$600</td>
+                    </tr>
+                    <tr class="explanation-row">
+                        <td></td>
+                        <td colspan="4" style="color: var(--text-muted); font-size: 0.76rem; font-style: italic;">
+                            (Paid one-year policy; effective date October 1)
+                        </td>
+                    </tr>
+                    <tr class="separator-row"><td colspan="5"></td></tr>
+
+                    <!-- Oct 5 Supplies Credit -->
+                    <tr>
+                        <td>Oct. 5</td>
+                        <td>Supplies</td>
+                        <td>126</td>
+                        <td style="color: var(--green);">$2,500</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-left: 24px;">Accounts Payable</td>
+                        <td>201</td>
+                        <td></td>
+                        <td style="color: var(--teal);">$2,500</td>
+                    </tr>
+                    <tr class="explanation-row">
+                        <td></td>
+                        <td colspan="4" style="color: var(--text-muted); font-size: 0.76rem; font-style: italic;">
+                            (Purchased supplies on account from Aero Supply)
+                        </td>
+                    </tr>
+                    <tr class="separator-row"><td colspan="5"></td></tr>
+
+                    <!-- Oct 20 Service Revenue -->
+                    <tr>
+                        <td>Oct. 20</td>
+                        <td>Cash</td>
+                        <td>101</td>
+                        <td style="color: var(--green);">$10,000</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-left: 24px;">Service Revenue</td>
+                        <td>400</td>
+                        <td></td>
+                        <td style="color: var(--teal);">$10,000</td>
+                    </tr>
+                    <tr class="explanation-row">
+                        <td></td>
+                        <td colspan="4" style="color: var(--text-muted); font-size: 0.76rem; font-style: italic;">
+                            (Received cash for services performed)
+                        </td>
+                    </tr>
+                    <tr class="separator-row"><td colspan="5"></td></tr>
+
+                    <!-- Oct 26 Salaries Expense -->
+                    <tr>
+                        <td>Oct. 26</td>
+                        <td>Salaries and Wages Expense</td>
+                        <td>726</td>
+                        <td style="color: var(--green);">$4,000</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-left: 24px;">Cash</td>
+                        <td>101</td>
+                        <td></td>
+                        <td style="color: var(--teal);">$4,000</td>
+                    </tr>
+                    <tr class="explanation-row">
+                        <td></td>
+                        <td colspan="4" style="color: var(--text-muted); font-size: 0.76rem; font-style: italic;">
+                            (Paid salaries to date)
+                        </td>
+                    </tr>
+                    <tr class="separator-row"><td colspan="5"></td></tr>
+
+                    <!-- Oct 31 Drawings -->
+                    <tr>
+                        <td>Oct. 31</td>
+                        <td>Owner's Drawings</td>
+                        <td>306</td>
+                        <td style="color: var(--green);">$500</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-left: 24px;">Cash</td>
+                        <td>101</td>
+                        <td></td>
+                        <td style="color: var(--teal);">$500</td>
+                    </tr>
+                    <tr class="explanation-row">
+                        <td></td>
+                        <td colspan="4" style="color: var(--text-muted); font-size: 0.76rem; font-style: italic;">
+                            (Withdrew cash for personal use)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="grid-2" style="margin-top: 24px;">
+            <div class="study-image-container" style="margin: 0;">
+                <img src="screenshots/Screenshot 2026-06-18 203524.png" alt="Journalizing visual template" class="study-image">
+            </div>
+            <div class="study-image-container" style="margin: 0;">
+                <img src="screenshots/Screenshot 2026-06-08 182336.png" alt="Journal entry reference example" class="study-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- CHAPTER 2 SECTION 5 -->
+    <section class="notes-section" id="ch2-sec-5">
+        <h2 class="section-title"><span>🗂️</span> Section 5: The General Ledger Structure</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">The collective group of accounts maintained by a business. It contains all assets, liabilities, and owner's equity records organized systematically.</p>
+
+        <div class="step-card" style="margin-bottom: 20px;">
+            <span class="step-title">Definition</span>
+            <p class="step-desc">The entire group of accounts maintained by a business is called the ledger. A general ledger contains all asset, liability, and owner's equity records.</p>
+        </div>
+
+        <div class="grid-3">
+            <div class="step-card" style="border-left: 3px solid var(--blue);">
+                <span class="step-title" style="color: var(--blue);">Asset Accounts Stack</span>
+                <p class="step-desc">Accounts detailing resources owned:</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
+                    <span class="badge-up" style="background: rgba(96, 165, 250, 0.15); color: var(--blue);">Cash</span>
+                    <span class="badge-up" style="background: rgba(96, 165, 250, 0.15); color: var(--blue);">Supplies</span>
+                    <span class="badge-up" style="background: rgba(96, 165, 250, 0.15); color: var(--blue);">Prepaid Insurance</span>
+                    <span class="badge-up" style="background: rgba(96, 165, 250, 0.15); color: var(--blue);">Equipment</span>
+                    <span class="badge-up" style="background: rgba(96, 165, 250, 0.15); color: var(--blue);">Land</span>
+                </div>
+            </div>
+            <div class="step-card" style="border-left: 3px solid var(--gold);">
+                <span class="step-title" style="color: var(--gold);">Liability Accounts Stack</span>
+                <p class="step-desc">Accounts tracking obligations and claims:</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
+                    <span class="badge-up" style="background: rgba(251, 191, 36, 0.15); color: var(--gold);">Notes Payable</span>
+                    <span class="badge-up" style="background: rgba(251, 191, 36, 0.15); color: var(--gold);">Accounts Payable</span>
+                    <span class="badge-up" style="background: rgba(251, 191, 36, 0.15); color: var(--gold);">Salaries &amp; Wages Payable</span>
+                    <span class="badge-up" style="background: rgba(251, 191, 36, 0.15); color: var(--gold);">Interest Payable</span>
+                </div>
+            </div>
+            <div class="step-card" style="border-left: 3px solid var(--purple);">
+                <span class="step-title" style="color: var(--purple);">Owner's Equity Accounts Stack</span>
+                <p class="step-desc">Accounts representing residual owner claims:</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
+                    <span class="badge-up" style="background: rgba(167, 139, 250, 0.15); color: var(--purple);">Owner's Capital</span>
+                    <span class="badge-up" style="background: rgba(167, 139, 250, 0.15); color: var(--purple);">Owner's Drawings</span>
+                    <span class="badge-up" style="background: rgba(167, 139, 250, 0.15); color: var(--purple);">Service Revenue</span>
+                    <span class="badge-up" style="background: rgba(167, 139, 250, 0.15); color: var(--purple);">Salaries &amp; Wages Expense</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="study-image-container" style="margin-top: 24px;">
+            <img src="screenshots/Screenshot 2026-06-08 182029.png" alt="Overview mapping of the general ledger structure" class="study-image">
+        </div>
+    </section>
+
+    <!-- CHAPTER 2 SECTION 6 -->
+    <section class="notes-section" id="ch2-sec-6">
+        <h2 class="section-title"><span>📂</span> Section 6: The Posting Process Flow &amp; Entry Pathways</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">Detailing how transaction data moves dynamically from chronological journal entries into the targeted ledger accounts.</p>
+
+        <div class="step-card" style="margin-bottom: 20px;">
+            <span class="step-title">The Posting Definition</span>
+            <p class="step-desc">The formal procedural transfer of debit and credit entries from the General Journal into the targeted accounts inside the General Ledger.</p>
+        </div>
+
+        <h3 class="section-subtitle">The Flow Pathways Sequence</h3>
+        <div class="flow-step-container">
+            <div class="flow-card" style="border-left: 3px solid var(--blue);">
+                <div class="flow-header">
+                    <span class="flow-icon">1</span>
+                    <span class="flow-title">Step 1 (Date Mapping)</span>
+                </div>
+                <div class="flow-content">
+                    Locate the debit entry line in the General Journal. Post the exact Date and the Debit Amount into the Debit column of the corresponding Ledger Account.
+                </div>
+            </div>
+            
+            <div class="flow-connector"></div>
+
+            <div class="flow-card" style="border-left: 3px solid var(--gold);">
+                <div class="flow-header">
+                    <span class="flow-icon">2</span>
+                    <span class="flow-title">Step 2 (Reference Tracking)</span>
+                </div>
+                <div class="flow-content">
+                    In the Ledger Account's Reference (Ref.) column, input 'J1' to link back to General Journal Page 1.
+                </div>
+            </div>
+            
+            <div class="flow-connector"></div>
+
+            <div class="flow-card" style="border-left: 3px solid var(--purple);">
+                <div class="flow-header">
+                    <span class="flow-icon">3</span>
+                    <span class="flow-title">Step 3 (Cross-Referencing)</span>
+                </div>
+                <div class="flow-content">
+                    Go back to the General Journal and input the unique Account Number (e.g., 101 for Cash) into the Journal's Reference (Ref.) column.
+                </div>
+            </div>
+
+            <div class="flow-connector"></div>
+
+            <div class="flow-card" style="border-left: 3px solid var(--teal);">
+                <div class="flow-header">
+                    <span class="flow-icon">4</span>
+                    <span class="flow-title">Step 4 (Credit Replication)</span>
+                </div>
+                <div class="flow-content">
+                    Repeat the identical steps for the Credit entry line, sending the Credit Amount down to the credit ledger column and cross-referencing the account number (e.g., 301 for Owner's Capital).
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-2" style="margin: 24px 0;">
+            <div class="study-image-container" style="margin: 0;">
+                <img src="screenshots/Screenshot 2026-06-08 182201.png" alt="Posting pathway visualization diagram" class="study-image">
+            </div>
+            <div class="study-image-container" style="margin: 0;">
+                <img src="screenshots/Screenshot 2026-06-08 182319.png" alt="Posting workflow steps manual" class="study-image">
+            </div>
+        </div>
+
+        <h3 class="section-subtitle">Complete Posted Ledger Account Registry (Three-Column Running Balances)</h3>
+        
+        <!-- Cash -->
+        <div class="ledger-account-card">
+            <div class="ledger-account-header">
+                <span>💵 Cash</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Account No. 101</span>
+            </div>
+            <div class="table-responsive">
+                <table class="study-table ledger-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Explanation</th>
+                            <th>Ref.</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2022 Oct. 1</td><td>Initial Investment</td><td>J1</td><td>$10,000</td><td></td><td>$10,000 Dr.</td></tr>
+                        <tr><td>Oct. 2</td><td>Unearned Revenue</td><td>J1</td><td>$1,200</td><td></td><td>$11,200 Dr.</td></tr>
+                        <tr><td>Oct. 3</td><td>Rent Expense</td><td>J1</td><td></td><td>$900</td><td>$10,300 Dr.</td></tr>
+                        <tr><td>Oct. 4</td><td>Prepaid Insurance</td><td>J1</td><td></td><td>$600</td><td>$9,700 Dr.</td></tr>
+                        <tr><td>Oct. 20</td><td>Service Revenue</td><td>J1</td><td>$10,000</td><td></td><td>$19,700 Dr.</td></tr>
+                        <tr><td>Oct. 26</td><td>Salaries Expense</td><td>J1</td><td></td><td>$4,000</td><td>$15,700 Dr.</td></tr>
+                        <tr><td>Oct. 31</td><td>Owner Drawings</td><td>J1</td><td></td><td>$500</td><td><strong>$15,200 Dr.</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Supplies -->
+        <div class="ledger-account-card">
+            <div class="ledger-account-header">
+                <span>📦 Supplies</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Account No. 126</span>
+            </div>
+            <div class="table-responsive">
+                <table class="study-table ledger-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Explanation</th>
+                            <th>Ref.</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2022 Oct. 5</td><td>Purchased supplies</td><td>J1</td><td>$2,500</td><td></td><td><strong>$2,500 Dr.</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Prepaid Insurance -->
+        <div class="ledger-account-card">
+            <div class="ledger-account-header">
+                <span>🛡️ Prepaid Insurance</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Account No. 130</span>
+            </div>
+            <div class="table-responsive">
+                <table class="study-table ledger-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Explanation</th>
+                            <th>Ref.</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2022 Oct. 4</td><td>One-year policy</td><td>J1</td><td>$600</td><td></td><td><strong>$600 Dr.</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Equipment -->
+        <div class="ledger-account-card">
+            <div class="ledger-account-header">
+                <span>🖥️ Equipment</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Account No. 157</span>
+            </div>
+            <div class="table-responsive">
+                <table class="study-table ledger-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Explanation</th>
+                            <th>Ref.</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2022 Oct. 1</td><td>Office equipment</td><td>J1</td><td>$5,000</td><td></td><td><strong>$5,000 Dr.</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Notes Payable -->
+        <div class="ledger-account-card">
+            <div class="ledger-account-header">
+                <span>📝 Notes Payable</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Account No. 200</span>
+            </div>
+            <div class="table-responsive">
+                <table class="study-table ledger-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Explanation</th>
+                            <th>Ref.</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2022 Oct. 1</td><td>Issued 3-month note</td><td>J1</td><td></td><td>$5,000</td><td><strong>$5,000 Cr.</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Accounts Payable -->
+        <div class="ledger-account-card">
+            <div class="ledger-account-header">
+                <span>🤝 Accounts Payable</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Account No. 201</span>
+            </div>
+            <div class="table-responsive">
+                <table class="study-table ledger-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Explanation</th>
+                            <th>Ref.</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2022 Oct. 5</td><td>Purchased supplies</td><td>J1</td><td></td><td>$2,500</td><td><strong>$2,500 Cr.</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Unearned Service Revenue -->
+        <div class="ledger-account-card">
+            <div class="ledger-account-header">
+                <span>⏳ Unearned Service Revenue</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Account No. 209</span>
+            </div>
+            <div class="table-responsive">
+                <table class="study-table ledger-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Explanation</th>
+                            <th>Ref.</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2022 Oct. 2</td><td>Knox advance</td><td>J1</td><td></td><td>$1,200</td><td><strong>$1,200 Cr.</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="study-image-container">
+            <img src="screenshots/Screenshot 2026-06-18 203606.png" alt="Textbook reference ledger balances table" class="study-image">
+        </div>
+    </section>
+
+    <!-- CHAPTER 2 SECTION 7 -->
+    <section class="notes-section" id="ch2-sec-7">
+        <h2 class="section-title"><span>📊</span> Section 7: The Trial Balance &amp; Reconciliation Summary</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">A formatted list of accounts and their balances at a given time, proving the mathematical equality of debits and credits after posting.</p>
+
+        <h3 class="section-subtitle">Pioneer Advertising Trial Balance (October 31, 2022)</h3>
+        <div class="table-responsive">
+            <table class="study-table">
+                <thead>
+                    <tr>
+                        <th>Account Name</th>
+                        <th style="width: 20%; text-align: right; color: var(--blue);">Debit</th>
+                        <th style="width: 20%; text-align: right; color: var(--teal);">Credit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Cash</td><td style="text-align: right; color: var(--green); font-family: monospace;">$15,200</td><td></td></tr>
+                    <tr><td>Supplies</td><td style="text-align: right; color: var(--green); font-family: monospace;">$2,500</td><td></td></tr>
+                    <tr><td>Prepaid Insurance</td><td style="text-align: right; color: var(--green); font-family: monospace;">$600</td><td></td></tr>
+                    <tr><td>Equipment</td><td style="text-align: right; color: var(--green); font-family: monospace;">$5,000</td><td></td></tr>
+                    <tr><td>Notes Payable</td><td></td><td style="text-align: right; color: var(--teal); font-family: monospace;">$5,000</td></tr>
+                    <tr><td>Accounts Payable</td><td></td><td style="text-align: right; color: var(--teal); font-family: monospace;">$2,500</td></tr>
+                    <tr><td>Unearned Service Revenue</td><td></td><td style="text-align: right; color: var(--teal); font-family: monospace;">$1,200</td></tr>
+                    <tr><td>Owner's Capital</td><td></td><td style="text-align: right; color: var(--teal); font-family: monospace;">$10,000</td></tr>
+                    <tr><td>Owner's Drawings</td><td style="text-align: right; color: var(--green); font-family: monospace;">$500</td><td></td></tr>
+                    <tr><td>Service Revenue</td><td></td><td style="text-align: right; color: var(--teal); font-family: monospace;">$10,000</td></tr>
+                    <tr><td>Salaries and Wages Expense</td><td style="text-align: right; color: var(--green); font-family: monospace;">$4,000</td><td></td></tr>
+                    <tr><td>Rent Expense</td><td style="text-align: right; color: var(--green); font-family: monospace;">$900</td><td></td></tr>
+                    <tr style="background: rgba(255,255,255,0.06); font-weight: 800; border-top: 2px solid rgba(255,255,255,0.15); border-bottom: 2px solid rgba(255,255,255,0.15)">
+                        <td>Grand Cumulative Totals</td>
+                        <td style="text-align: right; color: #fff; font-family: monospace; font-size: 0.9rem;">$28,700</td>
+                        <td style="text-align: right; color: #fff; font-family: monospace; font-size: 0.9rem;">$28,700</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="reconciler-container" style="background: rgba(52, 211, 153, 0.03); border-color: rgba(52, 211, 153, 0.15); margin-top: 20px;">
+            <div class="reconciler-parts">
+                <div class="reconciler-part">
+                    <span class="reconciler-lbl" style="color: var(--blue);">Total Debits Column</span>
+                    <span class="reconciler-val" style="font-family: monospace;">$15,200 + $2,500 + $600 + $5,000 + $500 + $4,000 + $900 = <strong>$28,700</strong></span>
+                </div>
+                <div class="reconciler-part">
+                    <span class="reconciler-lbl" style="color: var(--teal);">Total Credits Column</span>
+                    <span class="reconciler-val" style="font-family: monospace;">$5,000 + $2,500 + $1,200 + $10,000 + $10,000 = <strong>$28,700</strong></span>
+                </div>
+            </div>
+            <div class="reconciler-badge">
+                <span>⚖️</span>
+                <span>$28,700 = $28,700 Balances Perfectly</span>
+            </div>
+        </div>
+
+        <div class="study-image-container" style="margin-top: 24px;">
+            <img src="screenshots/Screenshot 2026-06-18 203626.png" alt="Trial balance textbook reference example table" class="study-image">
+        </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!--  CHAPTER 3 DIVIDER & SECTIONS                          -->
+    <!-- ====================================================== -->
+    <div class="chapter-divider" id="chapter-3-top">
+        <h2>Chapter 3: Adjusting the Accounts</h2>
+        <p>Accrual principles, deferral and accrual adjusting entries, post-adjusted ledger state, and statements flows</p>
+    </div>
+
+    <!-- CHAPTER 3 SECTION 1 -->
+    <section class="notes-section" id="ch3-sec-1">
+        <h2 class="section-title"><span>📘</span> Section 1: Timing Issues &amp; Recognition Principles</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">Accounting relies on precise timing constraints to accurately map operational events to specific calendar periods.</p>
+
+        <div class="grid-3">
+            <div class="step-card">
+                <span class="step-title">The Time Period Assumption</span>
+                <p class="step-desc">Accounting divides the economic life of a business into artificial time periods (e.g., months, quarters, or calendar years).</p>
+                <ul style="margin: 8px 0 0 16px; padding: 0; font-size: 0.82rem; color: var(--text-muted);">
+                    <li><strong>Interim Reports:</strong> Monthly or quarterly financial statements.</li>
+                    <li><strong>Fiscal Year:</strong> An accounting time period that is one year in length.</li>
+                </ul>
+            </div>
+            <div class="step-card">
+                <span class="step-title">The Recognition Principles</span>
+                <p class="step-desc">Mapping revenues and expenses to the periods where they truly occur:</p>
+                <ul style="margin: 8px 0 0 16px; padding: 0; font-size: 0.82rem; color: var(--text-muted);">
+                    <li><strong>Revenue Recognition Principle:</strong> Companies must recognize revenue in the accounting period in which the performance obligation is satisfied (when the service is performed, NOT when cash is received).</li>
+                    <li><strong>Expense Recognition Principle (Matching):</strong> Expenses must be matched with revenues in the period when the company makes efforts to generate that revenue ("let the expense follow the revenue").</li>
+                </ul>
+            </div>
+            <div class="step-card">
+                <span class="step-title">Accrual vs. Cash Basis</span>
+                <p class="step-desc"><strong>Accrual Basis:</strong> complies strictly with GAAP by recording events in the periods they occur. <strong>Cash Basis:</strong> (recording only when cash moves) violates GAAP.</p>
+            </div>
+        </div>
+
+        <div class="grid-3" style="margin-top: 20px;">
+            <div class="study-image-container" style="margin: 0;">
+                <img src="screenshots/Screenshot 2026-06-18 203920.png" alt="Time Period Assumption Illustration" class="study-image">
+            </div>
+            <div class="study-image-container" style="margin: 0;">
+                <img src="screenshots/Screenshot 2026-06-18 203941.png" alt="Revenue Recognition Principle Illustration" class="study-image">
+            </div>
+            <div class="study-image-container" style="margin: 0;">
+                <img src="screenshots/Screenshot 2026-06-18 204117.png" alt="Expense Recognition Principle Illustration" class="study-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- CHAPTER 3 SECTION 2 -->
+    <section class="notes-section" id="ch3-sec-2">
+        <h2 class="section-title"><span>🔄</span> Section 2: The Revenue Five-Step Framework</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">The formal sequence mandated to identify contracts, obligations, transaction prices, and recognition points.</p>
+
+        <div class="flow-step-container">
+            <div class="flow-card" style="border-left: 3px solid var(--blue);">
+                <div class="flow-header">
+                    <span class="flow-icon">1</span>
+                    <span class="flow-title">Step 1: Identify the contract with customers</span>
+                </div>
+                <div class="flow-content">
+                    <em>Example:</em> Sierra has a contract with the Lewis family to provide guide services.
+                </div>
+            </div>
+            
+            <div class="flow-connector"></div>
+
+            <div class="flow-card" style="border-left: 3px solid var(--gold);">
+                <div class="flow-header">
+                    <span class="flow-icon">2</span>
+                    <span class="flow-title">Step 2: Identify the separate performance obligations in the contract</span>
+                </div>
+                <div class="flow-content">
+                    <em>Example:</em> Sierra has only one obligation—to provide guide services.
+                </div>
+            </div>
+
+            <div class="flow-connector"></div>
+
+            <div class="flow-card" style="border-left: 3px solid var(--purple);">
+                <div class="flow-header">
+                    <span class="flow-icon">3</span>
+                    <span class="flow-title">Step 3: Determine the transaction price</span>
+                </div>
+                <div class="flow-content">
+                    <em>Example:</em> The transaction price for Sierra is $1,500.
+                </div>
+            </div>
+
+            <div class="flow-connector"></div>
+
+            <div class="flow-card" style="border-left: 3px solid var(--teal);">
+                <div class="flow-header">
+                    <span class="flow-icon">4</span>
+                    <span class="flow-title">Step 4: Allocate the transaction price to the separate performance obligations</span>
+                </div>
+                <div class="flow-content">
+                    <em>Example:</em> Price allocated entirely to the single guide trip service.
+                </div>
+            </div>
+
+            <div class="flow-connector"></div>
+
+            <div class="flow-card" style="border-left: 3px solid var(--green);">
+                <div class="flow-header">
+                    <span class="flow-icon">5</span>
+                    <span class="flow-title">Step 5: Recognize revenue when each performance obligation is satisfied</span>
+                </div>
+                <div class="flow-content">
+                    <em>Example:</em> Sierra recognizes $1,500 revenue upon completion of the guide trip.
+                </div>
+            </div>
+        </div>
+
+        <div class="study-image-container" style="margin-top: 24px;">
+            <img src="screenshots/Screenshot 2026-06-18 204020.png" alt="Verifying details of 5-Step Revenue recognition framework" class="study-image">
+        </div>
+    </section>
+
+    <!-- CHAPTER 3 SECTION 3 -->
+    <section class="notes-section" id="ch3-sec-3">
+        <h2 class="section-title"><span>⏳</span> Section 3: The Deferral Adjustment Pathways (Prepaids &amp; Unearned)</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">Deferrals are transactions where cash is exchanged before expense or revenue is recognized.</p>
+
+        <div class="grid-2">
+            
+            <!-- Deferral Type A -->
+            <div class="column-card" style="border-left: 3px solid var(--purple); background: rgba(167, 139, 250, 0.01);">
+                <h3 class="column-hdr"><span>📈</span> Deferral Type A: Prepaid Expenses</h3>
+                <p class="column-desc">Prepaid expenses are costs incurred that expire or are consumed through time or operations. Before adjustment, Assets are overstated and Expenses are understated.</p>
+                
+                <div class="step-card" style="margin-bottom: 12px;">
+                    <span class="step-title">Supplies Adjustment Mechanics</span>
+                    <p class="step-desc" style="margin-bottom: 6px;">Sierra purchased supplies of $2,500. Inventory count on Oct. 31 shows $1,000 left (meaning $1,500 was used).</p>
+                    <div style="font-size: 0.78rem; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px; color: var(--text-muted);">
+                        <strong>Basic Analysis:</strong> Supplies Expense increases $1,500; the asset Supplies decreases $1,500.<br>
+                        <strong>Journal Entry:</strong> Debit Supplies Expense (631) $1,500 | Credit Supplies (126) $1,500.
+                    </div>
+                </div>
+
+                <div class="step-card" style="margin-bottom: 12px;">
+                    <span class="step-title">Prepaid Insurance Mechanics</span>
+                    <p class="step-desc" style="margin-bottom: 6px;">Pioneer paid $600 for a one-year policy on Oct. 4. Expires at a rate of $50 per month ($600 / 12 months).</p>
+                    <div style="font-size: 0.78rem; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px; color: var(--text-muted);">
+                        <strong>Journal Entry:</strong> Debit Insurance Expense (722) $50 | Credit Prepaid Insurance (130) $50.
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <span class="step-title">Depreciation &amp; Contra Assets</span>
+                    <p class="step-desc" style="margin-bottom: 6px;">Depreciation is the allocation of the cost of an asset to expense over its useful life. It utilizes a <strong>Contra Asset Account</strong> to preserve original cost values.</p>
+                    <div style="font-size: 0.78rem; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px; color: var(--text-muted);">
+                        <strong>Basic Analysis:</strong> Depreciation Expense increases $40; Contra Asset account Accumulated Depreciation—Equipment increases $40.<br>
+                        <strong>Journal Entry:</strong> Debit Depreciation Expense (711) $40 | Credit Accumulated Depreciation—Equipment (158) $40.
+                    </div>
+                </div>
+
+                <div class="study-image-container" style="margin-top: 12px; margin-bottom: 0;">
+                    <img src="screenshots/Screenshot 2026-06-18 204246.png" alt="Supplies prepaid adjustment flows diagram" class="study-image">
+                </div>
+                <div class="study-image-container" style="margin-top: 10px; margin-bottom: 0;">
+                    <img src="screenshots/Screenshot 2026-06-18 204451.png" alt="Prepaid Insurance adjustment flows diagram" class="study-image">
+                </div>
+                <div class="study-image-container" style="margin-top: 10px; margin-bottom: 0;">
+                    <img src="screenshots/Screenshot 2026-06-18 204233.png" alt="Prepaid analysis worksheet" class="study-image">
+                </div>
+                <div class="study-image-container" style="margin-top: 10px; margin-bottom: 0;">
+                    <img src="screenshots/Screenshot 2026-06-18 204537.png" alt="Depreciation Adjustment analysis" class="study-image">
+                </div>
+            </div>
+
+            <!-- Deferral Type B -->
+            <div class="column-card" style="border-left: 3px solid var(--teal); background: rgba(45, 212, 191, 0.01);">
+                <h3 class="column-hdr" style="color: var(--teal)"><span>📉</span> Deferral Type B: Unearned Revenues</h3>
+                <p class="column-desc">Cash is received before the performance obligation is satisfied. Liabilities are overstated and Revenues are understated before adjustments.</p>
+
+                <div class="step-card" style="margin-bottom: 12px;">
+                    <span class="step-title">Unearned Service Revenue Mechanics</span>
+                    <p class="step-desc" style="margin-bottom: 6px;">Out of a $1,200 cash advance received on Oct. 2, evaluation shows $400 of service has been performed by Oct. 31.</p>
+                    <div style="font-size: 0.78rem; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px; color: var(--text-muted);">
+                        <strong>Basic Analysis:</strong> Liability Unearned Service Revenue decreases $400; revenue Service Revenue increases $400.<br>
+                        <strong>Journal Entry:</strong> Debit Unearned Service Revenue (209) $400 | Credit Service Revenue (400) $400.
+                    </div>
+                </div>
+
+                <div class="study-image-container" style="margin-top: 12px; margin-bottom: 0;">
+                    <img src="screenshots/Screenshot 2026-06-18 204550.png" alt="Unearned Revenue Adjustments Flow" class="study-image">
+                </div>
+                <div class="study-image-container" style="margin-top: 10px; margin-bottom: 0;">
+                    <img src="screenshots/Screenshot 2026-06-18 204615.png" alt="Unearned Service Revenue Ledger T-Account" class="study-image">
+                </div>
+                <div class="study-image-container" style="margin-top: 10px; margin-bottom: 0;">
+                    <img src="screenshots/Screenshot 2026-06-18 204659.png" alt="Adjustments summary textbook table" class="study-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHAPTER 3 SECTION 4 -->
+    <section class="notes-section" id="ch3-sec-4">
+        <h2 class="section-title"><span>📈</span> Section 4: The Accrual Adjustment Pathways (Revenues &amp; Expenses)</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">Accruals record transactions that have occurred but are not yet entered or paid in cash.</p>
+
+        <div class="grid-2">
+            
+            <!-- Accrual Type A -->
+            <div class="column-card" style="border-left: 3px solid var(--blue); background: rgba(96, 165, 250, 0.015);">
+                <h3 class="column-hdr" style="color: var(--blue);"><span>💵</span> Accrual Type A: Accrued Revenues</h3>
+                <p class="column-desc">Revenues for services performed but not yet received in cash or recorded. Assets and Revenues are understated before adjustments.</p>
+
+                <div class="step-card">
+                    <span class="step-title">Accrued Revenue Mechanics</span>
+                    <p class="step-desc" style="margin-bottom: 6px;">Pioneer performed $200 of unbilled, unrecorded services in October.</p>
+                    <div style="font-size: 0.78rem; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px; color: var(--text-muted);">
+                        <strong>Basic Analysis:</strong> Asset Accounts Receivable increases $200; revenue Service Revenue increases $200.<br>
+                        <strong>Journal Entry:</strong> Debit Accounts Receivable (112) $200 | Credit Service Revenue (400) $200.
+                    </div>
+                </div>
+
+                <div class="study-image-container" style="margin-top: 16px; margin-bottom: 0;">
+                    <img src="screenshots/Screenshot 2026-06-18 204714.png" alt="Accrued Revenues adjustment flow diagram" class="study-image">
+                </div>
+                <div class="study-image-container" style="margin-top: 10px; margin-bottom: 0;">
+                    <img src="screenshots/Screenshot 2026-06-18 204742.png" alt="Accrued accounts ledger state details" class="study-image">
+                </div>
+            </div>
+
+            <!-- Accrual Type B -->
+            <div class="column-card" style="border-left: 3px solid var(--red); background: rgba(248, 113, 113, 0.015);">
+                <h3 class="column-hdr" style="color: var(--red);"><span>💸</span> Accrual Type B: Accrued Expenses</h3>
+                <p class="column-desc">Expenses incurred but not yet paid or recorded. Expenses and Liabilities are understated before adjustments.</p>
+
+                <div class="step-card" style="margin-bottom: 12px;">
+                    <span class="step-title">Accrued Interest Mechanics</span>
+                    <p class="step-desc" style="margin-bottom: 6px;">Pioneer issued a $5,000 Note Payable at 12% annual interest on Oct. 1. Accrued interest is:
+                        <br><strong>Formula:</strong> Face Value x Rate x Time ($5,000 x 12% x 1/12 month = $50).
+                    </p>
+                    <div style="font-size: 0.78rem; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px; color: var(--text-muted);">
+                        <strong>Journal Entry:</strong> Debit Interest Expense (905) $50 | Credit Interest Payable (230) $50.
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <span class="step-title">Accrued Salaries and Wages Mechanics</span>
+                    <p class="step-desc" style="margin-bottom: 6px;">Pioneer paid two weeks of wages on Oct. 26. Three unpaid working days (Oct. 29, 30, 31) remain in October at a rate of $400/day, totaling $1,200 of accrued salaries.</p>
+                    <div style="font-size: 0.78rem; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px; color: var(--text-muted);">
+                        <strong>Journal Entry:</strong> Debit Salaries and Wages Expense (726) $1,200 | Credit Salaries and Wages Payable (212) $1,200.
+                    </div>
+                </div>
+
+                <div class="study-image-container" style="margin-top: 16px; margin-bottom: 0;">
+                    <img src="screenshots/Screenshot 2026-06-18 204813.png" alt="Accrued Expenses adjustment flow diagram" class="study-image">
+                </div>
+                <div class="study-image-container" style="margin-top: 10px; margin-bottom: 0;">
+                    <img src="screenshots/Screenshot 2026-06-18 204841.png" alt="Accrued Interest formula table" class="study-image">
+                </div>
+                <div class="study-image-container" style="margin-top: 10px; margin-bottom: 0;">
+                    <img src="screenshots/Screenshot 2026-06-18 204855.png" alt="Accrued Salaries Calendar Timeline" class="study-image">
+                </div>
+                <div class="study-image-container" style="margin-top: 10px; margin-bottom: 0;">
+                    <img src="screenshots/Screenshot 2026-06-18 204912.png" alt="Accrued Salaries Accounting Analysis worksheet" class="study-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHAPTER 3 SECTION 5 -->
+    <section class="notes-section" id="ch3-sec-5">
+        <h2 class="section-title"><span>📝</span> Section 5: General Journal Registry - Adjusting Entries (Page J2)</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">The formal diary record of all adjusting entries executed on October 31, 2022, to bring all asset, liability, and equity balances up to date.</p>
+
+        <h3 class="section-subtitle" style="text-align: center; color: var(--purple);">Adjusting Entries</h3>
+        <div class="table-responsive">
+            <table class="study-table journal-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%">Date</th>
+                        <th>Account Titles and Explanation</th>
+                        <th style="width: 10%">Ref.</th>
+                        <th style="width: 15%">Debit</th>
+                        <th style="width: 15%">Credit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Adj 1 Supplies -->
+                    <tr>
+                        <td>2022 Oct. 31</td>
+                        <td>Supplies Expense</td>
+                        <td>631</td>
+                        <td style="color: var(--green);">$1,500</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-left: 24px;">Supplies</td>
+                        <td>126</td>
+                        <td></td>
+                        <td style="color: var(--teal);">$1,500</td>
+                    </tr>
+                    <tr class="explanation-row">
+                        <td></td>
+                        <td colspan="4" style="color: var(--text-muted); font-size: 0.76rem; font-style: italic;">
+                            (To record supplies used)
+                        </td>
+                    </tr>
+                    <tr class="separator-row"><td colspan="5"></td></tr>
+
+                    <!-- Adj 2 Insurance -->
+                    <tr>
+                        <td>Oct. 31</td>
+                        <td>Insurance Expense</td>
+                        <td>722</td>
+                        <td style="color: var(--green);">$50</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-left: 24px;">Prepaid Insurance</td>
+                        <td>130</td>
+                        <td></td>
+                        <td style="color: var(--teal);">$50</td>
+                    </tr>
+                    <tr class="explanation-row">
+                        <td></td>
+                        <td colspan="4" style="color: var(--text-muted); font-size: 0.76rem; font-style: italic;">
+                            (To record insurance expired)
+                        </td>
+                    </tr>
+                    <tr class="separator-row"><td colspan="5"></td></tr>
+
+                    <!-- Adj 3 Depreciation -->
+                    <tr>
+                        <td>Oct. 31</td>
+                        <td>Depreciation Expense</td>
+                        <td>711</td>
+                        <td style="color: var(--green);">$40</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-left: 24px;">Accumulated Depreciation—Equipment</td>
+                        <td>158</td>
+                        <td></td>
+                        <td style="color: var(--teal);">$40</td>
+                    </tr>
+                    <tr class="explanation-row">
+                        <td></td>
+                        <td colspan="4" style="color: var(--text-muted); font-size: 0.76rem; font-style: italic;">
+                            (To record monthly depreciation)
+                        </td>
+                    </tr>
+                    <tr class="separator-row"><td colspan="5"></td></tr>
+
+                    <!-- Adj 4 Unearned Revenue -->
+                    <tr>
+                        <td>Oct. 31</td>
+                        <td>Unearned Service Revenue</td>
+                        <td>209</td>
+                        <td style="color: var(--green);">$400</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-left: 24px;">Service Revenue</td>
+                        <td>400</td>
+                        <td></td>
+                        <td style="color: var(--teal);">$400</td>
+                    </tr>
+                    <tr class="explanation-row">
+                        <td></td>
+                        <td colspan="4" style="color: var(--text-muted); font-size: 0.76rem; font-style: italic;">
+                            (To record revenue for services performed)
+                        </td>
+                    </tr>
+                    <tr class="separator-row"><td colspan="5"></td></tr>
+
+                    <!-- Adj 5 Accrued Revenue -->
+                    <tr>
+                        <td>Oct. 31</td>
+                        <td>Accounts Receivable</td>
+                        <td>112</td>
+                        <td style="color: var(--green);">$200</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-left: 24px;">Service Revenue</td>
+                        <td>400</td>
+                        <td></td>
+                        <td style="color: var(--teal);">$200</td>
+                    </tr>
+                    <tr class="explanation-row">
+                        <td></td>
+                        <td colspan="4" style="color: var(--text-muted); font-size: 0.76rem; font-style: italic;">
+                            (To record revenue for services performed)
+                        </td>
+                    </tr>
+                    <tr class="separator-row"><td colspan="5"></td></tr>
+
+                    <!-- Adj 6 Accrued Interest -->
+                    <tr>
+                        <td>Oct. 31</td>
+                        <td>Interest Expense</td>
+                        <td>905</td>
+                        <td style="color: var(--green);">$50</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-left: 24px;">Interest Payable</td>
+                        <td>230</td>
+                        <td></td>
+                        <td style="color: var(--teal);">$50</td>
+                    </tr>
+                    <tr class="explanation-row">
+                        <td></td>
+                        <td colspan="4" style="color: var(--text-muted); font-size: 0.76rem; font-style: italic;">
+                            (To record interest on notes payable)
+                        </td>
+                    </tr>
+                    <tr class="separator-row"><td colspan="5"></td></tr>
+
+                    <!-- Adj 7 Accrued Salaries -->
+                    <tr>
+                        <td>Oct. 31</td>
+                        <td>Salaries and Wages Expense</td>
+                        <td>726</td>
+                        <td style="color: var(--green);">$1,200</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-left: 24px;">Salaries and Wages Payable</td>
+                        <td>212</td>
+                        <td></td>
+                        <td style="color: var(--teal);">$1,200</td>
+                    </tr>
+                    <tr class="explanation-row">
+                        <td></td>
+                        <td colspan="4" style="color: var(--text-muted); font-size: 0.76rem; font-style: italic;">
+                            (To record accrued salaries and wages)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="study-image-container" style="margin-top: 24px;">
+            <img src="screenshots/Screenshot 2026-06-18 205346.png" alt="Adjusting Journal entries page J2 textbook template" class="study-image">
+        </div>
+    </section>
+
+    <!-- CHAPTER 3 SECTION 6 -->
+    <section class="notes-section" id="ch3-sec-6">
+        <h2 class="section-title"><span>📊</span> Section 6: The Adjusted Trial Balance &amp; Financial Statements Loop</h2>
+        <p class="page-sub" style="margin-bottom: 20px;">The adjusted trial balance proves mathematical balance after adjusting entries are posted, generating inputs for downstream statements.</p>
+
+        <h3 class="section-subtitle">Pioneer Advertising Adjusted Trial Balance (October 31, 2022)</h3>
+        <div class="table-responsive">
+            <table class="study-table">
+                <thead>
+                    <tr>
+                        <th>Account Name</th>
+                        <th style="width: 20%; text-align: right; color: var(--blue);">Debit</th>
+                        <th style="width: 20%; text-align: right; color: var(--teal);">Credit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Cash</td><td style="text-align: right; color: var(--green); font-family: monospace;">$15,200</td><td></td></tr>
+                    <tr><td>Accounts Receivable</td><td style="text-align: right; color: var(--green); font-family: monospace;">$200</td><td></td></tr>
+                    <tr><td>Supplies</td><td style="text-align: right; color: var(--green); font-family: monospace;">$1,000</td><td></td></tr>
+                    <tr><td>Prepaid Insurance</td><td style="text-align: right; color: var(--green); font-family: monospace;">$550</td><td></td></tr>
+                    <tr><td>Equipment</td><td style="text-align: right; color: var(--green); font-family: monospace;">$5,000</td><td></td></tr>
+                    <tr><td>Accumulated Depreciation—Equipment</td><td></td><td style="text-align: right; color: var(--teal); font-family: monospace;">$40</td></tr>
+                    <tr><td>Notes Payable</td><td></td><td style="text-align: right; color: var(--teal); font-family: monospace;">$5,000</td></tr>
+                    <tr><td>Accounts Payable</td><td></td><td style="text-align: right; color: var(--teal); font-family: monospace;">$2,500</td></tr>
+                    <tr><td>Interest Payable</td><td></td><td style="text-align: right; color: var(--teal); font-family: monospace;">$50</td></tr>
+                    <tr><td>Unearned Service Revenue</td><td></td><td style="text-align: right; color: var(--teal); font-family: monospace;">$800</td></tr>
+                    <tr><td>Salaries and Wages Payable</td><td></td><td style="text-align: right; color: var(--teal); font-family: monospace;">$1,200</td></tr>
+                    <tr><td>Owner's Capital</td><td></td><td style="text-align: right; color: var(--teal); font-family: monospace;">$10,000</td></tr>
+                    <tr><td>Owner's Drawings</td><td style="text-align: right; color: var(--green); font-family: monospace;">$500</td><td></td></tr>
+                    <tr><td>Service Revenue</td><td></td><td style="text-align: right; color: var(--teal); font-family: monospace;">$10,600</td></tr>
+                    <tr><td>Salaries and Wages Expense</td><td style="text-align: right; color: var(--green); font-family: monospace;">$5,200</td><td></td></tr>
+                    <tr><td>Supplies Expense</td><td style="text-align: right; color: var(--green); font-family: monospace;">$1,500</td><td></td></tr>
+                    <tr><td>Rent Expense</td><td style="text-align: right; color: var(--green); font-family: monospace;">$900</td><td></td></tr>
+                    <tr><td>Insurance Expense</td><td style="text-align: right; color: var(--green); font-family: monospace;">$50</td><td></td></tr>
+                    <tr><td>Interest Expense</td><td style="text-align: right; color: var(--green); font-family: monospace;">$50</td><td></td></tr>
+                    <tr><td>Depreciation Expense</td><td style="text-align: right; color: var(--green); font-family: monospace;">$40</td><td></td></tr>
+                    <tr style="background: rgba(255,255,255,0.06); font-weight: 800; border-top: 2px solid rgba(255,255,255,0.15); border-bottom: 2px solid rgba(255,255,255,0.15)">
+                        <td>Grand Cumulative Totals</td>
+                        <td style="text-align: right; color: #fff; font-family: monospace; font-size: 0.9rem;">$30,190</td>
+                        <td style="text-align: right; color: #fff; font-family: monospace; font-size: 0.9rem;">$30,190</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="reconciler-container" style="background: rgba(52, 211, 153, 0.03); border-color: rgba(52, 211, 153, 0.15); margin-top: 20px;">
+            <div class="reconciler-parts">
+                <div class="reconciler-part">
+                    <span class="reconciler-lbl" style="color: var(--blue);">Total Debits Column</span>
+                    <span class="reconciler-val" style="font-family: monospace;">
+                        $15,200 + $200 + $1,000 + $550 + $5,000 + $500 + $5,200 + $1,500 + $900 + $50 + $50 + $40 = <strong>$30,190</strong>
+                    </span>
+                </div>
+                <div class="reconciler-part">
+                    <span class="reconciler-lbl" style="color: var(--teal);">Total Credits Column</span>
+                    <span class="reconciler-val" style="font-family: monospace;">
+                        $40 + $5,000 + $2,500 + $50 + $800 + $1,200 + $10,000 + $10,600 = <strong>$30,190</strong>
+                    </span>
+                </div>
+            </div>
+            <div class="reconciler-badge">
+                <span>⚖️</span>
+                <span>$30,190 = $30,190 Balances Perfectly</span>
+            </div>
+        </div>
+
+        <div class="study-image-container" style="margin-top: 24px;">
+            <img src="screenshots/Screenshot 2026-06-18 205550.png" alt="Adjusted Trial Balance Pioneer Advertising textbook template" class="study-image">
+        </div>
+
+        <h3 class="section-subtitle" style="margin-top: 30px;">Downstream Multi-Statement Flow Mapping</h3>
+        <div class="flow-step-container">
+            <!-- Flow 1 -->
+            <div class="flow-card" style="border-left: 3px solid var(--purple);">
+                <div class="flow-header">
+                    <span class="flow-icon">💵</span>
+                    <span class="flow-title">1. Income Statement Generation</span>
+                </div>
+                <div class="flow-content">
+                    Pulls Service Revenue ($10,600) and matches it against the 6 expanded expenses ($5,200 + $1,500 + $900 + $50 + $50 + $40 = $7,740 total expenses) to evaluate an adjusted <strong>Net Income of $2,860</strong>.
+                </div>
+            </div>
+
+            <div class="flow-connector"></div>
+
+            <!-- Flow 2 -->
+            <div class="flow-card" style="border-left: 3px solid var(--blue);">
+                <div class="flow-header">
+                    <span class="flow-icon">🔄</span>
+                    <span class="flow-title">2. Owner's Equity Link</span>
+                </div>
+                <div class="flow-content">
+                    Pushes that <strong>$2,860 Net Income</strong> downstream into the Owner's Equity Statement (Beginning Capital $0 + Investments $10,000 + Net Income $2,860 - Drawings $500) to resolve an adjusted <strong>Ending Owner's Capital of $12,360</strong>.
+                </div>
+            </div>
+
+            <div class="flow-connector"></div>
+
+            <!-- Flow 3 -->
+            <div class="flow-card" style="border-left: 3px solid var(--teal);">
+                <div class="flow-header">
+                    <span class="flow-icon">⚖️</span>
+                    <span class="flow-title">3. The Balance Sheet Lock</span>
+                </div>
+                <div class="flow-content">
+                    Pushes that final <strong>$12,360 Ending Capital</strong> straight into the Balance Sheet's Equity block. Ensure the UI clearly shows the netting of Accumulated Depreciation on the asset side ($5,000 Equipment - $40 Acc. Depreciation = $4,960 Book Value), resulting in perfectly balanced accounting equations: <strong>Total Assets ($21,910) = Total Liabilities &amp; Equity ($21,910)</strong>.
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-2" style="margin-top: 24px;">
+            <div class="study-image-container" style="margin: 0;">
+                <img src="screenshots/Screenshot 2026-06-18 205659.png" alt="Adjusted Trial Balance to Income Statement and Equity Statement flows" class="study-image">
+            </div>
+            <div class="study-image-container" style="margin: 0;">
+                <img src="screenshots/Screenshot 2026-06-18 205715.png" alt="Owner's Equity Statement to Balance Sheet flows" class="study-image">
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+/* =================================================================
+   SIDEBAR MENU
+================================================================= */
+function toggleSidebar(open) {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    if (sidebar) sidebar.classList.toggle('open', open);
+    if (overlay) overlay.classList.toggle('open', open);
+}
+
+function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    toggleSidebar(false);
+}
+
+window.addEventListener('scroll', () => {
+    const btn = document.getElementById('hamburger-menu-btn');
+    if (btn) {
+        if (window.scrollY > 80) {
+            btn.classList.add('scrolled');
+        } else {
+            btn.classList.remove('scrolled');
+        }
+    }
+});
+
+/* =================================================================
+   STARS BG ANIMATION
+================================================================= */
+(function() {
+    const canvas = document.getElementById('stars-canvas');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+        stars = Array.from({ length: 140 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 1.3 + 0.3,
+            a: Math.random(),
+            speed: Math.random() * 0.007 + 0.003
+        }));
+    }
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(s => {
+            s.a += s.speed;
+            const alpha = (Math.sin(s.a) + 1) / 2 * 0.8 + 0.1;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(200,220,255,${alpha})`;
+            ctx.fill();
+        });
+        requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize', resize);
+    resize(); draw();
+})();
+</script>
+</body>
+</html>
